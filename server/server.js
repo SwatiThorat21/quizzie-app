@@ -3,9 +3,20 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
+const authRoutes = require("./routes/auth");
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
+
+const databaseName = "quize-database";
+
+mongoose.connect(process.env.MONGODB_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  dbName: databaseName,
+});
+
+app.use("/auth", authRoutes);
 
 app.get("/", (req, res) => {
   res.json({
