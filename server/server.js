@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
 const authRoutes = require("./routes/auth");
-
+const qaRoute = require("./routes/queAnsRoutes");
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -17,6 +17,7 @@ mongoose.connect(process.env.MONGODB_URL, {
 });
 
 app.use("/auth", authRoutes);
+// app.use("/quiz", qaRoute);
 
 app.get("/", (req, res) => {
   res.json({
