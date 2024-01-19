@@ -17,7 +17,7 @@ mongoose.connect(process.env.MONGODB_URL, {
 });
 
 app.use("/auth", authRoutes);
-// app.use("/quiz", qaRoute);
+app.use("/quiz", qaRoute);
 
 app.get("/", (req, res) => {
   res.json({

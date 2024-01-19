@@ -1,18 +1,28 @@
 const mongoose = require("mongoose");
 
 const quizSchema = new mongoose.Schema({
+  userId: {
+    type: String,
+  },
   quizTitle: {
     type: String,
     required: true,
   },
   quizType: {
     type: String,
-    enum: ["Q&A-type", "Poll-type"],
+    enum: ["Q & A", "Poll Type"],
     required: true,
   },
   timer_for_eachQuestion: {
-    type: Number,
+    type: String,
+    enum: ["Off", "5 Sec", "10 Sec"],
     required: true,
+  },
+  no_of_impressions: {
+    type: Number,
+  },
+  createdAt_date: {
+    type: Date,
   },
   questions: [
     new mongoose.Schema({
@@ -22,7 +32,7 @@ const quizSchema = new mongoose.Schema({
       },
       optionType: {
         type: String,
-        enum: ["text", "imgUrl", "text&imgUrl"],
+        enum: ["Text", "Image URL", "Text and Image URL"],
         required: true,
       },
       options: [
@@ -35,6 +45,17 @@ const quizSchema = new mongoose.Schema({
           },
         }),
       ],
+      correct_answer_index: {
+        type: Number,
+      },
+      questions_attempted_correctly: {
+        type: Number,
+      },
+      questions_attempted_incorrectly: {
+        type: Number,
+      },
     }),
   ],
 });
+
+module.exports = mongoose.model("QandAQuizData", quizSchema);
