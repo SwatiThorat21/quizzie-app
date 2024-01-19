@@ -1,0 +1,20 @@
+.input_wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   
+}
+.input {
+    border: 2px solid #c2c2c2;
+    outline: none;
+    padding: 0.3rem 2rem;
+    margin-top: 0.6rem;
+    border-radius: 5px;
+    margin-bottom: 0.6rem;
+  }
+  .errorMsg{
+    color: rgb(206, 7, 7);
+    font-size: 14px;
+    font-family: "DM Sans", sans-serif;
+    margin: 0.2rem 0;
+  }
