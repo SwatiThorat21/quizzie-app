@@ -37,7 +37,7 @@ export default function Login({ setIsLoggedIn }) {
     try {
       if (Object.keys(newErrors).length === 0) {
         // await login(email, password);
-        navigate("/");
+        navigate("/dashboard");
         setIsLoggedIn(true);
       }
     } catch (error) {

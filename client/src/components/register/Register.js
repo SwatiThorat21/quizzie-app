@@ -50,7 +50,7 @@ export default function Register({ setIsLoggedIn }) {
       if (Object.keys(newErrors).length === 0) {
         // await register(name, email, mobile, password);
         setIsLoggedIn(true);
-        navigate("/");
+        navigate("/dashboard");
       }
     } catch (error) {
       console.log(error);
@@ -95,7 +95,7 @@ export default function Register({ setIsLoggedIn }) {
             <label className={styles.errorMsg}>Invalid password !</label>
           )}
           <input
-            type="confirmPassword"
+            type="password"
             placeholder="Confirm Password"
             className={styles.input}
             name="confirmPassword"

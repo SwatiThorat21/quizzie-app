@@ -1,0 +1,8 @@
+.dashboard_container{
+    display: flex;
+    height: 100vh;
+    background-color: #EDEDED;
+}
+.main_page_container{
+    margin: 0 auto;
+}

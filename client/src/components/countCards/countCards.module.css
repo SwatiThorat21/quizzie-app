@@ -1,0 +1,9 @@
+.count_cards_container{
+    display: flex;
+    gap: 2rem;
+}
+.count_card{
+    padding: 1rem 2rem;
+    background: #fff;
+    border-radius: 0.625rem;
+}

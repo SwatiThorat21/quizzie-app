@@ -1,0 +1,15 @@
+.sidebar_container {
+  background-color: #ffffff;
+  padding: 1rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.menu {
+  cursor: pointer;
+}
+.sideMenu_wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
