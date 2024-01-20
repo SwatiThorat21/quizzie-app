@@ -1,8 +1,8 @@
-.dashboard_container{
-    display: flex;
-    height: 100vh;
-    background-color: #EDEDED;
+.dashboard_container {
+  display: flex;
+  background-color: #ededed;
+  flex: 1;
 }
-.main_page_container{
-    margin: 0 auto;
+.main_page_container {
+  margin: 0 auto;
 }
