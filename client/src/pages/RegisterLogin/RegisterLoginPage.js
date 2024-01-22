@@ -1,6 +1,6 @@
 import styles from "./RegisterLoginPage.module.css";
-import Register from "../components/register/Register";
-import Login from "../components/login/Login";
+import Register from "../../components/register/Register";
+import Login from "../../components/login/Login";
 
 export default function RegisterLoginPage({ setIsLoggedIn, isLoggedIn }) {
   const handleLogin = () => {

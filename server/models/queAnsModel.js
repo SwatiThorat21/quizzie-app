@@ -32,7 +32,7 @@ const quizSchema = new mongoose.Schema({
       },
       optionType: {
         type: String,
-        enum: ["Text", "Image URL", "Text and Image URL"],
+        enum: ["Text", "Image URL", "Text & Image URL"],
         required: true,
       },
       options: [

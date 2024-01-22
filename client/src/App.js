@@ -1,11 +1,12 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import RegisterLoginPage from "./pages/RegisterLoginPage";
+import RegisterLoginPage from "./pages/RegisterLogin/RegisterLoginPage";
 import DashboardPage from "./pages/Dashboard/DashboardPage";
 import AnalyticsPage from "./pages/analytics/AnalyticsPage";
 import CreateQuizPage from "./pages/create-quiz/CreateQuizPage";
 import { useState } from "react";
 import Sidebar from "./components/sidebar/Sidebar";
+import QuizQuestionsPage from "./pages/quizQuestionsPage/QuizQuestionsPage";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -26,6 +27,7 @@ function App() {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/analytics" element={<AnalyticsPage />} />
         <Route path="/create-quiz" element={<CreateQuizPage />} />
+        <Route path="/create-questions" element={<QuizQuestionsPage />} />
       </Routes>
     </Router>
     </div>
