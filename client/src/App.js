@@ -6,7 +6,7 @@ import AnalyticsPage from "./pages/analytics/AnalyticsPage";
 import CreateQuizPage from "./pages/create-quiz/CreateQuizPage";
 import { useState } from "react";
 import Sidebar from "./components/sidebar/Sidebar";
-import QuizQuestionsPage from "./pages/quizQuestionsPage/QuizQuestionsPage";
+import QAQuestionsPage from "./pages/quizQuestionsPage/QAQuestionsPage";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -27,7 +27,7 @@ function App() {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/analytics" element={<AnalyticsPage />} />
         <Route path="/create-quiz" element={<CreateQuizPage />} />
-        <Route path="/create-questions" element={<QuizQuestionsPage />} />
+        <Route path="/create-qa-questions" element={<QAQuestionsPage />} />
       </Routes>
     </Router>
     </div>

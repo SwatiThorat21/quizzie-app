@@ -49,3 +49,9 @@
     right: 0;
     cursor: pointer;
 }
+.timerBtn{
+  cursor: pointer;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid rgb(179, 165, 165);
+  margin-bottom: 8px;
+}
