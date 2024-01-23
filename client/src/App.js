@@ -6,7 +6,7 @@ import AnalyticsPage from "./pages/analytics/AnalyticsPage";
 import CreateQuizPage from "./pages/create-quiz/CreateQuizPage";
 import { useState } from "react";
 import Sidebar from "./components/sidebar/Sidebar";
-import QAQuestionsPage from "./pages/quizQuestionsPage/QAQuestionsPage";
+import QAQuestionsPage from "./pages/QAQuestionsPage/QAQuestionsPage";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

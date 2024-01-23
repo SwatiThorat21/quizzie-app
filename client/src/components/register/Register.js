@@ -1,6 +1,7 @@
 import styles from "./register.module.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { register } from "../../apis/auth";
 
 export default function Register({ setIsLoggedIn }) {
   const navigate = useNavigate();
@@ -48,7 +49,7 @@ export default function Register({ setIsLoggedIn }) {
     setErrors(newErrors);
     try {
       if (Object.keys(newErrors).length === 0) {
-        // await register(name, email, mobile, password);
+        await register(name, email, password, confirmPassword);
         setIsLoggedIn(true);
         navigate("/dashboard");
       }

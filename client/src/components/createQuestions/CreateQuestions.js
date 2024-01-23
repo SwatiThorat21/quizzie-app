@@ -1,43 +1,14 @@
-import styles from "./quizQuestionsPage.module.css";
+import styles from "./createQuestions.module.css";
 import addIcon from "../../images/plus.png";
 import { useState } from "react";
 import closeIcon from "../../images/closeIcon.png";
 import { useNavigate } from "react-router-dom";
 
-export default function QuizQuestionsPage() {
-  const navigate = useNavigate();
-  const [currentQuesIndex, setCurrentQuesIndex] = useState(0);
-  const [questionNumbers, setQuestionNumbers] = useState([1]);
-  const [quizQuestionsData, setQuizQuestionsData] = useState([
-    {
-      questionTitle: "",
-      optionType: "text",
-      options: [
-        {
-          text: "",
-          imageUrl: "",
-        },
-        {
-          text: "",
-          imageUrl: "",
-        },
-        {
-          text: "",
-          imageUrl: "",
-        },
-        {
-          text: "",
-          imageUrl: "",
-        },
-      ],
-      timer: "",
-      answerSelectedIndex: "",
-    },
-  ]);
-
-  function addQuestions() {
-    setQuizQuestionsData((prevData) => [
-      ...prevData,
+export default function CreateQuestions(){
+    const navigate = useNavigate();
+    const [currentQuesIndex, setCurrentQuesIndex] = useState(0);
+    const [questionNumbers, setQuestionNumbers] = useState([1]);
+    const [quizQuestionsData, setQuizQuestionsData] = useState([
       {
         questionTitle: "",
         optionType: "text",
@@ -63,67 +34,99 @@ export default function QuizQuestionsPage() {
         answerSelectedIndex: "",
       },
     ]);
-    setCurrentQuesIndex((prevNum) => prevNum + 1);
-    if (questionNumbers.length < 5) {
-      setQuestionNumbers((prevNumbers) => [
-        ...prevNumbers,
-        prevNumbers.length + 1,
+  
+    function addQuestions() {
+      setQuizQuestionsData((prevData) => [
+        ...prevData,
+        {
+          questionTitle: "",
+          optionType: "text",
+          options: [
+            {
+              text: "",
+              imageUrl: "",
+            },
+            {
+              text: "",
+              imageUrl: "",
+            },
+            {
+              text: "",
+              imageUrl: "",
+            },
+            {
+              text: "",
+              imageUrl: "",
+            },
+          ],
+          timer: "",
+          answerSelectedIndex: "",
+        },
       ]);
-    }
-  }
-
-  function removeQuestions(indexToRemove) {
-    setQuestionNumbers((prevNumbers) =>
-      prevNumbers.filter((_, index) => index !== indexToRemove)
-    );
-  }
-
-  function handleShowQuestiondata(index) {
-    setCurrentQuesIndex(index);
-  }
-
-  function handleChange(e, optionIndex) {
-    const { name, value } = e.target;
-
-    setQuizQuestionsData((prevData) => {
-      const updatedQuestions = [...prevData];
-      const updatedQuestion = { ...updatedQuestions[currentQuesIndex] };
-
-      if (name === "text" || name === "imageUrl") {
-        const updatedOptions = [...updatedQuestion.options];
-        updatedOptions[optionIndex] = {
-          ...updatedOptions[optionIndex],
-          [name]: value,
-        };
-        updatedQuestion.options = updatedOptions;
-      } else {
-        updatedQuestion[name] = value;
+      setCurrentQuesIndex((prevNum) => prevNum + 1);
+      if (questionNumbers.length < 5) {
+        setQuestionNumbers((prevNumbers) => [
+          ...prevNumbers,
+          prevNumbers.length + 1,
+        ]);
       }
-      updatedQuestions[currentQuesIndex] = updatedQuestion;
-      return updatedQuestions;
-    });
-  }
+    }
+  
+    function removeQuestions(indexToRemove) {
+      setQuestionNumbers((prevNumbers) =>
+        prevNumbers.filter((_, index) => index !== indexToRemove)
+      );
+      setQuizQuestionsData((prevData) =>
+        prevData.filter((_, index) => index !== indexToRemove)
+      );
+    }
+  
+    function handleShowQuestiondata(index) {
+      setCurrentQuesIndex(index);
+    }
+  
+    function handleChange(e, optionIndex) {
+      const { name, value } = e.target;
+  
+      setQuizQuestionsData((prevData) => {
+        const updatedQuestions = [...prevData];
+        const updatedQuestion = { ...updatedQuestions[currentQuesIndex] };
+  
+        if (name === "text" || name === "imageUrl") {
+          const updatedOptions = [...updatedQuestion.options];
+          updatedOptions[optionIndex] = {
+            ...updatedOptions[optionIndex],
+            [name]: value,
+          };
+          updatedQuestion.options = updatedOptions;
+        } else {
+          updatedQuestion[name] = value;
+        }
+        updatedQuestions[currentQuesIndex] = updatedQuestion;
+        return updatedQuestions;
+      });
+    }
+  
+    function handleTimerClick(value) {
+      setQuizQuestionsData((prevData) => {
+        const updatedQuestions = [...prevData];
+        const updatedQuestion = { ...updatedQuestions[currentQuesIndex] };
+        updatedQuestion.timer = value;
+        updatedQuestions[currentQuesIndex] = updatedQuestion;
+        return updatedQuestions;
+      });
+    }
+    console.log(quizQuestionsData);
+    // console.log(currentQuesIndex);
+  
+    function cancelQuiz() {
+      navigate("/dashboard");
+    }
+    function createQuiz() {}
 
-  function handleTimerClick(value) {
-    setQuizQuestionsData((prevData) => {
-      const updatedQuestions = [...prevData];
-      const updatedQuestion = { ...updatedQuestions[currentQuesIndex] };
-      updatedQuestion.timer = value;
-      updatedQuestions[currentQuesIndex] = updatedQuestion;
-      return updatedQuestions;
-    });
-  }
-  console.log(quizQuestionsData);
-  // console.log(currentQuesIndex);
-
-  function cancelQuiz() {
-    navigate("/dashboard");
-  }
-  function createQuiz() {}
-
-  return (
-    <>
-      <div className={styles.questions_page_Container}>
+    return(
+        <>
+        <div className={styles.cancelCreate_btns_container}>
         <div className={styles.questions_page_subContainer}>
           <div className={styles.no_of_questions_wrapper}>
             <div
@@ -146,7 +149,7 @@ export default function QuizQuestionsPage() {
                         src={closeIcon}
                         alt="closeIcon"
                         className={styles.closeNumIcon}
-                        onClick={removeQuestions}
+                        onClick={() => removeQuestions(index)}
                       ></img>
                     )}
                   </div>
@@ -325,7 +328,7 @@ export default function QuizQuestionsPage() {
             </div>
           </div>
         </div>
-      </div>
-    </>
-  );
+        </div>
+        </>
+    )
 }

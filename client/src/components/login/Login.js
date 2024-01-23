@@ -1,6 +1,7 @@
 import styles from "./login.module.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { login } from "../../apis/auth";
 
 export default function Login({ setIsLoggedIn }) {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ export default function Login({ setIsLoggedIn }) {
     setErrors(newErrors);
     try {
       if (Object.keys(newErrors).length === 0) {
-        // await login(email, password);
+        await login(email, password);
         navigate("/dashboard");
         setIsLoggedIn(true);
       }
