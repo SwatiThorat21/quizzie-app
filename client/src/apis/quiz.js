@@ -7,7 +7,6 @@ export async function CreateQAQuiz(
   quizTitle,
   quizType,
   timer_for_eachQuestion,
-  no_of_impressions,
   createdAt_date,
   questions
 ) {

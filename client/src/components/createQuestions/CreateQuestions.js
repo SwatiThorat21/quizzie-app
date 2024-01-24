@@ -13,7 +13,7 @@ export default function CreateQuestions({ quizdata, useId }) {
   const [quizQuestionsData, setQuizQuestionsData] = useState([
     {
       questionTitle: "",
-      optionType: "text",
+      optionType: "Text",
       options: [
         {
           text: "",
@@ -41,7 +41,7 @@ export default function CreateQuestions({ quizdata, useId }) {
       ...prevData,
       {
         questionTitle: "",
-        optionType: "text",
+        optionType: "Text",
         options: [
           {
             text: "",
@@ -188,11 +188,11 @@ export default function CreateQuestions({ quizdata, useId }) {
             <div className={styles.radioBtn_wrapper}>
               <input
                 type="radio"
-                value="text"
+                value="Text"
                 name="optionType"
                 onChange={handleChange}
                 checked={
-                  quizQuestionsData[currentQuesIndex]?.optionType === "text"
+                  quizQuestionsData[currentQuesIndex]?.optionType === "Text"
                 }
               ></input>
               <label>Text</label>
@@ -200,12 +200,12 @@ export default function CreateQuestions({ quizdata, useId }) {
             <div className={styles.radioBtn_wrapper}>
               <input
                 type="radio"
-                value="image_url"
+                value="Image URL"
                 name="optionType"
                 onChange={handleChange}
                 checked={
                   quizQuestionsData[currentQuesIndex]?.optionType ===
-                  "image_url"
+                  "Image URL"
                 }
               ></input>
               <label>Image URL</label>
@@ -213,12 +213,12 @@ export default function CreateQuestions({ quizdata, useId }) {
             <div className={styles.radioBtn_wrapper}>
               <input
                 type="radio"
-                value="text_image_url"
+                value="Text & Image URL"
                 name="optionType"
                 onChange={handleChange}
                 checked={
                   quizQuestionsData[currentQuesIndex]?.optionType ===
-                  "text_image_url"
+                  "Text & Image URL"
                 }
               ></input>
               <label>Text & Image URL</label>
@@ -227,7 +227,7 @@ export default function CreateQuestions({ quizdata, useId }) {
           <div className={styles.optionsAndTimer_wrapper}>
             {quizQuestionsData[currentQuesIndex] && (
               <div className={styles.option_radioBtns_wrapper}>
-                {quizQuestionsData[currentQuesIndex].optionType === "text" && (
+                {quizQuestionsData[currentQuesIndex].optionType === "Text" && (
                   <div>
                     {quizQuestionsData[currentQuesIndex].options.map(
                       (option, index) => (
@@ -251,7 +251,7 @@ export default function CreateQuestions({ quizdata, useId }) {
                   </div>
                 )}
                 {quizQuestionsData[currentQuesIndex].optionType ===
-                  "image_url" && (
+                  "Image URL" && (
                   <div>
                     {quizQuestionsData[currentQuesIndex].options.map(
                       (option, index) => (
@@ -275,7 +275,7 @@ export default function CreateQuestions({ quizdata, useId }) {
                   </div>
                 )}
                 {quizQuestionsData[currentQuesIndex].optionType ===
-                  "text_image_url" && (
+                  "Text & Image URL" && (
                   <div>
                     {quizQuestionsData[currentQuesIndex].options.map(
                       (option, index) => (
@@ -341,7 +341,7 @@ export default function CreateQuestions({ quizdata, useId }) {
                     quizdata.quizType,
                     timer,
                     new Date(),
-                  
+                    quizQuestionsData
                   )
                 }
               >

@@ -20,7 +20,7 @@ router.post("/create-qa-quiz", isLoggedIn, async (req, res) => {
       quizType: quizType,
       timer_for_eachQuestion: timer_for_eachQuestion,
       createdAt_date: createdAt_date,
-      questions,
+      questions: questions,
     });
     res.status(200).json({
       status: "SUCCESS",
