@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const QandAQuizData = require("../models/queAnsModel");
+const QandAQuizData = require("../models/quizModel");
 const isLoggedIn = require("../middlewares/isLoggedIn");
 
 router.post("/create-qa-quiz", isLoggedIn, async (req, res) => {
@@ -14,7 +14,7 @@ router.post("/create-qa-quiz", isLoggedIn, async (req, res) => {
       questions,
     } = req.body;
 
-    await QandAQuizData.create({
+    const quizData = await QandAQuizData.create({
       userId: userId,
       quizTitle: quizTitle,
       quizType: quizType,
@@ -26,6 +26,7 @@ router.post("/create-qa-quiz", isLoggedIn, async (req, res) => {
       status: "SUCCESS",
       message: "You have sucessfully created quiz!",
       data: req.body,
+      quizId: quizData._id.toString(),
     });
   } catch (error) {
     res.status(500).json({

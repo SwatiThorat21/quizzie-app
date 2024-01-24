@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
 const authRoutes = require("./routes/auth");
-const qaRoute = require("./routes/queAnsRoutes");
+const quizRoute = require("./routes/quizRoutes");
 const cors = require("cors")
 
 const app = express();
@@ -21,7 +21,7 @@ mongoose.connect(process.env.MONGODB_URL, {
 });
 
 app.use("/auth", authRoutes);
-app.use("/quiz", qaRoute);
+app.use("/quiz", quizRoute);
 
 app.get("/", (req, res) => {
   res.json({

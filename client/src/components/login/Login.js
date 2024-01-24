@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../apis/auth";
 
-export default function Login({ setIsLoggedIn, setUserId }) {
+export default function Login({ setIsLoggedIn }) {
   const navigate = useNavigate();
   const [loginData, setLoginData] = useState({
     email: "",
@@ -37,7 +37,7 @@ export default function Login({ setIsLoggedIn, setUserId }) {
     setErrors(newErrors);
     try {
       if (Object.keys(newErrors).length === 0) {
-        await login(email, password, setUserId);
+        await login(email, password);
         navigate("/dashboard");
         setIsLoggedIn(true);
       }

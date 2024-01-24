@@ -3,13 +3,13 @@ import addIcon from "../../images/plus.png";
 import { useState } from "react";
 import closeIcon from "../../images/closeIcon.png";
 import { useNavigate } from "react-router-dom";
-import { CreateQAQuiz } from "../../apis/quiz";
+import { CreateQuizData } from "../../apis/quiz";
 
-export default function CreateQuestions({ quizdata, useId }) {
+export default function CreateQuestions({ quizdata, setQuizId }) {
   const navigate = useNavigate();
   const [currentQuesIndex, setCurrentQuesIndex] = useState(0);
   const [questionNumbers, setQuestionNumbers] = useState([1]);
-  const [timer, setTimer] = useState("");
+  const [timer, setTimer] = useState("OFF");
   const [quizQuestionsData, setQuizQuestionsData] = useState([
     {
       questionTitle: "",
@@ -35,6 +35,8 @@ export default function CreateQuestions({ quizdata, useId }) {
       answerSelectedIndex: "",
     },
   ]);
+
+  const userId = JSON.parse(localStorage.getItem("userId"));
 
   function addQuestions() {
     setQuizQuestionsData((prevData) => [
@@ -122,18 +124,17 @@ export default function CreateQuestions({ quizdata, useId }) {
     createdAt_date,
     questions
   ) {
-    CreateQAQuiz(
+    CreateQuizData(
       userId,
       quizTitle,
       quizType,
       timer_for_eachQuestion,
       createdAt_date,
-      questions
+      questions,
+      setQuizId
     );
   }
 
-  console.log(quizQuestionsData);
-  console.log(timer);
   return (
     <>
       <div className={styles.cancelCreate_btns_container}>
@@ -336,7 +337,7 @@ export default function CreateQuestions({ quizdata, useId }) {
                 className={styles.createQuizBtn}
                 onClick={() =>
                   createQuiz(
-                    useId,
+                    userId,
                     quizdata.quizTitle,
                     quizdata.quizType,
                     timer,

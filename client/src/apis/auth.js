@@ -2,7 +2,7 @@ import axios from "axios";
 
 const backendBaseUrl = process.env.REACT_APP_BACKEND_URL;
 
-export async function login(email, password, setUserId) {
+export async function login(email, password) {
   try {
     const reqUrl = `${backendBaseUrl}/auth/login`;
     const reqPayload = {
@@ -13,7 +13,8 @@ export async function login(email, password, setUserId) {
       .post(reqUrl, reqPayload)
       .then((response) => {
         localStorage.setItem("jwToken", JSON.stringify(response.data.jwToken));
-        setUserId(response.data.userId);
+        localStorage.setItem("userId", JSON.stringify(response.data.userId));
+        console.log(response.data);
         return response.data;
       })
       .catch((error) => console.log(error));
@@ -23,13 +24,7 @@ export async function login(email, password, setUserId) {
   }
 }
 
-export async function register(
-  name,
-  email,
-  password,
-  confirmPassword,
-  setUserId
-) {
+export async function register(name, email, password, confirmPassword) {
   try {
     const reqUrl = `${backendBaseUrl}/auth/register`;
     const reqPayload = {
@@ -42,7 +37,8 @@ export async function register(
       .post(reqUrl, reqPayload)
       .then((response) => {
         localStorage.setItem("jwToken", JSON.stringify(response.data.jwToken));
-        setUserId(response.data.userId);
+        localStorage.setItem("userId", JSON.stringify(response.data.userId));
+        console.log(response.data);
         return response.data;
       })
       .catch((error) => {

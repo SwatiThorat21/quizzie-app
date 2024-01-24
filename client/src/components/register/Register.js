@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { register } from "../../apis/auth";
 
-export default function Register({ setIsLoggedIn, setUserId }) {
+export default function Register({ setIsLoggedIn }) {
   const navigate = useNavigate();
   const [registerData, setRegisterData] = useState({
     name: "",
@@ -50,7 +50,7 @@ export default function Register({ setIsLoggedIn, setUserId }) {
     console.log(newErrors)
     try {
       if (Object.keys(newErrors).length === 0) {
-        await register(name, email, password, confirmPassword, setUserId);
+        await register(name, email, password, confirmPassword);
         setIsLoggedIn(true);
         navigate("/dashboard");
       }

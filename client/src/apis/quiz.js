@@ -2,13 +2,14 @@ import axios from "axios";
 
 const backendBaseUrl = process.env.REACT_APP_BACKEND_URL;
 
-export async function CreateQAQuiz(
+export async function CreateQuizData(
   userId,
   quizTitle,
   quizType,
   timer_for_eachQuestion,
   createdAt_date,
-  questions
+  questions,
+  setQuizId
 ) {
   try {
     const reqUrl = `${backendBaseUrl}/quiz/create-qa-quiz`;
@@ -27,7 +28,9 @@ export async function CreateQAQuiz(
     return await axios
       .post(reqUrl, reqPayload, { headers })
       .then((response) => {
+        setQuizId(response.data.quizId);
         console.log(response.data);
+        return response.data;
       })
       .catch((error) => {
         console.log(error);

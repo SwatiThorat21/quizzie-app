@@ -4,8 +4,7 @@ import Login from "../../components/login/Login";
 
 export default function RegisterLoginPage({
   setIsLoggedIn,
-  isLoggedIn,
-  setUserId,
+  isLoggedIn
 }) {
   const handleLogin = () => {
     setIsLoggedIn(true);
@@ -30,9 +29,9 @@ export default function RegisterLoginPage({
           </div>
           <div className={styles.form_container}>
             {!isLoggedIn ? (
-              <Register setIsLoggedIn={setIsLoggedIn} setUserId={setUserId} />
+              <Register setIsLoggedIn={setIsLoggedIn} />
             ) : (
-              <Login setIsLoggedIn={setIsLoggedIn} setUserId={setUserId} />
+              <Login setIsLoggedIn={setIsLoggedIn} />
             )}
           </div>
         </div>

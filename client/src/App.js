@@ -6,7 +6,8 @@ import AnalyticsPage from "./pages/analytics/AnalyticsPage";
 import CreateQuizPage from "./pages/create-quiz/CreateQuizPage";
 import { useState } from "react";
 import Sidebar from "./components/sidebar/Sidebar";
-import QAQuestionsPage from "./pages/QAQuestionsPage/QAQuestionsPage";
+import QAQuestionsPage from "./pages/quizQuestionsPage/QuizQuestionsPage";
+import QuizLinkSharePage from "./pages/quizLinkSharePage/QuizLinkSharePage";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -14,7 +15,7 @@ function App() {
     quizTitle: "",
     quizType: "",
   });
-  const [useId, setUserId] = useState("");
+  const [quizId, setQuizId] = useState("");
 
   return (
     <div style={{ display: "flex", height: "100vh" }}>
@@ -27,7 +28,6 @@ function App() {
               <RegisterLoginPage
                 isLoggedIn={isLoggedIn}
                 setIsLoggedIn={setIsLoggedIn}
-                setUserId={setUserId}
               />
             }
           />
@@ -41,8 +41,9 @@ function App() {
           />
           <Route
             path="/create-qa-questions"
-            element={<QAQuestionsPage quizdata={quizdata} useId={useId} />}
+            element={<QAQuestionsPage quizdata={quizdata} setQuizId={setQuizId} />}
           />
+          <Route path="/quiz?quizid=:id" element={<QuizLinkSharePage />} />
         </Routes>
       </Router>
     </div>
