@@ -1,12 +1,7 @@
-import { useState } from "react";
 import styles from "./createQuiz.module.css";
 import { useNavigate } from "react-router-dom";
 
-export default function CreateQuiz() {
-  const [quizdata, setQuizData] = useState({
-    quizTitle: "",
-    quizType: "",
-  });
+export default function CreateQuiz({ setQuizData, quizdata }) {
   const navigate = useNavigate();
   function handleChange(event) {
     const { name, value } = event.target;
@@ -18,7 +13,7 @@ export default function CreateQuiz() {
   function cancelQuiz() {
     navigate("/dashboard");
   }
-  console.log(quizdata);
+
   return (
     <>
       <div className={styles.createQuiz_container}>
@@ -38,7 +33,7 @@ export default function CreateQuiz() {
                 <input
                   type="radio"
                   name="quizType"
-                  value="ques_and_ans"
+                  value="Q & A"
                   onChange={handleChange}
                 />
                 <label className={styles.quizTypeBtn}>Q & A</label>
@@ -47,7 +42,7 @@ export default function CreateQuiz() {
                 <input
                   type="radio"
                   name="quizType"
-                  value="poll_type"
+                  value="Poll Type"
                   onChange={handleChange}
                 />
                 <label className={styles.quizTypeBtn}>Poll Type</label>

@@ -10,26 +10,41 @@ import QAQuestionsPage from "./pages/QAQuestionsPage/QAQuestionsPage";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [quizdata, setQuizData] = useState({
+    quizTitle: "",
+    quizType: "",
+  });
+  const [useId, setUserId] = useState("");
+
   return (
-    <div style={{display: "flex", height: "100vh"}}>
-    <Router>
-      <Sidebar />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <RegisterLoginPage
-              isLoggedIn={isLoggedIn}
-              setIsLoggedIn={setIsLoggedIn}
-            />
-          }
-        />
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/analytics" element={<AnalyticsPage />} />
-        <Route path="/create-quiz" element={<CreateQuizPage />} />
-        <Route path="/create-qa-questions" element={<QAQuestionsPage />} />
-      </Routes>
-    </Router>
+    <div style={{ display: "flex", height: "100vh" }}>
+      <Router>
+        <Sidebar />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <RegisterLoginPage
+                isLoggedIn={isLoggedIn}
+                setIsLoggedIn={setIsLoggedIn}
+                setUserId={setUserId}
+              />
+            }
+          />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/analytics" element={<AnalyticsPage />} />
+          <Route
+            path="/create-quiz"
+            element={
+              <CreateQuizPage setQuizData={setQuizData} quizdata={quizdata} />
+            }
+          />
+          <Route
+            path="/create-qa-questions"
+            element={<QAQuestionsPage quizdata={quizdata} useId={useId} />}
+          />
+        </Routes>
+      </Router>
     </div>
   );
 }

@@ -2,7 +2,7 @@ import axios from "axios";
 
 const backendBaseUrl = process.env.REACT_APP_BACKEND_URL;
 
-export async function login(email, password) {
+export async function login(email, password, setUserId) {
   try {
     const reqUrl = `${backendBaseUrl}/auth/login`;
     const reqPayload = {
@@ -12,8 +12,8 @@ export async function login(email, password) {
     return await axios
       .post(reqUrl, reqPayload)
       .then((response) => {
-        // localStorage.setItem("userData", JSON.stringify(response.data));
-        console.log(response.data);
+        localStorage.setItem("jwToken", JSON.stringify(response.data.jwToken));
+        setUserId(response.data.userId);
         return response.data;
       })
       .catch((error) => console.log(error));
@@ -28,6 +28,7 @@ export async function register(
   email,
   password,
   confirmPassword,
+  setUserId
 ) {
   try {
     const reqUrl = `${backendBaseUrl}/auth/register`;
@@ -35,14 +36,13 @@ export async function register(
       name: name,
       email: email,
       password: password,
-      confirmPassword:confirmPassword
+      confirmPassword: confirmPassword,
     };
     return await axios
       .post(reqUrl, reqPayload)
       .then((response) => {
-        console.log(response.data);
-        // localStorage.setItem("userData", JSON.stringify(response.data));
-        console.log(response.data);
+        localStorage.setItem("jwToken", JSON.stringify(response.data.jwToken));
+        setUserId(response.data.userId);
         return response.data;
       })
       .catch((error) => {

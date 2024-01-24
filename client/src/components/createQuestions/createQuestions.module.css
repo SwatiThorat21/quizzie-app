@@ -1,0 +1,43 @@
+.questions_page_subContainer {
+    background-color: #fff;
+    border-radius: 5px;
+    height: fit-content;
+    padding: 2.5rem;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .no_of_questions_wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .options_wrapper{
+      display: flex;
+  }
+  .option_radioBtns_wrapper{
+      display: flex;
+      justify-content: space-between;
+  }
+  .quesNumber{
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+      padding: 0.4rem 0.65rem;
+      border-radius: 50%;
+  }
+  .question_numbers{
+      display: flex;
+      gap: 0.5rem;
+  }
+  .closeNumIcon{
+      height: 8px;
+      position: absolute;
+      right: 0;
+      cursor: pointer;
+  }
+  .timerBtn{
+    cursor: pointer;
+    padding: 0.2rem 0.6rem;
+    border: 1px solid rgb(179, 165, 165);
+    margin-bottom: 8px;
+  }

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { register } from "../../apis/auth";
 
-export default function Register({ setIsLoggedIn }) {
+export default function Register({ setIsLoggedIn, setUserId }) {
   const navigate = useNavigate();
   const [registerData, setRegisterData] = useState({
     name: "",
@@ -47,9 +47,10 @@ export default function Register({ setIsLoggedIn }) {
       newErrors.confirmPasswordErr = true;
     }
     setErrors(newErrors);
+    console.log(newErrors)
     try {
       if (Object.keys(newErrors).length === 0) {
-        await register(name, email, password, confirmPassword);
+        await register(name, email, password, confirmPassword, setUserId);
         setIsLoggedIn(true);
         navigate("/dashboard");
       }

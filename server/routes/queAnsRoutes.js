@@ -3,14 +3,23 @@ const router = express.Router();
 const QandAQuizData = require("../models/queAnsModel");
 const isLoggedIn = require("../middlewares/isLoggedIn");
 
-router.post("/createQAQuiz", isLoggedIn, async (req, res) => {
+router.post("/create-qa-quiz", isLoggedIn, async (req, res) => {
   try {
-    const { quizTitle, quizType, timer_for_eachQuestion, questions } = req.body;
-
-    await QandAQuizData.create({
+    const {
+      userId,
       quizTitle,
       quizType,
       timer_for_eachQuestion,
+      createdAt_date,
+      questions,
+    } = req.body;
+
+    await QandAQuizData.create({
+      userId: userId,
+      quizTitle: quizTitle,
+      quizType: quizType,
+      timer_for_eachQuestion: timer_for_eachQuestion,
+      createdAt_date: createdAt_date,
       questions,
     });
     res.status(200).json({

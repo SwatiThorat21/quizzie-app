@@ -2,7 +2,11 @@ import styles from "./RegisterLoginPage.module.css";
 import Register from "../../components/register/Register";
 import Login from "../../components/login/Login";
 
-export default function RegisterLoginPage({ setIsLoggedIn, isLoggedIn }) {
+export default function RegisterLoginPage({
+  setIsLoggedIn,
+  isLoggedIn,
+  setUserId,
+}) {
   const handleLogin = () => {
     setIsLoggedIn(true);
   };
@@ -26,9 +30,9 @@ export default function RegisterLoginPage({ setIsLoggedIn, isLoggedIn }) {
           </div>
           <div className={styles.form_container}>
             {!isLoggedIn ? (
-              <Register setIsLoggedIn={setIsLoggedIn} />
+              <Register setIsLoggedIn={setIsLoggedIn} setUserId={setUserId} />
             ) : (
-              <Login setIsLoggedIn={setIsLoggedIn} />
+              <Login setIsLoggedIn={setIsLoggedIn} setUserId={setUserId} />
             )}
           </div>
         </div>

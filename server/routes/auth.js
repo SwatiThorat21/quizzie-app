@@ -3,11 +3,13 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
-const dotenv = require("dotenv").config();
+const dotenv = require("dotenv");
+dotenv.config();
 
 //error handler middlewawre
 
 const errorHandler = (res, error) => {
+  console.log(error);
   res.status(500).json({
     error: "Something went wrong",
   });
@@ -30,24 +32,30 @@ router.post("/register", async (req, res) => {
     }
 
     if (password !== confirmPassword) {
-      res.json({
+      return res.json({
         status: "FAILED",
-        message: "Password doesn't matched !",
+        message: "Password doesn't match!",
       });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    await User.create({
+    const user = await User.create({
       name,
       email,
       password: hashedPassword,
       confirmPassword: hashedPassword,
+    });
+    // console.log(user);
+    const jwToken = jwt.sign(user.toJSON(), process.env.JWT_SCRETEKEY, {
+      expiresIn: 45000,
     });
     res.json({
       status: "SUCCESS",
       message: "You have registered in sucessfully !!",
       user: email,
       recruiterName: name,
+      jwToken,
+      userId: user._id.toString(),
     });
   } catch (error) {
     errorHandler(res, error);
@@ -82,6 +90,7 @@ router.post("/login", async (req, res) => {
           jwToken,
           recruiterName: user.name,
           user: email,
+          userId: user._id.toString(),
         });
       } else {
         res.json({
