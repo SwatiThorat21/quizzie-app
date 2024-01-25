@@ -1,5 +1,5 @@
 import CreateQuiz from "../../components/createQuiz/CreateQuiz";
 
-export default function CreateQuizPage({ setQuizData, quizdata }) {
-  return <CreateQuiz setQuizData={setQuizData} quizdata={quizdata} />;
+export default function CreateQuizPage({ setQuizFormData, quizFormData }) {
+  return <CreateQuiz setQuizFormData={setQuizFormData} quizFormData={quizFormData} />;
 }

@@ -1,14 +1,14 @@
 import styles from "./createQuiz.module.css";
 import { useNavigate } from "react-router-dom";
 
-export default function CreateQuiz({ setQuizData, quizdata }) {
+export default function CreateQuiz({ setQuizFormData, quizFormData }) {
   const navigate = useNavigate();
   function handleChange(event) {
     const { name, value } = event.target;
-    setQuizData((prevValues) => ({ ...prevValues, [name]: value }));
+    setQuizFormData((prevValues) => ({ ...prevValues, [name]: value }));
   }
   function getQuizQuestionsPage() {
-    navigate("/create-qa-questions");
+    navigate("/create-questions");
   }
   function cancelQuiz() {
     navigate("/dashboard");
@@ -23,7 +23,7 @@ export default function CreateQuiz({ setQuizData, quizdata }) {
               type="text"
               placeholder="Quiz name"
               name="quizTitle"
-              value={quizdata.quizTitle}
+              value={quizFormData.quizTitle}
               className={styles.quiz_input}
               onChange={handleChange}
             ></input>

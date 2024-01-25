@@ -2,7 +2,7 @@ import axios from "axios";
 
 const backendBaseUrl = process.env.REACT_APP_BACKEND_URL;
 
-export async function CreateQuizData(
+export async function CreateQuizFormData(
   userId,
   quizTitle,
   quizType,
@@ -12,7 +12,7 @@ export async function CreateQuizData(
   setQuizId
 ) {
   try {
-    const reqUrl = `${backendBaseUrl}/quiz/create-qa-quiz`;
+    const reqUrl = `${backendBaseUrl}/quiz/create-quiz`;
     const reqPayload = {
       userId: userId,
       quizTitle: quizTitle,
@@ -29,6 +29,23 @@ export async function CreateQuizData(
       .post(reqUrl, reqPayload, { headers })
       .then((response) => {
         setQuizId(response.data.quizId);
+        console.log(response.data);
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  } catch (error) {}
+}
+
+export async function GetQuizDataById(quizId) {
+  console.log(quizId)
+  try {
+    const reqUrl = `${backendBaseUrl}/quiz/get-quiz/${quizId}`;
+
+    return await axios
+      .get(reqUrl)
+      .then((response) => {
         console.log(response.data);
         return response.data;
       })

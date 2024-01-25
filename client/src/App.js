@@ -5,22 +5,22 @@ import DashboardPage from "./pages/Dashboard/DashboardPage";
 import AnalyticsPage from "./pages/analytics/AnalyticsPage";
 import CreateQuizPage from "./pages/create-quiz/CreateQuizPage";
 import { useState } from "react";
-import Sidebar from "./components/sidebar/Sidebar";
-import QAQuestionsPage from "./pages/quizQuestionsPage/QuizQuestionsPage";
+import QuizQuestionsPage from "./pages/quizQuestionsPage/QuizQuestionsPage";
 import QuizLinkSharePage from "./pages/quizLinkSharePage/QuizLinkSharePage";
+import PlayQuizPage from "./pages/playQuiz/PlayQuizPage";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [quizdata, setQuizData] = useState({
+  const [quizFormData, setQuizFormData] = useState({
     quizTitle: "",
     quizType: "",
   });
   const [quizId, setQuizId] = useState("");
+  console.log(quizId)
 
   return (
-    <div style={{ display: "flex", height: "100vh" }}>
+    <>
       <Router>
-        <Sidebar />
         <Routes>
           <Route
             path="/"
@@ -36,17 +36,26 @@ function App() {
           <Route
             path="/create-quiz"
             element={
-              <CreateQuizPage setQuizData={setQuizData} quizdata={quizdata} />
+              <CreateQuizPage setQuizFormData={setQuizFormData} quizFormData={quizFormData} />
             }
           />
           <Route
-            path="/create-qa-questions"
-            element={<QAQuestionsPage quizdata={quizdata} setQuizId={setQuizId} />}
+            path="/create-questions"
+            element={
+              <QuizQuestionsPage quizFormData={quizFormData} setQuizId={setQuizId} quizId={quizId} />
+            }
           />
-          <Route path="/quiz?quizid=:id" element={<QuizLinkSharePage />} />
+          <Route
+            path="/quiz-link"
+            element={<QuizLinkSharePage quizId={quizId} />}
+          />
+          <Route
+            path="/quiz"
+            element={<PlayQuizPage quizId={quizId} />}
+          />
         </Routes>
       </Router>
-    </div>
+    </>
   );
 }
 

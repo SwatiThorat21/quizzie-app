@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const QandAQuizData = require("../models/quizModel");
+const QuizsData = require("../models/quizModel");
 const isLoggedIn = require("../middlewares/isLoggedIn");
 
-router.post("/create-qa-quiz", isLoggedIn, async (req, res) => {
+router.post("/create-quiz", isLoggedIn, async (req, res) => {
   try {
     const {
       userId,
@@ -14,7 +14,7 @@ router.post("/create-qa-quiz", isLoggedIn, async (req, res) => {
       questions,
     } = req.body;
 
-    const quizData = await QandAQuizData.create({
+    const quizData = await QuizsData.create({
       userId: userId,
       quizTitle: quizTitle,
       quizType: quizType,
@@ -28,6 +28,34 @@ router.post("/create-qa-quiz", isLoggedIn, async (req, res) => {
       data: req.body,
       quizId: quizData._id.toString(),
     });
+  } catch (error) {
+    res.status(500).json({
+      status: "FAILED",
+      message: error.message,
+    });
+  }
+});
+
+router.get("/get-quiz/:quizId", async (req, res) => {
+  try {
+    const { quizId } = req.params;
+
+    const quizData = await QuizsData.findById(quizId);
+    console.log(quizData);
+
+    if (!quizData) {
+      return res.status(404).json({
+        status: "FAILED",
+        message: "Quiz not found",
+      });
+    }
+
+    res.status(200).json({
+      status: "SUCCESS",
+      message: "Quiz data retrieved successfully.",
+      data: quizData,
+    });
+    
   } catch (error) {
     res.status(500).json({
       status: "FAILED",
