@@ -63,16 +63,17 @@ router.get("/get-quiz/:quizId", async (req, res) => {
 router.patch("/log-impression/:quizId", async (req, res) => {
   try {
     const { quizId } = req.params;
-    const quizData = await QuizsData.findById(quizId);
-
+    
     await QuizsData.findByIdAndUpdate(quizId, {
-      no_of_impressions: quizData.no_of_impressions + 1,
+      $inc: { no_of_impressions: 1 },
     });
+
+    const updatedQuizData = await QuizsData.findById(quizId);
 
     res.status(200).json({
       status: "success",
       message: "updated sucessfully",
-      data: quizData,
+      data: updatedQuizData,
     });
   } catch (error) {
     res.status(500).json({
