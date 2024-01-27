@@ -10,14 +10,12 @@ import QuizLinkSharePage from "./pages/quizLinkSharePage/QuizLinkSharePage";
 import PlayQuizPage from "./pages/playQuiz/PlayQuizPage";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  let [isLoggedIn, setIsLoggedIn] = useState(false);
   const [quizFormData, setQuizFormData] = useState({
     quizTitle: "",
     quizType: "",
   });
-  const [quizId, setQuizId] = useState("");
-  console.log(quizId)
-
+  
   return (
     <>
       <Router>
@@ -31,28 +29,38 @@ function App() {
               />
             }
           />
-          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route
+            path="/dashboard"
+            element={
+              <DashboardPage
+                isLoggedIn={isLoggedIn}
+                setIsLoggedIn={setIsLoggedIn}
+              />
+            }
+          />
           <Route path="/analytics" element={<AnalyticsPage />} />
           <Route
             path="/create-quiz"
             element={
-              <CreateQuizPage setQuizFormData={setQuizFormData} quizFormData={quizFormData} />
+              <CreateQuizPage
+                setQuizFormData={setQuizFormData}
+                quizFormData={quizFormData}
+              />
             }
           />
           <Route
             path="/create-questions"
             element={
-              <QuizQuestionsPage quizFormData={quizFormData} setQuizId={setQuizId} quizId={quizId} />
+              <QuizQuestionsPage
+                quizFormData={quizFormData}
+              />
             }
           />
           <Route
             path="/quiz-link"
-            element={<QuizLinkSharePage quizId={quizId} />}
+            element={<QuizLinkSharePage />}
           />
-          <Route
-            path="/quiz"
-            element={<PlayQuizPage quizId={quizId} />}
-          />
+          <Route path="/quiz" element={<PlayQuizPage />} />
         </Routes>
       </Router>
     </>

@@ -41,7 +41,6 @@ router.get("/get-quiz/:quizId", async (req, res) => {
     const { quizId } = req.params;
 
     const quizData = await QuizsData.findById(quizId);
-    console.log(quizData);
 
     if (!quizData) {
       return res.status(404).json({
@@ -51,11 +50,30 @@ router.get("/get-quiz/:quizId", async (req, res) => {
     }
 
     res.status(200).json({
-      status: "SUCCESS",
-      message: "Quiz data retrieved successfully.",
       data: quizData,
     });
-    
+  } catch (error) {
+    res.status(500).json({
+      status: "FAILED",
+      message: error.message,
+    });
+  }
+});
+
+router.patch("/log-impression/:quizId", async (req, res) => {
+  try {
+    const { quizId } = req.params;
+    const quizData = await QuizsData.findById(quizId);
+
+    await QuizsData.findByIdAndUpdate(quizId, {
+      no_of_impressions: quizData.no_of_impressions + 1,
+    });
+
+    res.status(200).json({
+      status: "success",
+      message: "updated sucessfully",
+      data: quizData,
+    });
   } catch (error) {
     res.status(500).json({
       status: "FAILED",

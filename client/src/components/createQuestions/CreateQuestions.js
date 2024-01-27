@@ -5,7 +5,7 @@ import closeIcon from "../../images/closeIcon.png";
 import { useNavigate } from "react-router-dom";
 import { CreateQuizFormData } from "../../apis/quiz";
 
-export default function CreateQuestions({ quizFormData, setQuizId, quizId }) {
+export default function CreateQuestions({ quizFormData }) {
   const navigate = useNavigate();
   const [currentQuesIndex, setCurrentQuesIndex] = useState(0);
   const [questionNumbers, setQuestionNumbers] = useState([1]);
@@ -32,7 +32,7 @@ export default function CreateQuestions({ quizFormData, setQuizId, quizId }) {
           imageUrl: "",
         },
       ],
-      answerSelectedIndex: "",
+      correct_answer_index: "",
     },
   ]);
 
@@ -70,7 +70,7 @@ export default function CreateQuestions({ quizFormData, setQuizId, quizId }) {
             imageUrl: "",
           },
         ],
-        answerSelectedIndex: "",
+        correct_answer_index: "",
       },
     ]);
     setCurrentQuesIndex((prevNum) => prevNum + 1);
@@ -139,8 +139,6 @@ export default function CreateQuestions({ quizFormData, setQuizId, quizId }) {
       timer_for_eachQuestion,
       createdAt_date,
       questions,
-      setQuizId, 
-      quizId
     );
 
     navigate("/quiz-link");
@@ -247,7 +245,7 @@ export default function CreateQuestions({ quizFormData, setQuizId, quizId }) {
                           <input
                             type="radio"
                             value={index}
-                            name="answerSelectedIndex"
+                            name="correct_answer_index"
                             onChange={(e) => handleChange(e, index)}
                           ></input>
                           <input
@@ -264,59 +262,59 @@ export default function CreateQuestions({ quizFormData, setQuizId, quizId }) {
                 )}
                 {quizQuestionsData[currentQuesIndex].optionType ===
                   "Image URL" && (
-                    <div>
-                      {quizQuestionsData[currentQuesIndex].options.map(
-                        (option, index) => (
-                          <div className={styles.option_wrapper} key={index}>
-                            <input
-                              type="radio"
-                              value={index}
-                              name="answerSelectedIndex"
-                              onChange={(e) => handleChange(e, index)}
-                            ></input>
-                            <input
-                              type="text"
-                              placeholder="Image URL"
-                              name="imageUrl"
-                              value={option.imageUrl}
-                              onChange={(e) => handleChange(e, index)}
-                            ></input>
-                          </div>
-                        )
-                      )}
-                    </div>
-                  )}
+                  <div>
+                    {quizQuestionsData[currentQuesIndex].options.map(
+                      (option, index) => (
+                        <div className={styles.option_wrapper} key={index}>
+                          <input
+                            type="radio"
+                            value={index}
+                            name="correct_answer_index"
+                            onChange={(e) => handleChange(e, index)}
+                          ></input>
+                          <input
+                            type="text"
+                            placeholder="Image URL"
+                            name="imageUrl"
+                            value={option.imageUrl}
+                            onChange={(e) => handleChange(e, index)}
+                          ></input>
+                        </div>
+                      )
+                    )}
+                  </div>
+                )}
                 {quizQuestionsData[currentQuesIndex].optionType ===
                   "Text & Image URL" && (
-                    <div>
-                      {quizQuestionsData[currentQuesIndex].options.map(
-                        (option, index) => (
-                          <div className={styles.option_wrapper} key={index}>
-                            <input
-                              type="radio"
-                              value={index}
-                              name="answerSelectedIndex"
-                              onChange={(e) => handleChange(e, index)}
-                            ></input>
-                            <input
-                              type="text"
-                              placeholder="Text"
-                              name="text"
-                              value={option.text}
-                              onChange={(e) => handleChange(e, index)}
-                            ></input>
-                            <input
-                              type="text"
-                              placeholder="Image URL"
-                              name="imageUrl"
-                              value={option.imageUrl}
-                              onChange={(e) => handleChange(e, index)}
-                            ></input>
-                          </div>
-                        )
-                      )}
-                    </div>
-                  )}
+                  <div>
+                    {quizQuestionsData[currentQuesIndex].options.map(
+                      (option, index) => (
+                        <div className={styles.option_wrapper} key={index}>
+                          <input
+                            type="radio"
+                            value={index}
+                            name="correct_answer_index"
+                            onChange={(e) => handleChange(e, index)}
+                          ></input>
+                          <input
+                            type="text"
+                            placeholder="Text"
+                            name="text"
+                            value={option.text}
+                            onChange={(e) => handleChange(e, index)}
+                          ></input>
+                          <input
+                            type="text"
+                            placeholder="Image URL"
+                            name="imageUrl"
+                            value={option.imageUrl}
+                            onChange={(e) => handleChange(e, index)}
+                          ></input>
+                        </div>
+                      )
+                    )}
+                  </div>
+                )}
                 <div className={styles.timer_wrapper}>
                   <p>Timer</p>
                   <div
