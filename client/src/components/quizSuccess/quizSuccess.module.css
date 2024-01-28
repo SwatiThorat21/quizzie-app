@@ -1,0 +1,23 @@
+.successPage_container {
+  align-items: center;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+}
+.successPage_content {
+  align-items: center;
+  background: #fff;
+  border-radius: 0.9375rem;
+  box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.15);
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.6rem;
+  font-weight: 600;
+  gap: 0.3rem;
+  height: 70vh;
+  justify-content: center;
+  padding: 0 4rem;
+  text-align: center;
+  width: 45vw;
+}

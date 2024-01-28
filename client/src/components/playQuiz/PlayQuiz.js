@@ -2,12 +2,18 @@
 import styles from "./playQuiz.module.css";
 import { GetQuizDataById, logQuizImpression } from "../../apis/quiz";
 import { useState, useEffect } from "react";
+import { logAnswer } from "../../apis/quiz";
 
-export default function PlayQuiz() {
-  const [quizData, setQuizData] = useState({});
-  const [currentQuesIndex, setCurrentQuesIndex] = useState(0);
+export default function PlayQuiz({
+  setQuizData,
+  quizData,
+  setCurrentQuesIndex,
+  currentQuesIndex,
+  setQuizSuccess,
+  setAnsweredCorrectly
+}) {
   const [timeRemaining, setTimeRemaining] = useState("");
-  // const [impressions, setImpressions] = useState(0);
+  const [answerIndexSelected, setAnswerIndexSelected] = useState(undefined);
 
   useEffect(() => {
     const fetchQuizData = async () => {
@@ -26,7 +32,7 @@ export default function PlayQuiz() {
       }
     };
     fetchQuizData();
-  }, []);
+  }, [setQuizData]);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -43,15 +49,30 @@ export default function PlayQuiz() {
     }
   }, [timeRemaining]);
 
-  const quizObject = Object.values(quizData);
+  function handleAnswerSelection(index) {
+    setAnswerIndexSelected(index);
+  }
 
   const handleNext = () => {
-    setCurrentQuesIndex((prevIndex) => prevIndex + 1);
+    if (answerIndexSelected === undefined) return;
+    const quizObject = Object.values(quizData);
+    const questionsArray = quizObject[currentQuesIndex]?.questions;
+    const questionId = questionsArray?.[currentQuesIndex]._id;
+    logAnswer(questionId, answerIndexSelected);
+    setCurrentQuesIndex((prevIndex) =>
+      questionsArray.length === prevIndex + 1 ? prevIndex : prevIndex + 1
+    );
+   if(answerIndexSelected === questionsArray[currentQuesIndex].correct_answer_index){
+    setAnsweredCorrectly(true)
+   }
+    if (questionsArray.length === currentQuesIndex + 1) {
+      setQuizSuccess(true);
+    }
   };
 
-  // console.log(quizData);
+  const quizObject = Object.values(quizData);
+  console.log(quizObject[0]?.questions?.[0]._id);
 
-  const handleSubmit = () => {};
   if (!Object.keys(quizData).length) {
     return null;
   }
@@ -79,7 +100,13 @@ export default function PlayQuiz() {
                 {data.questions[currentQuesIndex].options.map(
                   (option, index) => {
                     return (
-                      <div className={styles.option} key={index}>
+                      <div
+                        className={`${styles.option} ${
+                          answerIndexSelected === index ? styles.selected : ""
+                        }`}
+                        key={index}
+                        onClick={() => handleAnswerSelection(index)}
+                      >
                         {option.text}
                       </div>
                     );
@@ -92,13 +119,12 @@ export default function PlayQuiz() {
                 Next
               </button>
             ) : (
-              <button className={styles.submit_quiz_btn} onClick={handleSubmit}>
+              <button className={styles.submit_quiz_btn} onClick={handleNext}>
                 Submit
               </button>
             )}
           </div>
         ))}
-        ;{/* })} */}
       </div>
     </>
   );

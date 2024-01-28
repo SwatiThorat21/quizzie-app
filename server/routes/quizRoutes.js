@@ -63,7 +63,7 @@ router.get("/get-quiz/:quizId", async (req, res) => {
 router.patch("/log-impression/:quizId", async (req, res) => {
   try {
     const { quizId } = req.params;
-    
+
     await QuizsData.findByIdAndUpdate(quizId, {
       $inc: { no_of_impressions: 1 },
     });
@@ -76,6 +76,54 @@ router.patch("/log-impression/:quizId", async (req, res) => {
       data: updatedQuizData,
     });
   } catch (error) {
+    res.status(500).json({
+      status: "FAILED",
+      message: error.message,
+    });
+  }
+});
+
+router.patch("/log-answer", async (req, res) => {
+  try {
+    const { questionId, index_selected_by_user } = req.body;
+
+    const quizData = await QuizsData.findOne({ "questions._id": questionId });
+
+    console.log(quizData);
+
+    if (!quizData) {
+      return res.status(404).json({
+        status: "FAILED",
+        message: "Quiz data not found",
+      });
+    }
+    const question = quizData.questions.find(
+      (q) => q._id.toString() === questionId
+    );
+    const correct_answer_index = question.correct_answer_index;
+
+    const updateFields = {
+      $inc: {
+        "questions.$.questions_attempted_correctly":
+          parseInt(index_selected_by_user) === correct_answer_index ? 1 : 0,
+        "questions.$.questions_attempted_incorrectly":
+          parseInt(index_selected_by_user) !== correct_answer_index ? 1 : 0,
+      },
+    };
+
+    const updatedQuizData = await QuizsData.findOneAndUpdate(
+      { "questions._id": questionId },
+      updateFields,
+      { new: true }
+    );
+
+    res.status(200).json({
+      status: "success",
+      message: "updated successfully",
+      data: updatedQuizData,
+    });
+  } catch (error) {
+    console.error(error);
     res.status(500).json({
       status: "FAILED",
       message: error.message,

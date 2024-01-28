@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 
-const optionsSchema =  new mongoose.Schema({
+const optionsSchema = new mongoose.Schema({
   text: {
     type: String,
   },
   imgUrl: {
     type: String,
   },
-})
+});
 
 const questionsSchema = new mongoose.Schema({
   questionTitle: {
@@ -29,7 +29,7 @@ const questionsSchema = new mongoose.Schema({
   questions_attempted_incorrectly: {
     type: Number,
   },
-})
+});
 
 const quizSchema = new mongoose.Schema({
   userId: {

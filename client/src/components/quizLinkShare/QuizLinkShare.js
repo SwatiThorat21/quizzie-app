@@ -1,8 +1,7 @@
 import styles from "./quizLinkShare.module.css";
 
-export default function QuizLinkShare() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const quizId = urlParams.get("quizId");
+export default function QuizLinkShare({quizId}) {
+
   return (
     <>
       <div className={styles.quizLink_container}>

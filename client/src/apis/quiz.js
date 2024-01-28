@@ -8,7 +8,8 @@ export async function CreateQuizFormData(
   quizType,
   timer_for_eachQuestion,
   createdAt_date,
-  questions
+  questions,
+  setQuizId
 ) {
   try {
     const reqUrl = `${backendBaseUrl}/quiz/create-quiz`;
@@ -27,6 +28,7 @@ export async function CreateQuizFormData(
     return await axios
       .post(reqUrl, reqPayload, { headers })
       .then((response) => {
+        setQuizId(response.data.quizId);
         console.log(response.data);
         return response.data;
       })
@@ -58,11 +60,31 @@ export async function logQuizImpression(quizId) {
 
     return await axios
       .patch(reqUrl)
-      .then((res) => console.log(res))
+      .then((res) => console.log(res.data.data))
       .catch((error) => {
         console.log(error);
       });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
+}
+
+export async function logAnswer(questionId, index_selected_by_user) {
+  try {
+    const reqUrl = `${backendBaseUrl}/quiz/log-answer`;
+    const reqPayload = {
+      questionId: questionId,
+      index_selected_by_user: index_selected_by_user,
+    };
+
+    return await axios
+      .patch(reqUrl, reqPayload)
+      .then((response) => {
+        console.log(response.data);
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  } catch (error) {}
 }

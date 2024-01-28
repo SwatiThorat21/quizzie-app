@@ -1,0 +1,12 @@
+.analytics_table_container {
+  display: flex;
+  background-color: #ededed;
+  flex: 1;
+}
+.analytics_table_wrapper {
+  text-align: center;
+}
+.analytics_heading {
+  color: #5076ff;
+  margin: 2rem;
+}

@@ -53,3 +53,6 @@
   padding: 0.55rem 3rem;
   transition-duration: 0.4s;
 }
+.selected{
+  background-color: red;
+}

@@ -5,7 +5,7 @@ import closeIcon from "../../images/closeIcon.png";
 import { useNavigate } from "react-router-dom";
 import { CreateQuizFormData } from "../../apis/quiz";
 
-export default function CreateQuestions({ quizFormData }) {
+export default function CreateQuestions({ quizFormData, setShowQuizLinkShare, setQuizId }) {
   const navigate = useNavigate();
   const [currentQuesIndex, setCurrentQuesIndex] = useState(0);
   const [questionNumbers, setQuestionNumbers] = useState([1]);
@@ -139,9 +139,10 @@ export default function CreateQuestions({ quizFormData }) {
       timer_for_eachQuestion,
       createdAt_date,
       questions,
+      setQuizId
     );
 
-    navigate("/quiz-link");
+    setShowQuizLinkShare(true)
   }
 
   return (

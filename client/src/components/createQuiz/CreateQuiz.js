@@ -1,14 +1,18 @@
 import styles from "./createQuiz.module.css";
 import { useNavigate } from "react-router-dom";
 
-export default function CreateQuiz({ setQuizFormData, quizFormData }) {
+export default function CreateQuiz({
+  setQuizFormData,
+  quizFormData,
+  setShowCreateQuestions,
+}) {
   const navigate = useNavigate();
   function handleChange(event) {
     const { name, value } = event.target;
     setQuizFormData((prevValues) => ({ ...prevValues, [name]: value }));
   }
-  function getQuizQuestionsPage() {
-    navigate("/create-questions");
+  function getQuizQuestions() {
+    setShowCreateQuestions(true);
   }
   function cancelQuiz() {
     navigate("/dashboard");
@@ -50,7 +54,7 @@ export default function CreateQuiz({ setQuizFormData, quizFormData }) {
             </div>
             <div className={styles.quiz_btns_wrapper}>
               <button onClick={cancelQuiz}>Cancel</button>
-              <button onClick={getQuizQuestionsPage}>Continue</button>
+              <button onClick={getQuizQuestions}>Continue</button>
             </div>
           </div>
         </div>
