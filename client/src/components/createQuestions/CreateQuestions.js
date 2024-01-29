@@ -4,6 +4,7 @@ import { useState } from "react";
 import closeIcon from "../../images/closeIcon.png";
 import { useNavigate } from "react-router-dom";
 import { CreateQuizFormData } from "../../apis/quiz";
+import delete_icon from "../../images/delete_icon.png";
 
 export default function CreateQuestions({
   quizFormData,
@@ -138,13 +139,14 @@ export default function CreateQuestions({
       return false;
     }
 
-    if (
-      currentQuestion.options.some(
-        (option) => option.text.trim() === "" && option.imageUrl.trim() === ""
-      )
-    ) {
-      alert("Please fill in all options");
-      return false;
+    for (const question of quizQuestionsData) {
+      if (
+        question.options.filter((option) => option.text.trim() !== "").length <
+        2
+      ) {
+        alert("Each question must have at least 2 options");
+        return false;
+      }
     }
 
     if (currentQuestion.correct_answer_index === "") {
@@ -183,7 +185,21 @@ export default function CreateQuestions({
     setShowQuizLinkShare(true);
   }
 
-  console.log(quizFormData);
+  function deleteOption(index) {
+    setQuizQuestionsData((prevData) => {
+      const updatedQuestions = [...prevData];
+      const updatedQuestion = { ...updatedQuestions[currentQuesIndex] };
+
+      updatedQuestion.options = updatedQuestion.options.filter(
+        (_, optionIndex) => optionIndex !== index
+      );
+
+      updatedQuestions[currentQuesIndex] = updatedQuestion;
+      return updatedQuestions;
+    });
+  }
+
+  console.log(quizQuestionsData);
 
   return (
     <>
@@ -278,11 +294,17 @@ export default function CreateQuestions({
               <label>Text & Image URL</label>
             </div>
           </div>
-          <div className={styles.optionsAndTimer_wrapper}>
+          <div style={{ marginTop: "0.5rem" }}>
             {quizQuestionsData[currentQuesIndex] && (
               <div className={styles.option_radioBtns_wrapper}>
                 {quizQuestionsData[currentQuesIndex].optionType === "Text" && (
-                  <div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "0.5rem",
+                    }}
+                  >
                     {quizQuestionsData[currentQuesIndex].options.map(
                       (option, index) => (
                         <div className={styles.option_wrapper} key={index}>
@@ -300,6 +322,14 @@ export default function CreateQuestions({
                             onChange={(e) => handleChange(e, index)}
                             className={styles.option_input}
                           ></input>
+                          {index > 1 && (
+                            <img
+                              src={delete_icon}
+                              alt="delete_icon"
+                              style={{ width: "20px", cursor: "pointer" }}
+                              onClick={() => deleteOption(index)}
+                            ></img>
+                          )}
                         </div>
                       )
                     )}
@@ -307,7 +337,13 @@ export default function CreateQuestions({
                 )}
                 {quizQuestionsData[currentQuesIndex].optionType ===
                   "Image URL" && (
-                  <div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "0.5rem",
+                    }}
+                  >
                     {quizQuestionsData[currentQuesIndex].options.map(
                       (option, index) => (
                         <div className={styles.option_wrapper} key={index}>
@@ -325,6 +361,14 @@ export default function CreateQuestions({
                             onChange={(e) => handleChange(e, index)}
                             className={styles.option_input}
                           ></input>
+                          {index > 1 && (
+                            <img
+                              src={delete_icon}
+                              alt="delete_icon"
+                              style={{ width: "20px", cursor: "pointer" }}
+                              onClick={() => deleteOption(index)}
+                            ></img>
+                          )}
                         </div>
                       )
                     )}
@@ -332,7 +376,13 @@ export default function CreateQuestions({
                 )}
                 {quizQuestionsData[currentQuesIndex].optionType ===
                   "Text & Image URL" && (
-                  <div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "0.5rem",
+                    }}
+                  >
                     {quizQuestionsData[currentQuesIndex].options.map(
                       (option, index) => (
                         <div className={styles.option_wrapper} key={index}>
@@ -358,6 +408,14 @@ export default function CreateQuestions({
                             onChange={(e) => handleChange(e, index)}
                             className={styles.option_input}
                           ></input>
+                          {index > 1 && (
+                            <img
+                              src={delete_icon}
+                              alt="delete_icon"
+                              style={{ width: "20px", cursor: "pointer" }}
+                              onClick={() => deleteOption(index)}
+                            ></img>
+                          )}
                         </div>
                       )
                     )}
