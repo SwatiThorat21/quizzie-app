@@ -10,10 +10,11 @@ export default function PlayQuiz({
   setCurrentQuesIndex,
   currentQuesIndex,
   setQuizSuccess,
-  setAnsweredCorrectly
+  setAnsweredCorrectly,
 }) {
   const [timeRemaining, setTimeRemaining] = useState("");
   const [answerIndexSelected, setAnswerIndexSelected] = useState(undefined);
+  const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
 
   useEffect(() => {
     const fetchQuizData = async () => {
@@ -49,8 +50,20 @@ export default function PlayQuiz({
     }
   }, [timeRemaining]);
 
-  function handleAnswerSelection(index) {
-    setAnswerIndexSelected(index);
+  function handleAnswerSelection(optionIndex) {
+    setAnswerIndexSelected(optionIndex);
+    // const quizObject = Object.values(quizData);
+    // console.log(currentQuesIndex)
+    // const questionsArray = quizObject[currentQuesIndex]?.questions;
+    // console.log(questionsArray)
+    // const correctAnswerIndex = questionsArray[index]?.correct_answer_index;
+
+    // if (index === correctAnswerIndex) {
+    //   setAnsweredCorrectly(true);
+    //   setCorrectAnswersCount((prevCount) => prevCount + 1);
+    // } else {
+    //   setAnsweredCorrectly(false);
+    // }
   }
 
   const handleNext = () => {
@@ -62,16 +75,15 @@ export default function PlayQuiz({
     setCurrentQuesIndex((prevIndex) =>
       questionsArray.length === prevIndex + 1 ? prevIndex : prevIndex + 1
     );
-   if(answerIndexSelected === questionsArray[currentQuesIndex].correct_answer_index){
-    setAnsweredCorrectly(true)
-   }
+
+    console.log(currentQuesIndex);
+   
     if (questionsArray.length === currentQuesIndex + 1) {
       setQuizSuccess(true);
     }
   };
 
   const quizObject = Object.values(quizData);
-  console.log(quizObject[0]?.questions?.[0]._id);
 
   if (!Object.keys(quizData).length) {
     return null;

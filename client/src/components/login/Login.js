@@ -49,35 +49,59 @@ export default function Login({ setIsLoggedIn }) {
     <>
       <div className={styles.login_container}>
         <div className={styles.input_wrapper}>
-          <input
-            type="email"
-            placeholder="Email"
-            className={styles.login_input}
-            name="email"
-            onChange={handleChange}
-            value={loginData.email}
-          ></input>
-          {errors.emailErr && (
-            <label className={styles.errorMsg}>Invalid email !</label>
-          )}
-          <input
-            type="password"
-            placeholder="Password"
-            className={styles.login_input}
-            name="password"
-            onChange={handleChange}
-            value={loginData.password}
-            style={{ marginTop: "0.7rem" }}
-          ></input>
-          {errors.passwordErr && (
-            <label className={styles.errorMsg}>Invalid password !</label>
-          )}
+        <div className={styles.form_input}>
+            <label>Email</label>
+            {!errors.emailErr && (
+              <input
+                type="email"
+                className={styles.input}
+                name="email"              
+                onChange={handleChange}
+                value={loginData.email}
+              ></input>
+            )}
+            {errors.emailErr && (
+              <input
+                type="email"
+                className={styles.errorInput}
+                name="email"
+                placeholder="Invalid email"
+                onChange={handleChange}
+                value={loginData.email}
+              ></input>
+            )}
+          </div>
+
+          <div className={styles.form_input}>
+            <label>Password</label>
+            {!errors.passwordErr && (
+              <input
+                type="password"
+                className={styles.input}
+                name="password"
+                onChange={handleChange}
+                value={loginData.password}
+              ></input>
+            )}
+            {errors.passwordErr && (
+              <input
+                type="password"
+                className={styles.errorInput}
+                name="password"
+                placeholder="Invalid password"
+                onChange={handleChange}
+                value={loginData.password}
+              ></input>
+            )}
+          </div>
+
+         
         </div>
         <button
           className={styles.login_btn}
           onClick={() => addLoginUser(loginData.email, loginData.password)}
         >
-          Sign in
+          Log in
         </button>
       </div>
     </>

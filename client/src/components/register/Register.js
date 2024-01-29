@@ -47,7 +47,7 @@ export default function Register({ setIsLoggedIn }) {
       newErrors.confirmPasswordErr = true;
     }
     setErrors(newErrors);
-    console.log(newErrors)
+    console.log(newErrors);
     try {
       if (Object.keys(newErrors).length === 0) {
         await register(name, email, password, confirmPassword);
@@ -63,50 +63,97 @@ export default function Register({ setIsLoggedIn }) {
     <>
       <div className={styles.register_container}>
         <div className={styles.input_wrapper}>
-          <input
-            type="text"
-            placeholder="Name"
-            className={styles.input}
-            name="name"
-            onChange={handleChange}
-            value={registerData.name}
-          ></input>
-          {errors.nameErr && (
-            <label className={styles.errorMsg}>Please enter name !</label>
-          )}
-          <input
-            type="email"
-            placeholder="Email"
-            className={styles.input}
-            name="email"
-            onChange={handleChange}
-            value={registerData.email}
-          ></input>
-          {errors.emailErr && (
-            <label className={styles.errorMsg}>Invalid email !</label>
-          )}
-          <input
-            type="password"
-            placeholder="Password"
-            className={styles.input}
-            name="password"
-            onChange={handleChange}
-            value={registerData.password}
-          ></input>
-          {errors.passwordErr && (
-            <label className={styles.errorMsg}>Invalid password !</label>
-          )}
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            className={styles.input}
-            name="confirmPassword"
-            onChange={handleChange}
-            value={registerData.confirmPassword}
-          ></input>
-          {errors.confirmPasswordErr && (
-            <label className={styles.errorMsg}>Invalid password !</label>
-          )}
+          <div className={styles.form_input}>
+            <label>Name</label>
+            {!errors.nameErr && (
+              <input
+                type="text"
+                className={styles.input}
+                name="name"
+                onChange={handleChange}
+                value={registerData.name}
+              ></input>
+            )}
+            {errors.nameErr && (
+              <input
+                type="text"
+                className={styles.errorInput}
+                name="name"
+                placeholder="Invalid name"
+                onChange={handleChange}
+                value={registerData.name}
+              ></input>
+            )}
+          </div>
+
+          <div className={styles.form_input}>
+            <label>Email</label>
+            {!errors.emailErr && (
+              <input
+                type="email"
+                className={styles.input}
+                name="email"              
+                onChange={handleChange}
+                value={registerData.email}
+              ></input>
+            )}
+            {errors.emailErr && (
+              <input
+                type="email"
+                className={styles.errorInput}
+                name="email"
+                placeholder="Invalid email"
+                onChange={handleChange}
+                value={registerData.email}
+              ></input>
+            )}
+          </div>
+
+          <div className={styles.form_input}>
+            <label>Password</label>
+            {!errors.passwordErr && (
+              <input
+                type="password"
+                className={styles.input}
+                name="password"
+                onChange={handleChange}
+                value={registerData.password}
+              ></input>
+            )}
+            {errors.passwordErr && (
+              <input
+                type="password"
+                className={styles.errorInput}
+                name="password"
+                placeholder="Invalid password"
+                onChange={handleChange}
+                value={registerData.password}
+              ></input>
+            )}
+          </div>
+
+          <div className={styles.form_input}>
+            <label>Confirm Password</label>
+            {!errors.confirmPasswordErr && (
+              <input
+                type="password"
+                className={styles.input}
+                name="confirmPassword"
+                onChange={handleChange}
+                value={registerData.confirmPassword}
+              ></input>
+            )}
+            {errors.confirmPasswordErr && (
+              <input
+                type="password"
+                className={styles.errorInput}
+                name="confirmPassword"
+                placeholder="Password doesn't match"
+                onChange={handleChange}
+                value={registerData.confirmPassword}
+              ></input>
+            )}
+          </div>
         </div>
         <button
           className={styles.register_btn}

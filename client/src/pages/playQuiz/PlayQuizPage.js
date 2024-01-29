@@ -7,7 +7,7 @@ export default function PlayQuizPage() {
   const [quizSuccess, setQuizSuccess] = useState(false);
   const [currentQuesIndex, setCurrentQuesIndex] = useState(0);
   const [answeredCorrectly, setAnsweredCorrectly] = useState(0);
-  console.log(answeredCorrectly)
+
   return (
     <>
       {!quizSuccess && (

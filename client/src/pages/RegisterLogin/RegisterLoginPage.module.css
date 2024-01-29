@@ -19,14 +19,29 @@
   align-items: center;
   justify-content: center;
   gap: 2rem;
-  
 }
-.signup_btn, .login_btn {
+.signup_btn,
+.login_btn {
   background: #fff;
   border: none;
   border-radius: 0.625rem;
   cursor: pointer;
   font-size: 1rem;
   padding: 0.3rem 2rem;
-  border: 1px solid gray;
+}
+.quiz_title {
+  color: #474444;
+  font-family: Jomhuria, sans-serif;
+  font-size: 5rem;
+  font-style: normal;
+  font-weight: 550;
+  line-height: normal;
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+.activeBtn {
+  box-shadow: 0 0 50px 0 rgba(0, 25, 255, 0.24);
+}
+.form_container {
+  margin: 1.5rem;
 }

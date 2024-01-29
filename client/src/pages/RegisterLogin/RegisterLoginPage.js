@@ -21,10 +21,20 @@ export default function RegisterLoginPage({ setIsLoggedIn }) {
         <div className={styles.registerLogin_subcontainer}>
           <h2 className={styles.quiz_title}>QUIZZIE</h2>
           <div className={styles.loginRegister_btns_wrapper}>
-            <div className={styles.signup_btn} onClick={registerForm}>
+            <div
+              className={`${styles.signup_btn} ${
+                showRegisterForm && styles.activeBtn
+              }`}
+              onClick={registerForm}
+            >
               Sign Up
             </div>
-            <div className={styles.login_btn} onClick={loginForm}>
+            <div
+              className={`${styles.login_btn} ${
+                showLoginForm && styles.activeBtn
+              }`}
+              onClick={loginForm}
+            >
               Log In
             </div>
           </div>
