@@ -14,10 +14,8 @@
 .quizLink_modal {
   background-color: #fff;
   border-radius: 5px;
-  gap: 0;
-  height: 30vh;
-  padding: 4rem 7rem;
-  width: 40vw;
+  height: fit-content;
+  padding: 3rem 5rem;
 }
 .modal_content p {
   font-size: 1.7rem;
