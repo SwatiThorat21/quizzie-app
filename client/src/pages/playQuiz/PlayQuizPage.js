@@ -6,8 +6,7 @@ export default function PlayQuizPage() {
   const [quizData, setQuizData] = useState({});
   const [quizSuccess, setQuizSuccess] = useState(false);
   const [currentQuesIndex, setCurrentQuesIndex] = useState(0);
-  const [answeredCorrectly, setAnsweredCorrectly] = useState(0);
-
+  const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
   return (
     <>
       {!quizSuccess && (
@@ -17,11 +16,15 @@ export default function PlayQuizPage() {
           setCurrentQuesIndex={setCurrentQuesIndex}
           currentQuesIndex={currentQuesIndex}
           setQuizSuccess={setQuizSuccess}
-          setAnsweredCorrectly={setAnsweredCorrectly}
+          setCorrectAnswersCount={setCorrectAnswersCount}
         />
       )}
       {quizSuccess && (
-        <QuizSuccess quizData={quizData} currentQuesIndex={currentQuesIndex} />
+        <QuizSuccess
+          quizData={quizData}
+          currentQuesIndex={currentQuesIndex}
+          correctAnswersCount={correctAnswersCount}
+        />
       )}
     </>
   );

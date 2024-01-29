@@ -12,6 +12,16 @@ export default function CreateQuiz({
     setQuizFormData((prevValues) => ({ ...prevValues, [name]: value }));
   }
   function getQuizQuestions() {
+    if (!quizFormData.quizTitle) {
+      alert("Please enter a quiz title");
+      return;
+    }
+
+    if (!quizFormData.quizType) {
+      alert("Please select a quiz type");
+      return;
+    }
+
     setShowCreateQuestions(true);
   }
   function cancelQuiz() {
@@ -53,8 +63,12 @@ export default function CreateQuiz({
               </div>
             </div>
             <div className={styles.quiz_btns_wrapper}>
-              <button onClick={cancelQuiz}>Cancel</button>
-              <button onClick={getQuizQuestions}>Continue</button>
+              <button onClick={cancelQuiz} className={styles.cancelBtn}>
+                Cancel
+              </button>
+              <button onClick={getQuizQuestions} className={styles.continueBtn}>
+                Continue
+              </button>
             </div>
           </div>
         </div>

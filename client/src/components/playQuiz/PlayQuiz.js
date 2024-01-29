@@ -10,11 +10,10 @@ export default function PlayQuiz({
   setCurrentQuesIndex,
   currentQuesIndex,
   setQuizSuccess,
-  setAnsweredCorrectly,
+  setCorrectAnswersCount,
 }) {
   const [timeRemaining, setTimeRemaining] = useState("");
   const [answerIndexSelected, setAnswerIndexSelected] = useState(undefined);
-  const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
 
   useEffect(() => {
     const fetchQuizData = async () => {
@@ -52,18 +51,15 @@ export default function PlayQuiz({
 
   function handleAnswerSelection(optionIndex) {
     setAnswerIndexSelected(optionIndex);
-    // const quizObject = Object.values(quizData);
-    // console.log(currentQuesIndex)
-    // const questionsArray = quizObject[currentQuesIndex]?.questions;
-    // console.log(questionsArray)
-    // const correctAnswerIndex = questionsArray[index]?.correct_answer_index;
+    const quizObject = Object.values(quizData);
+    const questionsArray = quizObject[currentQuesIndex]?.questions;
+    console.log(questionsArray);
+    const correctAnswerIndex =
+      questionsArray[currentQuesIndex]?.correct_answer_index;
 
-    // if (index === correctAnswerIndex) {
-    //   setAnsweredCorrectly(true);
-    //   setCorrectAnswersCount((prevCount) => prevCount + 1);
-    // } else {
-    //   setAnsweredCorrectly(false);
-    // }
+    if (optionIndex === correctAnswerIndex) {
+      setCorrectAnswersCount((prevCount) => prevCount + 1);
+    }
   }
 
   const handleNext = () => {
@@ -75,9 +71,6 @@ export default function PlayQuiz({
     setCurrentQuesIndex((prevIndex) =>
       questionsArray.length === prevIndex + 1 ? prevIndex : prevIndex + 1
     );
-
-    console.log(currentQuesIndex);
-   
     if (questionsArray.length === currentQuesIndex + 1) {
       setQuizSuccess(true);
     }

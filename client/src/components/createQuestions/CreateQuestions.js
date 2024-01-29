@@ -5,11 +5,15 @@ import closeIcon from "../../images/closeIcon.png";
 import { useNavigate } from "react-router-dom";
 import { CreateQuizFormData } from "../../apis/quiz";
 
-export default function CreateQuestions({ quizFormData, setShowQuizLinkShare, setQuizId }) {
+export default function CreateQuestions({
+  quizFormData,
+  setShowQuizLinkShare,
+  setQuizId,
+}) {
   const navigate = useNavigate();
   const [currentQuesIndex, setCurrentQuesIndex] = useState(0);
   const [questionNumbers, setQuestionNumbers] = useState([1]);
-  const [timer, setTimer] = useState("OFF");
+  const [timer, setTimer] = useState(undefined);
   const [quizQuestionsData, setQuizQuestionsData] = useState([
     {
       questionTitle: "",
@@ -89,6 +93,7 @@ export default function CreateQuestions({ quizFormData, setShowQuizLinkShare, se
     setQuizQuestionsData((prevData) =>
       prevData.filter((_, index) => index !== indexToRemove)
     );
+    setCurrentQuesIndex((prevIndex) => prevIndex - 1);
   }
 
   function handleShowQuestiondata(index) {
@@ -124,6 +129,32 @@ export default function CreateQuestions({ quizFormData, setShowQuizLinkShare, se
   function cancelQuiz() {
     navigate("/dashboard");
   }
+
+  function validateInputs() {
+    const currentQuestion = quizQuestionsData[currentQuesIndex];
+
+    if (!currentQuestion.questionTitle) {
+      alert("Please enter a question title");
+      return false;
+    }
+
+    if (
+      currentQuestion.options.some(
+        (option) => option.text.trim() === "" && option.imageUrl.trim() === ""
+      )
+    ) {
+      alert("Please fill in all options");
+      return false;
+    }
+
+    if (currentQuestion.correct_answer_index === "") {
+      alert("Please select a correct answer");
+      return false;
+    }
+
+    return true;
+  }
+
   function createQuiz(
     userId,
     quizTitle,
@@ -142,8 +173,17 @@ export default function CreateQuestions({ quizFormData, setShowQuizLinkShare, se
       setQuizId
     );
 
-    setShowQuizLinkShare(true)
+    if (!validateInputs()) {
+      return;
+    }
+    if (!timer_for_eachQuestion) {
+      alert("Please select a timer value");
+      return;
+    }
+    setShowQuizLinkShare(true);
   }
+
+  console.log(quizFormData);
 
   return (
     <>
@@ -151,7 +191,7 @@ export default function CreateQuestions({ quizFormData, setShowQuizLinkShare, se
         <div className={styles.questions_page_subContainer}>
           <div className={styles.no_of_questions_wrapper}>
             <div
-              style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}
+              style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
             >
               <div className={styles.question_numbers}>
                 {questionNumbers.map((number, index) => (
@@ -160,7 +200,9 @@ export default function CreateQuestions({ quizFormData, setShowQuizLinkShare, se
                     key={index}
                   >
                     <div
-                      className={styles.quesNumber}
+                      className={`${styles.quesNumber} ${
+                        currentQuesIndex === index && styles.activeQuesNumber
+                      }`}
                       onClick={() => handleShowQuestiondata(index)}
                     >
                       {number}
@@ -179,24 +221,25 @@ export default function CreateQuestions({ quizFormData, setShowQuizLinkShare, se
               <img
                 src={addIcon}
                 alt="add icon"
-                style={{ width: "15px", height: "15px" }}
+                style={{ width: "15px", height: "15px", cursor: "pointer" }}
                 onClick={addQuestions}
               ></img>
             </div>
             <p className={styles.maxQuestions}>Max 5 questions</p>
           </div>
-          <div className={styles.questionTitleInput}>
+          <div>
             <input
               type="text"
               name="questionTitle"
               placeholder="Q & A Question"
               value={quizQuestionsData[currentQuesIndex]?.questionTitle}
               onChange={handleChange}
+              className={styles.questionTitleInput}
             ></input>
           </div>
-          <div className={styles.options_wrapper}>
-            <p>Option Type</p>
-            <div className={styles.radioBtn_wrapper}>
+          <div className={styles.option_type_wrapper}>
+            <p style={{ marginRight: "1rem" }}>Option Type</p>
+            <div className={styles.option_type_radioBtn_wrapper}>
               <input
                 type="radio"
                 value="Text"
@@ -255,6 +298,7 @@ export default function CreateQuestions({ quizFormData, setShowQuizLinkShare, se
                             name="text"
                             value={option.text}
                             onChange={(e) => handleChange(e, index)}
+                            className={styles.option_input}
                           ></input>
                         </div>
                       )
@@ -279,6 +323,7 @@ export default function CreateQuestions({ quizFormData, setShowQuizLinkShare, se
                             name="imageUrl"
                             value={option.imageUrl}
                             onChange={(e) => handleChange(e, index)}
+                            className={styles.option_input}
                           ></input>
                         </div>
                       )
@@ -303,6 +348,7 @@ export default function CreateQuestions({ quizFormData, setShowQuizLinkShare, se
                             name="text"
                             value={option.text}
                             onChange={(e) => handleChange(e, index)}
+                            className={styles.option_input}
                           ></input>
                           <input
                             type="text"
@@ -310,6 +356,7 @@ export default function CreateQuestions({ quizFormData, setShowQuizLinkShare, se
                             name="imageUrl"
                             value={option.imageUrl}
                             onChange={(e) => handleChange(e, index)}
+                            className={styles.option_input}
                           ></input>
                         </div>
                       )
@@ -317,21 +364,35 @@ export default function CreateQuestions({ quizFormData, setShowQuizLinkShare, se
                   </div>
                 )}
                 <div className={styles.timer_wrapper}>
-                  <p>Timer</p>
+                  <p
+                    style={{
+                      fontSize: "1rem",
+                      color: "#9F9F9F",
+                      marginBottom: "0.5rem",
+                    }}
+                  >
+                    Timer
+                  </p>
                   <div
-                    className={styles.timerBtn}
+                    className={`${styles.timerBtn} ${
+                      timer === "OFF" && styles.selectedTimer
+                    }`}
                     onClick={() => handleTimerClick("OFF")}
                   >
                     OFF
                   </div>
                   <div
-                    className={styles.timerBtn}
+                    className={`${styles.timerBtn} ${
+                      timer === "5 Sec" && styles.selectedTimer
+                    }`}
                     onClick={() => handleTimerClick("5 Sec")}
                   >
                     5 Sec
                   </div>
                   <div
-                    className={styles.timerBtn}
+                    className={`${styles.timerBtn} ${
+                      timer === "10 Sec" && styles.selectedTimer
+                    }`}
                     onClick={() => handleTimerClick("10 Sec")}
                   >
                     10 Sec
