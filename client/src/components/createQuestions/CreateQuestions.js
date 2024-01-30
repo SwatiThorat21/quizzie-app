@@ -37,7 +37,7 @@ export default function CreateQuestions({
           imageUrl: "",
         },
       ],
-      correct_answer_index: "",
+      correct_answer_index: -1,
     },
   ]);
 
@@ -75,7 +75,7 @@ export default function CreateQuestions({
             imageUrl: "",
           },
         ],
-        correct_answer_index: "",
+        correct_answer_index: -1,
       },
     ]);
     setCurrentQuesIndex((prevNum) => prevNum + 1);
@@ -132,26 +132,27 @@ export default function CreateQuestions({
   }
 
   function validateInputs() {
-    const currentQuestion = quizQuestionsData[currentQuesIndex];
+    for (const questionData of quizQuestionsData) {
+      if (!questionData.questionTitle) {
+        alert("Please enter a question title");
+        return false;
+      }
 
-    if (!currentQuestion.questionTitle) {
-      alert("Please enter a question title");
-      return false;
-    }
-
-    for (const question of quizQuestionsData) {
       if (
-        question.options.filter((option) => option.text.trim() !== "").length <
-        2
+        questionData.options.filter((option) => option.text.trim() !== "")
+          .length < 2
       ) {
         alert("Each question must have at least 2 options");
         return false;
       }
-    }
 
-    if (currentQuestion.correct_answer_index === "") {
-      alert("Please select a correct answer");
-      return false;
+      if (
+        !questionData.correct_answer_index ||
+        questionData.correct_answer_index < 0
+      ) {
+        alert("Please select a correct answer");
+        return false;
+      }
     }
 
     return true;
@@ -182,6 +183,7 @@ export default function CreateQuestions({
       alert("Please select a timer value");
       return;
     }
+
     setShowQuizLinkShare(true);
   }
 
@@ -322,8 +324,8 @@ export default function CreateQuestions({
                             onChange={(e) => handleChange(e, index)}
                             className={`${styles.option_input} ${
                               quizQuestionsData[currentQuesIndex]
-                                .correct_answer_index == index
-                                && styles.optionSelected
+                                .correct_answer_index == index &&
+                              styles.optionSelected
                             }`}
                           ></input>
                           {index > 1 && (
@@ -365,8 +367,8 @@ export default function CreateQuestions({
                             onChange={(e) => handleChange(e, index)}
                             className={`${styles.option_input} ${
                               quizQuestionsData[currentQuesIndex]
-                                .correct_answer_index == index
-                                && styles.optionSelected
+                                .correct_answer_index == index &&
+                              styles.optionSelected
                             }`}
                           ></input>
                           {index > 1 && (
@@ -408,8 +410,8 @@ export default function CreateQuestions({
                             onChange={(e) => handleChange(e, index)}
                             className={`${styles.option_input} ${
                               quizQuestionsData[currentQuesIndex]
-                                .correct_answer_index == index
-                                && styles.optionSelected
+                                .correct_answer_index == index &&
+                              styles.optionSelected
                             }`}
                           ></input>
                           <input
@@ -420,8 +422,8 @@ export default function CreateQuestions({
                             onChange={(e) => handleChange(e, index)}
                             className={`${styles.option_input} ${
                               quizQuestionsData[currentQuesIndex]
-                                .correct_answer_index == index
-                                && styles.optionSelected
+                                .correct_answer_index == index &&
+                              styles.optionSelected
                             }`}
                           ></input>
                           {index > 1 && (
@@ -459,7 +461,7 @@ export default function CreateQuestions({
                     className={`${styles.timerBtn} ${
                       timer === "5 Sec" && styles.selectedTimer
                     }`}
-                    onClick={() => handleTimerClick("5 Sec")}
+                    onClick={() => handleTimerClick(5)}
                   >
                     5 Sec
                   </div>
@@ -467,7 +469,7 @@ export default function CreateQuestions({
                     className={`${styles.timerBtn} ${
                       timer === "10 Sec" && styles.selectedTimer
                     }`}
-                    onClick={() => handleTimerClick("10 Sec")}
+                    onClick={() => handleTimerClick(10)}
                   >
                     10 Sec
                   </div>

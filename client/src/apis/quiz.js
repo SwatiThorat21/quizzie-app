@@ -70,6 +70,7 @@ export async function logQuizImpression(quizId) {
 }
 
 export async function logAnswer(questionId, index_selected_by_user) {
+  if(!questionId || index_selected_by_user === undefined) return;
   try {
     const reqUrl = `${backendBaseUrl}/quiz/log-answer`;
     const reqPayload = {

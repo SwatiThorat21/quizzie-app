@@ -1,8 +1,12 @@
 import styles from "./quizLinkShare.module.css";
 import { toast } from "react-toastify";
 import copy from "copy-to-clipboard";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function QuizLinkShare({ quizId }) {
+
+  const navigate = useNavigate();
 
   const copyToClipboard = () => {
     let copyText =`http://localhost:3000/quiz?quizId=${quizId}`;
@@ -11,6 +15,17 @@ export default function QuizLinkShare({ quizId }) {
       toast.success("Copied to Clipboard");
     }
   };
+  useEffect(() => {
+    document.addEventListener('mousedown', (event) => {
+      const modal = document.querySelector(`.${styles.quizLink_modal}`);
+    if (modal && !modal.contains(event.target)) {
+
+        navigate('/dashboard');
+      }
+    });
+  }, [navigate]);
+
+
 
   return (
     <>

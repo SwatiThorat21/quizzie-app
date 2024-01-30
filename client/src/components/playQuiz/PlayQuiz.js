@@ -1,4 +1,3 @@
-// import { useState } from "react";
 import styles from "./playQuiz.module.css";
 import { GetQuizDataById, logQuizImpression } from "../../apis/quiz";
 import { useState, useEffect } from "react";
@@ -12,8 +11,23 @@ export default function PlayQuiz({
   setQuizSuccess,
   setCorrectAnswersCount,
 }) {
-  const [timeRemaining, setTimeRemaining] = useState("");
   const [answerIndexSelected, setAnswerIndexSelected] = useState(undefined);
+
+  // const quizObj = quizData.data;
+  // const timer = parseInt(quizObj.timer_for_eachQuestion);
+
+  // console.log(timer)
+  // const [timeLeft, setTimeLeft] = useState(timer);
+
+  // useEffect(() => {
+  //   if (!timeLeft) return;
+
+  //   const intervalId = setInterval(() => {
+  //     setTimeLeft(timeLeft - 1);
+  //   }, 1000);
+
+  //   return () => clearInterval(intervalId);
+  // }, [timeLeft]);
 
   useEffect(() => {
     const fetchQuizData = async () => {
@@ -22,11 +36,6 @@ export default function PlayQuiz({
       try {
         const quizData = await GetQuizDataById(quizId);
         setQuizData(quizData);
-
-        // const timerString = quizData.timer_for_eachQuestion;
-        // const timerDuration = parseInt(timerString, 10) || 0;
-        // setTimeRemaining(timerDuration);
-        // console.log(timerDuration);
       } catch (error) {
         console.error(error);
       }
@@ -40,19 +49,10 @@ export default function PlayQuiz({
     logQuizImpression(quizId);
   }, []);
 
-  useEffect(() => {
-    if (timeRemaining > 0) {
-      const timerId = setInterval(() => {
-        setTimeRemaining((prevTime) => prevTime - 1);
-      }, 1000);
-      return () => clearInterval(timerId);
-    }
-  }, [timeRemaining]);
-
   function handleAnswerSelection(optionIndex) {
     setAnswerIndexSelected(optionIndex);
-    const quizObject = Object.values(quizData);
-    const questionsArray = quizObject[currentQuesIndex]?.questions;
+    const quizObject = quizData.data;
+    const questionsArray = quizObject.questions;
     console.log(questionsArray);
     const correctAnswerIndex =
       questionsArray[currentQuesIndex]?.correct_answer_index;
@@ -64,8 +64,8 @@ export default function PlayQuiz({
 
   const handleNext = () => {
     if (answerIndexSelected === undefined) return;
-    const quizObject = Object.values(quizData);
-    const questionsArray = quizObject[currentQuesIndex]?.questions;
+    const quizObject = quizData.data;
+    const questionsArray = quizObject.questions;
     const questionId = questionsArray?.[currentQuesIndex]._id;
     logAnswer(questionId, answerIndexSelected);
     setCurrentQuesIndex((prevIndex) =>
@@ -74,6 +74,7 @@ export default function PlayQuiz({
     if (questionsArray.length === currentQuesIndex + 1) {
       setQuizSuccess(true);
     }
+    setAnswerIndexSelected(undefined)
   };
 
   const quizObject = Object.values(quizData);
@@ -86,6 +87,8 @@ export default function PlayQuiz({
     return null;
   }
 
+  console.log(quizObject);
+
   return (
     <>
       <div className={styles.playQuiz_container}>
@@ -95,7 +98,7 @@ export default function PlayQuiz({
               <div>
                 {currentQuesIndex}/{data.questions.length}
               </div>
-              <div style={{ color: "#f84242" }}>{timeRemaining} sec</div>
+              <div style={{ color: "#f84242" }}>sec</div>
             </div>
             <div className={styles.questions}>
               <p style={{ margin: "0" }}>
