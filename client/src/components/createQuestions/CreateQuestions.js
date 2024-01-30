@@ -138,10 +138,11 @@ export default function CreateQuestions({
         return false;
       }
 
-      if (
-        questionData.options.filter((option) => option.text.trim() !== "")
-          .length < 2
-      ) {
+      const nonEmptyOptionsCount = questionData.options.filter(
+        (option) => option.text.trim() !== "" || option.imageUrl.trim() !== ""
+      ).length;
+  
+      if (nonEmptyOptionsCount < 2) {
         alert("Each question must have at least 2 options");
         return false;
       }

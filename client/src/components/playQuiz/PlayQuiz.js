@@ -17,9 +17,9 @@ export default function PlayQuiz({
   const quizObj = quizData.data;
   const timer = quizObj?.timer_for_eachQuestion;
 
-  console.log(timer)
+  console.log(timer);
   const [timeLeft, setTimeLeft] = useState(timer);
-  console.log(timeLeft)
+  console.log(timeLeft);
 
   useEffect(() => {
     if (!timeLeft) return;
@@ -76,55 +76,79 @@ export default function PlayQuiz({
     if (questionsArray.length === currentQuesIndex + 1) {
       setQuizSuccess(true);
     }
-    setAnswerIndexSelected(undefined)
+    setAnswerIndexSelected(undefined);
   };
 
-  const quizObject = Object.values(quizData);
-
-  if (!Object.keys(quizData).length) {
-    return null;
-  }
+  const quizObject = quizData.data;
 
   if (!quizObject) {
     return null;
   }
 
-  console.log(quizObject);
+  console.log(quizObject.questions);
 
   return (
     <>
       <div className={styles.playQuiz_container}>
-        {Object.values(quizData).map((data, index) => (
+        {quizObject.questions.map((question, index) => (
           <div className={styles.quiz_questions_wrapper} key={index}>
             <div className={styles.questions_header}>
               <div>
-                {currentQuesIndex}/{data.questions.length}
+                {currentQuesIndex}/{quizObject.questions.length}
               </div>
               <div style={{ color: "#f84242" }}>{timeLeft}sec</div>
             </div>
             <div className={styles.questions}>
-              <p style={{ margin: "0" }}>
-                {data.questions[currentQuesIndex].questionTitle}
-              </p>
+              <p style={{ margin: "0" }}>{question.questionTitle}</p>
               <div className={styles.options_wrapper}>
-                {data.questions[currentQuesIndex].options.map(
-                  (option, index) => {
-                    return (
-                      <div
-                        className={`${styles.option} ${
-                          answerIndexSelected === index ? styles.selected : ""
-                        }`}
-                        key={index}
-                        onClick={() => handleAnswerSelection(index)}
-                      >
-                        {option.text}
-                      </div>
-                    );
-                  }
-                )}
+                {question.options.map((option, optionIndex) => {
+                  return (
+                    <div key={optionIndex}>
+                      {option.text && (
+                        <div
+                          className={`${styles.option} ${
+                            answerIndexSelected === optionIndex
+                              ? styles.selected
+                              : ""
+                          }`}
+                          onClick={() => handleAnswerSelection(optionIndex)}
+                        >
+                          {option.text}
+                        </div>
+                      )}
+
+                      {option.imageUrl && (
+                        <div
+                          className={`${styles.option} ${
+                            answerIndexSelected === optionIndex
+                              ? styles.selected
+                              : ""
+                          }`}
+                          onClick={() => handleAnswerSelection(optionIndex)}
+                        >
+                          <img src={option.imageUrl} alt="imageUrl"></img>
+                        </div>
+                      )}
+
+                      {option.text && option.imageUrl && (
+                        <div
+                          className={`${styles.option} ${
+                            answerIndexSelected === optionIndex
+                              ? styles.selected
+                              : ""
+                          }`}
+                          onClick={() => handleAnswerSelection(optionIndex)}
+                        >
+                          <div>{option.text}</div>
+                          <img src={option.imageUrl} alt="imageUrl"></img>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </div>
-            {currentQuesIndex < data.questions.length - 1 ? (
+            {currentQuesIndex < quizObject.questions.length - 1 ? (
               <button className={styles.submit_quiz_btn} onClick={handleNext}>
                 Next
               </button>

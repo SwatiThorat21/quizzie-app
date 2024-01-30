@@ -72,3 +72,12 @@
     padding: 0.5rem 0;
   }
 }
+
+@media only screen and (max-width: 655px) {
+  .option {
+    padding: 1rem 1.4rem;
+  }
+  .quiz_questions_wrapper{
+    padding: 2rem 0;
+  }
+}
