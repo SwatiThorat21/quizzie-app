@@ -14,7 +14,7 @@ export default function CreateQuestions({
   const navigate = useNavigate();
   const [currentQuesIndex, setCurrentQuesIndex] = useState(0);
   const [questionNumbers, setQuestionNumbers] = useState([1]);
-  const [timer, setTimer] = useState(undefined);
+  const [timer, setTimer] = useState("");
   const [quizQuestionsData, setQuizQuestionsData] = useState([
     {
       questionTitle: "",
@@ -320,7 +320,11 @@ export default function CreateQuestions({
                             name="text"
                             value={option.text}
                             onChange={(e) => handleChange(e, index)}
-                            className={styles.option_input}
+                            className={`${styles.option_input} ${
+                              quizQuestionsData[currentQuesIndex]
+                                .correct_answer_index == index
+                                && styles.optionSelected
+                            }`}
                           ></input>
                           {index > 1 && (
                             <img
@@ -359,7 +363,11 @@ export default function CreateQuestions({
                             name="imageUrl"
                             value={option.imageUrl}
                             onChange={(e) => handleChange(e, index)}
-                            className={styles.option_input}
+                            className={`${styles.option_input} ${
+                              quizQuestionsData[currentQuesIndex]
+                                .correct_answer_index == index
+                                && styles.optionSelected
+                            }`}
                           ></input>
                           {index > 1 && (
                             <img
@@ -398,7 +406,11 @@ export default function CreateQuestions({
                             name="text"
                             value={option.text}
                             onChange={(e) => handleChange(e, index)}
-                            className={styles.option_input}
+                            className={`${styles.option_input} ${
+                              quizQuestionsData[currentQuesIndex]
+                                .correct_answer_index == index
+                                && styles.optionSelected
+                            }`}
                           ></input>
                           <input
                             type="text"
@@ -406,7 +418,11 @@ export default function CreateQuestions({
                             name="imageUrl"
                             value={option.imageUrl}
                             onChange={(e) => handleChange(e, index)}
-                            className={styles.option_input}
+                            className={`${styles.option_input} ${
+                              quizQuestionsData[currentQuesIndex]
+                                .correct_answer_index == index
+                                && styles.optionSelected
+                            }`}
                           ></input>
                           {index > 1 && (
                             <img

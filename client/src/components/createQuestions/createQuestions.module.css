@@ -132,3 +132,10 @@
 .createQuizBtn:hover {
   background: #35af16;
 }
+.optionSelected{
+  background-color: #35af16;
+  color: #ffffff;
+}
+.optionSelected::placeholder{
+  color: #ffffff;
+}
