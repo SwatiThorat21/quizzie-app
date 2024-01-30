@@ -41,6 +41,7 @@
   padding: 1.5rem 0.5rem;
   cursor: pointer;
   background: #f0f0f0;
+  border-radius: 8px;
 }
 .submit_quiz_btn {
   background: #60b84b;
@@ -54,6 +55,20 @@
   padding: 0.55rem 3rem;
   transition-duration: 0.4s;
 }
-.selected{
-  border: 2px solid #5076FF;
+.selected {
+  border: 2px solid #5076ff;
+}
+
+@media only screen and (max-width: 510px) {
+  .options_wrapper {
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: none;
+    padding: 1.5rem 1.5rem;
+  }
+  .quiz_questions_wrapper{
+    padding: 2rem 1rem;
+  }
+  .submit_quiz_btn{
+    padding: 0.5rem 0;
+  }
 }

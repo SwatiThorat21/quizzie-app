@@ -12,22 +12,24 @@ export default function PlayQuiz({
   setCorrectAnswersCount,
 }) {
   const [answerIndexSelected, setAnswerIndexSelected] = useState(undefined);
+  // console.log(quizData.data?.timer_for_eachQuestion)
 
-  // const quizObj = quizData.data;
-  // const timer = parseInt(quizObj.timer_for_eachQuestion);
+  const quizObj = quizData.data;
+  const timer = quizObj?.timer_for_eachQuestion;
 
-  // console.log(timer)
-  // const [timeLeft, setTimeLeft] = useState(timer);
+  console.log(timer)
+  const [timeLeft, setTimeLeft] = useState(timer);
+  console.log(timeLeft)
 
-  // useEffect(() => {
-  //   if (!timeLeft) return;
+  useEffect(() => {
+    if (!timeLeft) return;
 
-  //   const intervalId = setInterval(() => {
-  //     setTimeLeft(timeLeft - 1);
-  //   }, 1000);
+    const intervalId = setInterval(() => {
+      setTimeLeft(timeLeft - 1);
+    }, 1000);
 
-  //   return () => clearInterval(intervalId);
-  // }, [timeLeft]);
+    return () => clearInterval(intervalId);
+  }, [timeLeft]);
 
   useEffect(() => {
     const fetchQuizData = async () => {
@@ -98,7 +100,7 @@ export default function PlayQuiz({
               <div>
                 {currentQuesIndex}/{data.questions.length}
               </div>
-              <div style={{ color: "#f84242" }}>sec</div>
+              <div style={{ color: "#f84242" }}>{timeLeft}sec</div>
             </div>
             <div className={styles.questions}>
               <p style={{ margin: "0" }}>

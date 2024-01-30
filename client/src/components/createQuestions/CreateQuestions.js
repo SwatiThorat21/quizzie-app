@@ -201,7 +201,7 @@ export default function CreateQuestions({
     });
   }
 
-  console.log(quizQuestionsData);
+  console.log(timer);
 
   return (
     <>
@@ -459,7 +459,7 @@ export default function CreateQuestions({
                   </div>
                   <div
                     className={`${styles.timerBtn} ${
-                      timer === "5 Sec" && styles.selectedTimer
+                      timer === 5 && styles.selectedTimer
                     }`}
                     onClick={() => handleTimerClick(5)}
                   >
@@ -467,7 +467,7 @@ export default function CreateQuestions({
                   </div>
                   <div
                     className={`${styles.timerBtn} ${
-                      timer === "10 Sec" && styles.selectedTimer
+                      timer === 10 && styles.selectedTimer
                     }`}
                     onClick={() => handleTimerClick(10)}
                   >

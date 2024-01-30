@@ -46,7 +46,7 @@ const quizSchema = new mongoose.Schema({
   },
   timer_for_eachQuestion: {
     type: String,
-    enum: ["OFF", "5 Sec", "10 Sec"],
+    enum: ["OFF", 5, 10],
   },
   no_of_impressions: {
     type: Number,
