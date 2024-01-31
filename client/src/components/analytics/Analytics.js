@@ -5,11 +5,26 @@ import delete_quiz from "../../images/delete_quiz.png";
 import { DeleteQuizDataById } from "../../apis/quiz";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import copy from "copy-to-clipboard";
 
-export default function Analytics({ quizData, setQuizData }) {
+export default function Analytics({
+  quizData,
+  setQuizData,
+  setSelectedQuestionId,
+}) {
   const navigate = useNavigate();
   const [isDeleted, setIsDeleted] = useState(false);
+
   const [quizIdToDelete, setQuizIdToDelete] = useState(null);
+
+  const copyToClipboard = (quizId) => {
+    let copyText = `http://localhost:3000/quiz?quizId=${quizId}`;
+    let isCopy = copy(copyText);
+    if (isCopy) {
+      toast.success("Copied to Clipboard");
+    }
+  };
 
   async function deleteQuiz(quizId) {
     try {
@@ -22,13 +37,17 @@ export default function Analytics({ quizData, setQuizData }) {
       console.log(error);
       throw error;
     }
-    navigate("/dashboard");
+    setIsDeleted(false);
   }
 
+  function questionwiseAnalysis(id) {
+    setSelectedQuestionId(id);
+
+  }
   return (
     <>
       <div className={styles.analytics_table_container}>
-        {!isDeleted ? (
+        {!isDeleted && (
           <div className={styles.analytics_table_wrapper}>
             <h1 className={styles.analytics_heading}>Quiz Analytics</h1>
             <table className={styles.analytics_table}>
@@ -68,22 +87,33 @@ export default function Analytics({ quizData, setQuizData }) {
                           marginRight: "1rem",
                         }}
                       >
-                        <img src={edit_quiz} alt="edit_quiz"></img>
-                        <img src={share_quiz} alt="share_quiz"></img>
+                        <img
+                          src={edit_quiz}
+                          alt="edit_quiz"
+                          style={{ cursor: "pointer" }}
+                        ></img>
+                        <img
+                          src={share_quiz}
+                          alt="share_quiz"
+                          onClick={() => copyToClipboard(quiz._id)}
+                          style={{ cursor: "pointer" }}
+                        ></img>
                         <img
                           src={delete_quiz}
                           alt="share_quiz"
+                          style={{ cursor: "pointer" }}
                           onClick={() => {
                             setIsDeleted(true);
                             setQuizIdToDelete(quiz._id);
                           }}
-                        ></img>
+                        />
                       </td>
                       <td
                         style={{
                           cursor: "pointer",
                           textDecoration: "underline",
                         }}
+                        onClick={() => questionwiseAnalysis(quiz._id)}
                       >
                         Question Wise Analysis
                       </td>
@@ -93,7 +123,9 @@ export default function Analytics({ quizData, setQuizData }) {
               </tbody>
             </table>
           </div>
-        ) : (
+        )}
+
+        {isDeleted && (
           <div className={styles.delete_container}>
             <div className={styles.delete_sub_container}>
               <div className={styles.delete_content}>

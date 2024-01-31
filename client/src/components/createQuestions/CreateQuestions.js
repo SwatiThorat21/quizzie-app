@@ -154,7 +154,7 @@ export default function CreateQuestions({
       if (
         quizFormData.quizType === "Q & A" &&
         (!questionData.correct_answer_index ||
-          questionData.correct_answer_index < 0)
+          parseInt(questionData.correct_answer_index, 10) < 0) 
       ) {
         alert("Please select a correct answer");
         return false;
@@ -322,6 +322,10 @@ export default function CreateQuestions({
                               value={index}
                               name="correct_answer_index"
                               onChange={(e) => handleChange(e, index)}
+                              checked={
+                                quizQuestionsData[currentQuesIndex]
+                                  .correct_answer_index == index
+                              }
                             ></input>
                           )}
                           <input
@@ -367,6 +371,10 @@ export default function CreateQuestions({
                               value={index}
                               name="correct_answer_index"
                               onChange={(e) => handleChange(e, index)}
+                              checked={
+                                quizQuestionsData[currentQuesIndex]
+                                  .correct_answer_index == index
+                              }
                             ></input>
                           )}
                           <input
@@ -412,6 +420,10 @@ export default function CreateQuestions({
                               value={index}
                               name="correct_answer_index"
                               onChange={(e) => handleChange(e, index)}
+                              checked={
+                                quizQuestionsData[currentQuesIndex]
+                                  .correct_answer_index == index
+                              }
                             ></input>
                           )}
                           <input
