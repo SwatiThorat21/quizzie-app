@@ -18,8 +18,10 @@ export default function DashboardPage({ isLoggedIn, setIsLoggedIn }) {
         <Sidebar setIsLoggedIn={setIsLoggedIn} />
         <div className={styles.dashboard_container}>
           <div className={styles.main_page_container}>
-            <CountCards />
-            <TrendingQuizs />
+            <div className={styles.main_page_subcontainer}>
+              <CountCards />
+              <TrendingQuizs />
+            </div>
           </div>
         </div>
       </div>

@@ -1,9 +1,15 @@
 .count_cards_container{
     display: flex;
+    flex-wrap: wrap;
     gap: 2rem;
 }
 .count_card{
-    padding: 1rem 2rem;
     background: #fff;
     border-radius: 0.625rem;
+    flex: 1 1;
+    font-size: 1.55rem;
+    font-style: normal;
+    font-weight: 600;
+    padding: 1.2rem;
+    text-align: center;
 }

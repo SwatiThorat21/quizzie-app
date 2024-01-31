@@ -2,8 +2,15 @@
   display: flex;
   background-color: #ededed;
   flex: 1;
-
+  overflow-y: auto;
 }
 .main_page_container {
   margin: 0 auto;
+}
+.main_page_subcontainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  height: -webkit-fill-available;
+  padding: 3rem 2rem;
 }
