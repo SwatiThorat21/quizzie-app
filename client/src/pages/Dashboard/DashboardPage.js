@@ -5,13 +5,14 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function DashboardPage({ isLoggedIn, setIsLoggedIn }) {
+export default function DashboardPage({ setIsLoggedIn, quizData }) {
   const navigate = useNavigate();
   useEffect(() => {
-    if (!isLoggedIn) {
+    const jwToken = localStorage.getItem("jwToken");
+    if (!jwToken) {
       navigate("/");
     }
-  }, [isLoggedIn, navigate]);
+  }, [navigate]);
   return (
     <>
       <div style={{ display: "flex", height: "100vh" }}>
@@ -19,8 +20,8 @@ export default function DashboardPage({ isLoggedIn, setIsLoggedIn }) {
         <div className={styles.dashboard_container}>
           <div className={styles.main_page_container}>
             <div className={styles.main_page_subcontainer}>
-              <CountCards />
-              <TrendingQuizs />
+              <CountCards quizData={quizData} />
+              <TrendingQuizs quizData={quizData} />
             </div>
           </div>
         </div>

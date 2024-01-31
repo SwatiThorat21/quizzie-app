@@ -38,6 +38,22 @@ export async function CreateQuizFormData(
   } catch (error) {}
 }
 
+export async function GetAllQuizData() {
+  try {
+    const reqUrl = `${backendBaseUrl}/quiz/quiz-data`;
+
+    return await axios
+      .get(reqUrl)
+      .then((response) => {
+        console.log(response.data);
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  } catch (error) {}
+}
+
 export async function GetQuizDataById(quizId) {
   try {
     const reqUrl = `${backendBaseUrl}/quiz/get-quiz/${quizId}`;

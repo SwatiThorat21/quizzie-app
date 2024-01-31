@@ -29,7 +29,6 @@ export default function Sidebar({ setIsLoggedIn }) {
         <div className={styles.sideMenu_wrapper}>
           {menuItem.map((item, index) => (
             <NavLink
-              exact
               to={item.path}
               key={index}
               style={({ isActive }) => {

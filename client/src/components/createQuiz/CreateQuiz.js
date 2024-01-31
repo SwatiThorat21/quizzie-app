@@ -1,11 +1,10 @@
 import styles from "./createQuiz.module.css";
 import { useNavigate } from "react-router-dom";
 
-export default function CreateQuiz({
-  setQuizFormData,
-  quizFormData,
-  setShowCreateQuestions,
-}) {
+
+export default function CreateQuiz({ setShowCreateQuestions, setQuizFormData, quizFormData }) {
+ 
+
   const navigate = useNavigate();
   function handleChange(event) {
     const { name, value } = event.target;

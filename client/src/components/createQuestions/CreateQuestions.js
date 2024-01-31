@@ -141,7 +141,7 @@ export default function CreateQuestions({
       const nonEmptyOptionsCount = questionData.options.filter(
         (option) => option.text.trim() !== "" || option.imageUrl.trim() !== ""
       ).length;
-  
+
       if (nonEmptyOptionsCount < 2) {
         alert("Each question must have at least 2 options");
         return false;

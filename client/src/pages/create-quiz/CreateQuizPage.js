@@ -2,23 +2,24 @@ import CreateQuiz from "../../components/createQuiz/CreateQuiz";
 import { useState } from "react";
 import CreateQuestions from "../../components/createQuestions/CreateQuestions";
 import QuizLinkShare from "../../components/quizLinkShare/QuizLinkShare";
-import styles from "./createQuizPage.module.css"
+import styles from "./createQuizPage.module.css";
 
-export default function CreateQuizPage({ setQuizFormData, quizFormData }) {
+export default function CreateQuizPage() {
   const [showCreateQuestions, setShowCreateQuestions] = useState(false);
   const [showQuizLinkShare, setShowQuizLinkShare] = useState(false);
-  const [ quizId, setQuizId] = useState("");
-
-  // const urlParams = new URLSearchParams(window.location.search);
-  // const quizId = urlParams.get("quizId");
+  const [quizId, setQuizId] = useState("");
+  const [quizFormData, setQuizFormData] = useState({
+    quizTitle: "",
+    quizType: "",
+  });
 
   return (
     <>
       {!showCreateQuestions && !showQuizLinkShare && (
         <CreateQuiz
-          setQuizFormData={setQuizFormData}
-          quizFormData={quizFormData}
           setShowCreateQuestions={setShowCreateQuestions}
+          quizFormData={quizFormData}
+          setQuizFormData={setQuizFormData}
         />
       )}
       {showCreateQuestions && (
@@ -32,7 +33,7 @@ export default function CreateQuizPage({ setQuizFormData, quizFormData }) {
           </div>
         </>
       )}
-      {showQuizLinkShare && <QuizLinkShare quizId={quizId}/>}
+      {showQuizLinkShare && <QuizLinkShare quizId={quizId} />}
     </>
   );
 }

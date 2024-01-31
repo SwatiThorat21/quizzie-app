@@ -4,15 +4,27 @@ import RegisterLoginPage from "./pages/RegisterLogin/RegisterLoginPage";
 import DashboardPage from "./pages/Dashboard/DashboardPage";
 import AnalyticsPage from "./pages/analytics/AnalyticsPage";
 import CreateQuizPage from "./pages/create-quiz/CreateQuizPage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PlayQuizPage from "./pages/playQuiz/PlayQuizPage";
+import { GetAllQuizData } from "../src/apis/quiz";
 
 function App() {
   let [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [quizFormData, setQuizFormData] = useState({
-    quizTitle: "",
-    quizType: "",
-  });
+  const [quizData, setQuizData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const allQuizData = await GetAllQuizData();
+        console.log(allQuizData.quizData);
+        setQuizData(allQuizData.quizData);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -29,23 +41,10 @@ function App() {
           />
           <Route
             path="/dashboard"
-            element={
-              <DashboardPage
-                isLoggedIn={isLoggedIn}
-                setIsLoggedIn={setIsLoggedIn}
-              />
-            }
+            element={<DashboardPage setIsLoggedIn={setIsLoggedIn} quizData={quizData}/>}
           />
           <Route path="/analytics" element={<AnalyticsPage />} />
-          <Route
-            path="/create-quiz"
-            element={
-              <CreateQuizPage
-                setQuizFormData={setQuizFormData}
-                quizFormData={quizFormData}
-              />
-            }
-          />
+          <Route path="/create-quiz" element={<CreateQuizPage />} />
           <Route path="/quiz" element={<PlayQuizPage />} />
         </Routes>
       </Router>
