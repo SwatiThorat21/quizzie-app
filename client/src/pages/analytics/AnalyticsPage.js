@@ -1,10 +1,19 @@
 import Analytics from "../../components/analytics/Analytics";
 import Sidebar from "../../components/sidebar/Sidebar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ShowQuestionAnalysis from "../../components/ShowQuestionAnalysis/ShowQuestionAnalysis";
+import { useNavigate } from "react-router-dom";
 
 export default function AnalyticsPage({ quizData, setQuizData }) {
   const [selectedQuestionId, setSelectedQuestionId] = useState(undefined);
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    const jwToken = localStorage.getItem("jwToken");
+    if (!jwToken) {
+      navigate("/");
+    }
+  }, [navigate]);
 
   return (
     <>

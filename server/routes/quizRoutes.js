@@ -167,4 +167,30 @@ router.delete("/:quizId", async (req, res) => {
   }
 });
 
+router.patch("/update-question/:questionId", async (req, res) => {
+  try {
+    const { questionId } = req.params;
+    const { updatedQuestionData } = req.body;
+
+    await QuizsData.updateOne(
+      { "questions._id": questionId },
+      { $set: { "questions.$": updatedQuestionData } }
+    );
+    const updatedQuizData = await QuizsData.findOne({
+      "questions._id": questionId,
+    });
+
+    res.status(200).json({
+      status: "success",
+      message: "updated sucessfully",
+      data: updatedQuizData,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "FAILED",
+      message: error.message,
+    });
+  }
+});
+
 module.exports = router;
