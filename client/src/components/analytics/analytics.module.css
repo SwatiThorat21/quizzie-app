@@ -1,7 +1,10 @@
 .analytics_table_container {
   display: flex;
   background-color: #ededed;
-  flex: 1;
+  flex: 1 1;
+  justify-content: center;
+  font-family: "Poppins", sans-serif;
+  overflow-y: auto;
 }
 .analytics_table_wrapper {
   text-align: center;
@@ -9,4 +12,35 @@
 .analytics_heading {
   color: #5076ff;
   margin: 2rem;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+.analytics_table{
+  border-collapse: collapse;
+}
+.analyticsTable_heading{
+  background-color: #5076ff;
+    border-radius: 1rem;
+    color: #fff;
+}
+.analyticsTable_heading tr{
+  background-color: #5076ff;
+    border-radius: 1rem;
+    color: #fff;
+}
+tr:nth-child(even) {
+  background-color: #B3C4FF;
+}
+tr:nth-child(odd) {
+  background-color: transparent;
+}
+th{
+  padding: 1rem;
+}
+td{
+  padding: 0.4rem 1rem;
+}
+tr{
+  border-radius: 10px;
 }

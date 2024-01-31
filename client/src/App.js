@@ -43,7 +43,7 @@ function App() {
             path="/dashboard"
             element={<DashboardPage setIsLoggedIn={setIsLoggedIn} quizData={quizData}/>}
           />
-          <Route path="/analytics" element={<AnalyticsPage />} />
+          <Route path="/analytics" element={<AnalyticsPage quizData={quizData}/>} />
           <Route path="/create-quiz" element={<CreateQuizPage />} />
           <Route path="/quiz" element={<PlayQuizPage />} />
         </Routes>
