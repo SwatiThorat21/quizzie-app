@@ -105,3 +105,19 @@ export async function logAnswer(questionId, index_selected_by_user) {
       });
   } catch (error) {}
 }
+
+export async function DeleteQuizDataById(quizId) {
+  try {
+    const reqUrl = `${backendBaseUrl}/quiz/${quizId}`;
+
+    return await axios
+      .delete(reqUrl)
+      .then((response) => {
+        // console.log(response.data);
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  } catch (error) {}
+}

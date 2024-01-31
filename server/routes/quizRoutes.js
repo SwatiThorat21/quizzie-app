@@ -143,4 +143,28 @@ router.patch("/log-answer", async (req, res) => {
   }
 });
 
+router.delete("/:quizId", async (req, res) => {
+  try {
+    const { quizId } = req.params;
+
+    const deletedQuiz = await QuizsData.findByIdAndDelete(quizId);
+
+    if (!deletedQuiz) {
+      return res.status(404).json({
+        status: "FAILED",
+        message: "Quiz not found",
+      });
+    }
+
+    res.status(200).json({
+      message: "quiz deleted successfully!",
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "FAILED",
+      message: error.message,
+    });
+  }
+});
+
 module.exports = router;
