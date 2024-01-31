@@ -9,6 +9,7 @@ export default function PlayQuiz({
   setCurrentQuesIndex,
   currentQuesIndex,
   setQuizSuccess,
+  setPollSuccess,
   setCorrectAnswersCount,
   answerIndexSelected,
   setAnswerIndexSelected,
@@ -76,8 +77,17 @@ export default function PlayQuiz({
     setCurrentQuesIndex((prevIndex) =>
       questionsArray.length === prevIndex + 1 ? prevIndex : prevIndex + 1
     );
-    if (questionsArray.length === currentQuesIndex + 1) {
+    if (
+      questionsArray.length === currentQuesIndex + 1 &&
+      quizObject.quizType === "Q & A"
+    ) {
       setQuizSuccess(true);
+    }
+    if (
+      questionsArray.length === currentQuesIndex + 1 &&
+      quizObject.quizType === "Poll Type"
+    ) {
+      setPollSuccess(true);
     }
     setAnswerIndexSelected(undefined);
   };
@@ -99,10 +109,18 @@ export default function PlayQuiz({
               <div>
                 {currentQuesIndex}/{quizObject.questions.length}
               </div>
-              <div style={{ color: "#f84242", fontWeight: "600" }}>
-                {timeLeft}
-                <span style={{ marginLeft: "5px" }}>sec</span>
-              </div>
+              {quizData?.data?.quizType === "Q & A" && (
+                <div style={{ color: "#f84242", fontWeight: "600" }}>
+                  {quizData?.data?.timer_for_eachQuestion !== "OFF" && (
+                    <span>{timeLeft}</span>
+                  )}
+                  <span style={{ marginLeft: "5px" }}>
+                    {quizData?.data?.timer_for_eachQuestion === "OFF"
+                      ? "OFF"
+                      : "Sec"}
+                  </span>
+                </div>
+              )}
             </div>
             <div className={styles.questions}>
               <p style={{ margin: "0" }}>{question.questionTitle}</p>
@@ -110,7 +128,7 @@ export default function PlayQuiz({
                 {question.options.map((option, optionIndex) => {
                   return (
                     <div key={optionIndex}>
-                      {question.optionType === "Text" && (
+                      {question.optionType === "Text" && option.text !== "" && (
                         <div
                           className={`${styles.option} ${
                             answerIndexSelected === optionIndex
@@ -123,38 +141,49 @@ export default function PlayQuiz({
                         </div>
                       )}
 
-                      {question.optionType === "Image URL" && (
-                        <div
-                          className={`${styles.option} ${styles.ImageOption} ${
-                            answerIndexSelected === optionIndex
-                              ? styles.selected
-                              : ""
-                          }`}
-                          onClick={() => handleAnswerSelection(optionIndex)}
-                        >
-                          <img
-                            src={option.imageUrl}
-                            className={styles.playQuizImg}
-                            alt="imageUrl"
-                          ></img>
-                        </div>
-                      )}
-
-                      {question.optionType === "Text & Image URL" && (
-                        <div
-                          className={`${styles.option} ${styles.ImageOption} ${
-                            answerIndexSelected === optionIndex
-                              ? styles.selected
-                              : ""
-                          }`}
-                          onClick={() => handleAnswerSelection(optionIndex)}
-                        >
-                          <div className={styles.textImg_wrapper}>
-                            <div>{option.text}</div>
-                            <img src={option.imageUrl} alt="imageUrl" className={styles.playQuizImg}></img>
+                      {question.optionType === "Image URL" &&
+                        option.imageUrl !== "" && (
+                          <div
+                            className={`${styles.option} ${
+                              styles.ImageOption
+                            } ${
+                              answerIndexSelected === optionIndex
+                                ? styles.selected
+                                : ""
+                            }`}
+                            onClick={() => handleAnswerSelection(optionIndex)}
+                          >
+                            <img
+                              src={option.imageUrl}
+                              className={styles.playQuizImg}
+                              alt="imageUrl"
+                            ></img>
                           </div>
-                        </div>
-                      )}
+                        )}
+
+                      {question.optionType === "Text & Image URL" &&
+                        option.text !== "" &&
+                        option.imageUrl !== "" && (
+                          <div
+                            className={`${styles.option} ${
+                              styles.ImageOption
+                            } ${
+                              answerIndexSelected === optionIndex
+                                ? styles.selected
+                                : ""
+                            }`}
+                            onClick={() => handleAnswerSelection(optionIndex)}
+                          >
+                            <div className={styles.textImg_wrapper}>
+                              <div>{option.text}</div>
+                              <img
+                                src={option.imageUrl}
+                                alt="imageUrl"
+                                className={styles.playQuizImg}
+                              ></img>
+                            </div>
+                          </div>
+                        )}
                     </div>
                   );
                 })}

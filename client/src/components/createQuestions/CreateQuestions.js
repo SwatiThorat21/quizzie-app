@@ -14,7 +14,7 @@ export default function CreateQuestions({
   const navigate = useNavigate();
   const [currentQuesIndex, setCurrentQuesIndex] = useState(0);
   const [questionNumbers, setQuestionNumbers] = useState([1]);
-  const [timer, setTimer] = useState("");
+  const [timer, setTimer] = useState(undefined);
   const [quizQuestionsData, setQuizQuestionsData] = useState([
     {
       questionTitle: "",
@@ -118,6 +118,10 @@ export default function CreateQuestions({
       } else {
         updatedQuestion[name] = value;
       }
+      if (quizFormData.quizType === "Q & A") {
+        updatedQuestion.correct_answer_index = parseInt(value, 10);
+      }
+
       updatedQuestions[currentQuesIndex] = updatedQuestion;
       return updatedQuestions;
     });
@@ -148,8 +152,9 @@ export default function CreateQuestions({
       }
 
       if (
-        !questionData.correct_answer_index ||
-        questionData.correct_answer_index < 0
+        quizFormData.quizType === "Q & A" &&
+        (!questionData.correct_answer_index ||
+          questionData.correct_answer_index < 0)
       ) {
         alert("Please select a correct answer");
         return false;
@@ -180,7 +185,7 @@ export default function CreateQuestions({
     if (!validateInputs()) {
       return;
     }
-    if (!timer_for_eachQuestion) {
+    if (!timer_for_eachQuestion && quizFormData.quizType === "Q & A") {
       alert("Please select a timer value");
       return;
     }
@@ -311,12 +316,14 @@ export default function CreateQuestions({
                     {quizQuestionsData[currentQuesIndex].options.map(
                       (option, index) => (
                         <div className={styles.option_wrapper} key={index}>
-                          <input
-                            type="radio"
-                            value={index}
-                            name="correct_answer_index"
-                            onChange={(e) => handleChange(e, index)}
-                          ></input>
+                          {quizFormData.quizType === "Q & A" && (
+                            <input
+                              type="radio"
+                              value={index}
+                              name="correct_answer_index"
+                              onChange={(e) => handleChange(e, index)}
+                            ></input>
+                          )}
                           <input
                             type="text"
                             placeholder="Text"
@@ -354,12 +361,14 @@ export default function CreateQuestions({
                     {quizQuestionsData[currentQuesIndex].options.map(
                       (option, index) => (
                         <div className={styles.option_wrapper} key={index}>
-                          <input
-                            type="radio"
-                            value={index}
-                            name="correct_answer_index"
-                            onChange={(e) => handleChange(e, index)}
-                          ></input>
+                          {quizFormData.quizType === "Q & A" && (
+                            <input
+                              type="radio"
+                              value={index}
+                              name="correct_answer_index"
+                              onChange={(e) => handleChange(e, index)}
+                            ></input>
+                          )}
                           <input
                             type="text"
                             placeholder="Image URL"
@@ -397,12 +406,14 @@ export default function CreateQuestions({
                     {quizQuestionsData[currentQuesIndex].options.map(
                       (option, index) => (
                         <div className={styles.option_wrapper} key={index}>
-                          <input
-                            type="radio"
-                            value={index}
-                            name="correct_answer_index"
-                            onChange={(e) => handleChange(e, index)}
-                          ></input>
+                          {quizFormData.quizType === "Q & A" && (
+                            <input
+                              type="radio"
+                              value={index}
+                              name="correct_answer_index"
+                              onChange={(e) => handleChange(e, index)}
+                            ></input>
+                          )}
                           <input
                             type="text"
                             placeholder="Text"
@@ -440,41 +451,43 @@ export default function CreateQuestions({
                     )}
                   </div>
                 )}
-                <div className={styles.timer_wrapper}>
-                  <p
-                    style={{
-                      fontSize: "1rem",
-                      color: "#9F9F9F",
-                      marginBottom: "0.5rem",
-                    }}
-                  >
-                    Timer
-                  </p>
-                  <div
-                    className={`${styles.timerBtn} ${
-                      timer === "OFF" && styles.selectedTimer
-                    }`}
-                    onClick={() => handleTimerClick("OFF")}
-                  >
-                    OFF
+                {quizFormData.quizType === "Q & A" && (
+                  <div className={styles.timer_wrapper}>
+                    <p
+                      style={{
+                        fontSize: "1rem",
+                        color: "#9F9F9F",
+                        marginBottom: "0.5rem",
+                      }}
+                    >
+                      Timer
+                    </p>
+                    <div
+                      className={`${styles.timerBtn} ${
+                        timer === "OFF" && styles.selectedTimer
+                      }`}
+                      onClick={() => handleTimerClick("OFF")}
+                    >
+                      OFF
+                    </div>
+                    <div
+                      className={`${styles.timerBtn} ${
+                        timer === 5 && styles.selectedTimer
+                      }`}
+                      onClick={() => handleTimerClick(5)}
+                    >
+                      5 Sec
+                    </div>
+                    <div
+                      className={`${styles.timerBtn} ${
+                        timer === 10 && styles.selectedTimer
+                      }`}
+                      onClick={() => handleTimerClick(10)}
+                    >
+                      10 Sec
+                    </div>
                   </div>
-                  <div
-                    className={`${styles.timerBtn} ${
-                      timer === 5 && styles.selectedTimer
-                    }`}
-                    onClick={() => handleTimerClick(5)}
-                  >
-                    5 Sec
-                  </div>
-                  <div
-                    className={`${styles.timerBtn} ${
-                      timer === 10 && styles.selectedTimer
-                    }`}
-                    onClick={() => handleTimerClick(10)}
-                  >
-                    10 Sec
-                  </div>
-                </div>
+                )}
               </div>
             )}
             <div className={styles.buttons_wrapper}>
