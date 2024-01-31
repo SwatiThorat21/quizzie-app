@@ -1,6 +1,6 @@
 import styles from "./playQuiz.module.css";
 import { GetQuizDataById, logQuizImpression } from "../../apis/quiz";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { logAnswer } from "../../apis/quiz";
 
 export default function PlayQuiz({
@@ -10,16 +10,16 @@ export default function PlayQuiz({
   currentQuesIndex,
   setQuizSuccess,
   setCorrectAnswersCount,
+  answerIndexSelected,
+  setAnswerIndexSelected,
+  timeLeft,
+  setTimeLeft,
 }) {
-  const [answerIndexSelected, setAnswerIndexSelected] = useState(undefined);
-  // console.log(quizData.data?.timer_for_eachQuestion)
-
-  const quizObj = quizData.data;
-  const timer = quizObj?.timer_for_eachQuestion;
-
-  console.log(timer);
-  const [timeLeft, setTimeLeft] = useState(timer);
-  console.log(timeLeft);
+  useEffect(() => {
+    if (quizData?.data?.timer_for_eachQuestion) {
+      setTimeLeft(quizData.data.timer_for_eachQuestion);
+    }
+  }, [quizData, setTimeLeft]);
 
   useEffect(() => {
     if (!timeLeft) return;
@@ -29,7 +29,7 @@ export default function PlayQuiz({
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, [timeLeft]);
+  }, [timeLeft, setTimeLeft]);
 
   useEffect(() => {
     const fetchQuizData = async () => {
@@ -65,7 +65,10 @@ export default function PlayQuiz({
   }
 
   const handleNext = () => {
-    if (answerIndexSelected === undefined) return;
+    if (answerIndexSelected === undefined) {
+      alert("Please select option");
+      return;
+    }
     const quizObject = quizData.data;
     const questionsArray = quizObject.questions;
     const questionId = questionsArray?.[currentQuesIndex]._id;
@@ -96,15 +99,18 @@ export default function PlayQuiz({
               <div>
                 {currentQuesIndex}/{quizObject.questions.length}
               </div>
-              <div style={{ color: "#f84242" }}>{timeLeft}sec</div>
+              <div style={{ color: "#f84242", fontWeight: "600" }}>
+                {timeLeft}
+                <span style={{ marginLeft: "5px" }}>sec</span>
+              </div>
             </div>
             <div className={styles.questions}>
               <p style={{ margin: "0" }}>{question.questionTitle}</p>
-              <div className={styles.options_wrapper}>
+              <div className={styles.options_wrapper_text}>
                 {question.options.map((option, optionIndex) => {
                   return (
                     <div key={optionIndex}>
-                      {option.text && (
+                      {question.optionType === "Text" && (
                         <div
                           className={`${styles.option} ${
                             answerIndexSelected === optionIndex
@@ -117,30 +123,36 @@ export default function PlayQuiz({
                         </div>
                       )}
 
-                      {option.imageUrl && (
+                      {question.optionType === "Image URL" && (
                         <div
-                          className={`${styles.option} ${
+                          className={`${styles.option} ${styles.ImageOption} ${
                             answerIndexSelected === optionIndex
                               ? styles.selected
                               : ""
                           }`}
                           onClick={() => handleAnswerSelection(optionIndex)}
                         >
-                          <img src={option.imageUrl} alt="imageUrl"></img>
+                          <img
+                            src={option.imageUrl}
+                            className={styles.playQuizImg}
+                            alt="imageUrl"
+                          ></img>
                         </div>
                       )}
 
-                      {option.text && option.imageUrl && (
+                      {question.optionType === "Text & Image URL" && (
                         <div
-                          className={`${styles.option} ${
+                          className={`${styles.option} ${styles.ImageOption} ${
                             answerIndexSelected === optionIndex
                               ? styles.selected
                               : ""
                           }`}
                           onClick={() => handleAnswerSelection(optionIndex)}
                         >
-                          <div>{option.text}</div>
-                          <img src={option.imageUrl} alt="imageUrl"></img>
+                          <div className={styles.textImg_wrapper}>
+                            <div>{option.text}</div>
+                            <img src={option.imageUrl} alt="imageUrl" className={styles.playQuizImg}></img>
+                          </div>
                         </div>
                       )}
                     </div>
@@ -149,7 +161,10 @@ export default function PlayQuiz({
               </div>
             </div>
             {currentQuesIndex < quizObject.questions.length - 1 ? (
-              <button className={styles.submit_quiz_btn} onClick={handleNext}>
+              <button
+                className={`${styles.submit_quiz_btn}`}
+                onClick={handleNext}
+              >
                 Next
               </button>
             ) : (

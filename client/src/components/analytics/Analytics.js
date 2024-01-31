@@ -30,7 +30,7 @@ export default function Analytics({ quizData }) {
                 })} ${parsedDate.getDate()} ${parsedDate.getFullYear()}`;
 
                 return (
-                  <tr>
+                  <tr key={index}>
                     <td>{index + 1}</td>
                     <td>{quiz.quizTitle}</td>
                     <td>{formattedDate}</td>

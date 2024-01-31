@@ -4,7 +4,7 @@ const optionsSchema = new mongoose.Schema({
   text: {
     type: String,
   },
-  imgUrl: {
+  imageUrl: {
     type: String,
   },
 });

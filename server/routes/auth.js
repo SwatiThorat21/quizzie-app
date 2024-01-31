@@ -93,13 +93,13 @@ router.post("/login", async (req, res) => {
           userId: user._id.toString(),
         });
       } else {
-        res.json({
+        res.status(401).json({
           status: "FAILED",
           message: "Incorrect credentials !",
         });
       }
     } else {
-      res.json({
+      res.status(401).json({
         status: "FAILED",
         message: "User does not exist !",
       });
