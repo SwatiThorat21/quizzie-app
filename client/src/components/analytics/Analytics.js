@@ -18,7 +18,7 @@ export default function Analytics({
   const [quizIdToDelete, setQuizIdToDelete] = useState(null);
 
   const copyToClipboard = (quizId) => {
-    let copyText = `http://localhost:3000/quiz?quizId=${quizId}`;
+    let copyText = `${window.location.origin}/quiz?quizId=${quizId}`;
     let isCopy = copy(copyText);
     if (isCopy) {
       toast.success("Copied to Clipboard");
