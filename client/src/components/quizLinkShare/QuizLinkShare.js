@@ -37,7 +37,7 @@ export default function QuizLinkShare({ quizId }) {
               Published!
             </p>
             <div className={styles.quiz_link}>
-              http://{window.location.origin}/quiz?quizId={quizId}
+              {window.location.origin}/quiz?quizId={quizId}
             </div>
             <div className={styles.modalBtns_wrapper}>
               <button className={styles.shareLink_btn} onClick={copyToClipboard}>Share</button>
