@@ -38,9 +38,9 @@ export async function CreateQuizFormData(
   } catch (error) {}
 }
 
-export async function GetAllQuizData() {
+export async function GetAllQuizData(userId) {
   try {
-    const reqUrl = `${backendBaseUrl}/quiz/quiz-data`;
+    const reqUrl = `${backendBaseUrl}/quiz/quiz-data/${userId}`;
 
     return await axios
       .get(reqUrl)

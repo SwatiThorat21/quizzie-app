@@ -36,9 +36,12 @@ router.post("/create-quiz", isLoggedIn, async (req, res) => {
   }
 });
 
-router.get("/quiz-data", async (req, res) => {
+router.get("/quiz-data/:userId", async (req, res) => {
   try {
-    const quizData = await QuizsData.find().sort({ createdAt: -1 });
+    const { userId } = req.params;
+
+    const quizData = await QuizsData.find({ userId }).sort({ createdAt: -1 });
+
     res.json({ quizData });
   } catch (error) {
     res.json({
@@ -47,6 +50,7 @@ router.get("/quiz-data", async (req, res) => {
     });
   }
 });
+
 
 router.get("/get-quiz/:quizId", async (req, res) => {
   try {

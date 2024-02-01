@@ -11,11 +11,12 @@ import { GetAllQuizData } from "../src/apis/quiz";
 function App() {
   let [isLoggedIn, setIsLoggedIn] = useState(false);
   const [quizData, setQuizData] = useState([]);
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const allQuizData = await GetAllQuizData();
+        const allQuizData = await GetAllQuizData(userId);
         console.log(allQuizData.quizData);
         setQuizData(allQuizData.quizData);
       } catch (error) {
@@ -24,7 +25,7 @@ function App() {
     };
 
     fetchData();
-  }, []);
+  }, [userId]);
 
   return (
     <>
@@ -41,9 +42,19 @@ function App() {
           />
           <Route
             path="/dashboard"
-            element={<DashboardPage setIsLoggedIn={setIsLoggedIn} quizData={quizData}/>}
+            element={
+              <DashboardPage
+                setIsLoggedIn={setIsLoggedIn}
+                quizData={quizData}
+              />
+            }
           />
-          <Route path="/analytics" element={<AnalyticsPage quizData={quizData} setQuizData={setQuizData}/>} />
+          <Route
+            path="/analytics"
+            element={
+              <AnalyticsPage quizData={quizData} setQuizData={setQuizData} />
+            }
+          />
           <Route path="/create-quiz" element={<CreateQuizPage />} />
           <Route path="/quiz" element={<PlayQuizPage />} />
         </Routes>
