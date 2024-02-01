@@ -49,7 +49,7 @@ export default function CreateQuestions({
     year: "numeric",
   });
 
-  const userId = JSON.parse(localStorage.getItem("userId"));
+  const userId = localStorage.getItem("userId");
 
   function addQuestions() {
     setQuizQuestionsData((prevData) => [
