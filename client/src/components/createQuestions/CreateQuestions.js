@@ -324,6 +324,7 @@ export default function CreateQuestions({
                               onChange={(e) => handleChange(e, index)}
                               checked={
                                 quizQuestionsData[currentQuesIndex]
+                                  // eslint-disable-next-line eqeqeq
                                   .correct_answer_index == index
                               }
                             ></input>
@@ -336,6 +337,7 @@ export default function CreateQuestions({
                             onChange={(e) => handleChange(e, index)}
                             className={`${styles.option_input} ${
                               quizQuestionsData[currentQuesIndex]
+                                // eslint-disable-next-line eqeqeq
                                 .correct_answer_index == index &&
                               styles.optionSelected
                             }`}
@@ -373,6 +375,7 @@ export default function CreateQuestions({
                               onChange={(e) => handleChange(e, index)}
                               checked={
                                 quizQuestionsData[currentQuesIndex]
+                                  // eslint-disable-next-line eqeqeq
                                   .correct_answer_index == index
                               }
                             ></input>
@@ -385,6 +388,7 @@ export default function CreateQuestions({
                             onChange={(e) => handleChange(e, index)}
                             className={`${styles.option_input} ${
                               quizQuestionsData[currentQuesIndex]
+                                // eslint-disable-next-line eqeqeq
                                 .correct_answer_index == index &&
                               styles.optionSelected
                             }`}
@@ -422,6 +426,7 @@ export default function CreateQuestions({
                               onChange={(e) => handleChange(e, index)}
                               checked={
                                 quizQuestionsData[currentQuesIndex]
+                                  // eslint-disable-next-line eqeqeq
                                   .correct_answer_index == index
                               }
                             ></input>
@@ -434,6 +439,7 @@ export default function CreateQuestions({
                             onChange={(e) => handleChange(e, index)}
                             className={`${styles.option_input} ${
                               quizQuestionsData[currentQuesIndex]
+                                // eslint-disable-next-line eqeqeq
                                 .correct_answer_index == index &&
                               styles.optionSelected
                             }`}
@@ -446,6 +452,7 @@ export default function CreateQuestions({
                             onChange={(e) => handleChange(e, index)}
                             className={`${styles.option_input} ${
                               quizQuestionsData[currentQuesIndex]
+                                // eslint-disable-next-line eqeqeq
                                 .correct_answer_index == index &&
                               styles.optionSelected
                             }`}

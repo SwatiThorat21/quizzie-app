@@ -4,7 +4,6 @@ import share_quiz from "../../images/share_quiz.png";
 import delete_quiz from "../../images/delete_quiz.png";
 import { DeleteQuizDataById } from "../../apis/quiz";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import copy from "copy-to-clipboard";
 
@@ -13,7 +12,7 @@ export default function Analytics({
   setQuizData,
   setSelectedQuestionId,
 }) {
-  const navigate = useNavigate();
+
   const [isDeleted, setIsDeleted] = useState(false);
 
   const [quizIdToDelete, setQuizIdToDelete] = useState(null);
