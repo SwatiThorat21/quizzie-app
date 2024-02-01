@@ -12,7 +12,7 @@ export async function login(email, password) {
     .post(reqUrl, reqPayload)
     .then((response) => {
       localStorage.setItem("jwToken", JSON.stringify(response.data.jwToken));
-      localStorage.setItem("userId", JSON.stringify(response.data.userId));
+      localStorage.setItem("userId", response.data.userId);
       console.log(response.data);
       return response.data;
     })

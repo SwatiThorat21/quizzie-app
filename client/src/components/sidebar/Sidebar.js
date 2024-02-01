@@ -1,7 +1,10 @@
 import styles from "./sidebar.module.css";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Sidebar({ setIsLoggedIn }) {
+  const navigate = useNavigate();
+
   const menuItem = [
     {
       path: "/dashboard",
@@ -21,6 +24,7 @@ export default function Sidebar({ setIsLoggedIn }) {
     localStorage.removeItem("jwToken");
     localStorage.removeItem("userId");
     setIsLoggedIn(false);
+    navigate("/");
   }
   return (
     <>
@@ -41,7 +45,7 @@ export default function Sidebar({ setIsLoggedIn }) {
             </NavLink>
           ))}
         </div>
-          <p className={styles.logoutBtn} onClick={handleLogout}>
+        <p className={styles.logoutBtn} onClick={handleLogout}>
           LOGOUT
         </p>
       </div>

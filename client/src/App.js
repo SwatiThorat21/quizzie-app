@@ -52,7 +52,11 @@ function App() {
           <Route
             path="/analytics"
             element={
-              <AnalyticsPage quizData={quizData} setQuizData={setQuizData} />
+              <AnalyticsPage
+                quizData={quizData}
+                setQuizData={setQuizData}
+                setIsLoggedIn={setIsLoggedIn}
+              />
             }
           />
           <Route path="/create-quiz" element={<CreateQuizPage />} />
