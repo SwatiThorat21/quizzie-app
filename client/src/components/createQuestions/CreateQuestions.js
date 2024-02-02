@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import styles from "./createQuestions.module.css";
 import addIcon from "../../images/plus.png";
 import { useState } from "react";
@@ -154,7 +155,7 @@ export default function CreateQuestions({
       if (
         quizFormData.quizType === "Q & A" &&
         (!questionData.correct_answer_index ||
-          parseInt(questionData.correct_answer_index, 10) < 0) 
+          parseInt(questionData.correct_answer_index, 10) < 0)
       ) {
         alert("Please select a correct answer");
         return false;
@@ -172,6 +173,14 @@ export default function CreateQuestions({
     createdAt_date,
     questions
   ) {
+    if (!validateInputs()) {
+      return;
+    }
+    if (!timer_for_eachQuestion && quizFormData.quizType === "Q & A") {
+      alert("Please select a timer value");
+      return;
+    }
+
     CreateQuizFormData(
       userId,
       quizTitle,
@@ -181,14 +190,6 @@ export default function CreateQuestions({
       questions,
       setQuizId
     );
-
-    if (!validateInputs()) {
-      return;
-    }
-    if (!timer_for_eachQuestion && quizFormData.quizType === "Q & A") {
-      alert("Please select a timer value");
-      return;
-    }
 
     setShowQuizLinkShare(true);
   }
@@ -323,8 +324,8 @@ export default function CreateQuestions({
                               name="correct_answer_index"
                               onChange={(e) => handleChange(e, index)}
                               checked={
+                                // eslint-disable-next-line eqeqeq
                                 quizQuestionsData[currentQuesIndex]
-                                  // eslint-disable-next-line eqeqeq
                                   .correct_answer_index == index
                               }
                             ></input>
@@ -336,8 +337,8 @@ export default function CreateQuestions({
                             value={option.text}
                             onChange={(e) => handleChange(e, index)}
                             className={`${styles.option_input} ${
+                              // eslint-disable-next-line eqeqeq
                               quizQuestionsData[currentQuesIndex]
-                                // eslint-disable-next-line eqeqeq
                                 .correct_answer_index == index &&
                               styles.optionSelected
                             }`}
@@ -374,8 +375,8 @@ export default function CreateQuestions({
                               name="correct_answer_index"
                               onChange={(e) => handleChange(e, index)}
                               checked={
+                                // eslint-disable-next-line eqeqeq
                                 quizQuestionsData[currentQuesIndex]
-                                  // eslint-disable-next-line eqeqeq
                                   .correct_answer_index == index
                               }
                             ></input>
@@ -387,8 +388,8 @@ export default function CreateQuestions({
                             value={option.imageUrl}
                             onChange={(e) => handleChange(e, index)}
                             className={`${styles.option_input} ${
+                              // eslint-disable-next-line eqeqeq
                               quizQuestionsData[currentQuesIndex]
-                                // eslint-disable-next-line eqeqeq
                                 .correct_answer_index == index &&
                               styles.optionSelected
                             }`}
@@ -425,8 +426,8 @@ export default function CreateQuestions({
                               name="correct_answer_index"
                               onChange={(e) => handleChange(e, index)}
                               checked={
+                                // eslint-disable-next-line eqeqeq
                                 quizQuestionsData[currentQuesIndex]
-                                  // eslint-disable-next-line eqeqeq
                                   .correct_answer_index == index
                               }
                             ></input>
@@ -438,8 +439,8 @@ export default function CreateQuestions({
                             value={option.text}
                             onChange={(e) => handleChange(e, index)}
                             className={`${styles.option_input} ${
+                              // eslint-disable-next-line eqeqeq
                               quizQuestionsData[currentQuesIndex]
-                                // eslint-disable-next-line eqeqeq
                                 .correct_answer_index == index &&
                               styles.optionSelected
                             }`}
@@ -451,8 +452,8 @@ export default function CreateQuestions({
                             value={option.imageUrl}
                             onChange={(e) => handleChange(e, index)}
                             className={`${styles.option_input} ${
+                              // eslint-disable-next-line eqeqeq
                               quizQuestionsData[currentQuesIndex]
-                                // eslint-disable-next-line eqeqeq
                                 .correct_answer_index == index &&
                               styles.optionSelected
                             }`}

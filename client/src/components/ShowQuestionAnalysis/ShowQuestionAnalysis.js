@@ -29,7 +29,7 @@ export default function ShowQuestionAnalysis({ quizData, selectedQuestionId }) {
                   }}
                 >
                   <p>Created on: {formattedDate}</p>
-                  <p>Impressions: {quiz.no_of_impressions}</p>
+                  <p>Impressions: {quiz.no_of_impressions || 0}</p>
                 </div>
               </div>
               {quiz.questions.map((question) => (
@@ -42,16 +42,16 @@ export default function ShowQuestionAnalysis({ quizData, selectedQuestionId }) {
                       <div className={styles.total_attepmted}>
                         <p>
                           {question.questions_attempted_correctly +
-                            question.questions_attempted_incorrectly}
+                            question.questions_attempted_incorrectly || 0}
                         </p>
                         <p>People Attempted the Question</p>
                       </div>
                       <div className={styles.correct_attemption}>
-                        <p>{question.questions_attempted_correctly}</p>
+                        <p>{question.questions_attempted_correctly || 0}</p>
                         <p>People Attempted Correctly</p>
                       </div>
                       <div className={styles.incorrect_attempted}>
-                        <p>{question.questions_attempted_incorrectly}</p>
+                        <p>{question.questions_attempted_incorrectly || 0}</p>
                         <p>People Attempted Incorrectly</p>
                       </div>
                     </div>
@@ -62,9 +62,16 @@ export default function ShowQuestionAnalysis({ quizData, selectedQuestionId }) {
                       {question.options.map((option, index) => (
                         <div className={styles.total_attepmted}>
                           <p>
-                            <span style={{fontSize:"22px", marginRight:"1rem", color:"#474444", fontWeight:"600"}}>
+                            <span
+                              style={{
+                                fontSize: "22px",
+                                marginRight: "1rem",
+                                color: "#474444",
+                                fontWeight: "600",
+                              }}
+                            >
                               {question.questions_attempted_correctly +
-                                question.questions_attempted_incorrectly}
+                                question.questions_attempted_incorrectly || 0}
                             </span>
                             option {index + 1}
                           </p>
