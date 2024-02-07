@@ -6,12 +6,12 @@ import styles from "./createQuizPage.module.css";
 import { useEffect } from "react";
 import { GetQuizDataById } from "../../apis/quiz";
 
-export default function CreateQuizPage({
+export default function CreateAndEditQuizPage({
   setShowCreateQuestions,
   showCreateQuestions,
 }) {
   const [showQuizLinkShare, setShowQuizLinkShare] = useState(false);
-  const [quizId, setQuizId] = useState("");
+  const [quizId, setQuizId] = useState(null);
   const [quizFormData, setQuizFormData] = useState({
     quizTitle: "",
     quizType: "",
@@ -41,40 +41,47 @@ export default function CreateQuizPage({
       correct_answer_index: -1,
     },
   ]);
+  const [isEditing, setIsEditing] = useState(false);
 
   console.log();
 
   useEffect(() => {
     const fetchQuizData = async () => {
       const urlParams = new URLSearchParams(window.location.search);
-      const quizId = urlParams.get("quizId");
-      try {
-        const quizData = await GetQuizDataById(quizId);
-        console.log(quizData);
-        setQuizFormData({
-          _id:quizId,
-          quizTitle: quizData.data.quizTitle,
-          quizType: quizData.data.quizType,
-        });
+      const quizIdParam = urlParams.get("quizId");
 
-        setQuizQuestionsData(quizData.data.questions);
-      } catch (error) {
-        console.error(error);
+      if (quizIdParam) {
+        // Set the quizId state only if the parameter exists
+        setQuizId(quizIdParam);
+        try {
+          const quizData = await GetQuizDataById(quizIdParam);
+          // console.log(quizData);
+          setQuizFormData({
+            _id: quizId,
+            quizTitle: quizData.data.quizTitle,
+            quizType: quizData.data.quizType,
+          });
+
+          setQuizQuestionsData(quizData.data.questions);
+          setIsEditing(true);
+        } catch (error) {
+          console.error(error);
+        }
       }
     };
     fetchQuizData();
-  }, []);
+  }, [quizId]);
 
   return (
     <>
-      {!showCreateQuestions && !showQuizLinkShare && (
+      {!isEditing && !showCreateQuestions && !showQuizLinkShare && (
         <CreateQuiz
           setShowCreateQuestions={setShowCreateQuestions}
           quizFormData={quizFormData}
           setQuizFormData={setQuizFormData}
         />
       )}
-      {showCreateQuestions && (
+      {(isEditing || showCreateQuestions) && (
         <>
           <div className={styles.questions_page_Container}>
             <CreateQuestions

@@ -197,7 +197,7 @@ export default function CreateQuestions({
       return updatedQuestions;
     });
   }
-  console.log(quizFormData);
+  // console.log(quizFormData);
   return (
     <>
       <div className={styles.cancelCreate_btns_container}>

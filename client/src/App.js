@@ -18,7 +18,7 @@ function App() {
     const fetchData = async () => {
       try {
         const allQuizData = await GetAllQuizData(userId);
-        console.log(allQuizData.quizData);
+        // console.log(allQuizData.quizData);
         setQuizData(allQuizData.quizData);
       } catch (error) {
         console.error(error);
