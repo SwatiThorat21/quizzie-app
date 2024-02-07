@@ -173,11 +173,11 @@ router.delete("/:quizId", async (req, res) => {
 router.patch("/edit-quiz/:quizId", async (req, res) => {
   try {
     const { quizId } = req.params;
-    const { updatedQuestionsData } = req.body;
+    const updatedQuestionsData = req.body;
 
     const updatedQuiz = await QuizsData.findByIdAndUpdate(
       quizId,
-      updatedQuestionsData,
+      { questions: updatedQuestionsData },
       { new: true }
     );
 

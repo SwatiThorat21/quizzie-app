@@ -143,13 +143,14 @@ export default function CreateQuestions({
     return true;
   }
 
-  function createQuiz(
+  function createAndEditQuiz(
     userId,
     quizTitle,
     quizType,
     timer_for_eachQuestion,
     createdAt_date,
-    questions
+    questions,
+    quizFormId,
   ) {
     if (!validateInputs()) {
       return;
@@ -159,10 +160,10 @@ export default function CreateQuestions({
       return;
     }
 
-    if (quizFormData._id) {
-      editFormData(quizFormData._id, questions)
+    if (quizFormId) {
+      editFormData(quizFormId, questions)
         .then(() => {
-          setQuizId(quizFormData._id);
+          setQuizId(quizFormId);
           setShowQuizLinkShare(true);
         })
         .catch((error) => {
@@ -506,13 +507,14 @@ export default function CreateQuestions({
               <button
                 className={styles.createQuizBtn}
                 onClick={() =>
-                  createQuiz(
+                  createAndEditQuiz(
                     userId,
                     quizFormData.quizTitle,
                     quizFormData.quizType,
                     timer,
                     formattedDate,
-                    quizQuestionsData
+                    quizQuestionsData,
+                    quizFormData._id
                   )
                 }
               >
