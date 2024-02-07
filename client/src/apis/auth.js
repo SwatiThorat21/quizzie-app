@@ -13,6 +13,7 @@ export async function login(email, password) {
     .then((response) => {
       localStorage.setItem("jwToken", JSON.stringify(response.data.jwToken));
       localStorage.setItem("userId", response.data.userId);
+
       console.log(response.data);
       return response.data;
     })

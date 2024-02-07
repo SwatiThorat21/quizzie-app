@@ -6,13 +6,15 @@ import { DeleteQuizDataById } from "../../apis/quiz";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import copy from "copy-to-clipboard";
+import { useNavigate } from "react-router-dom";
 
 export default function Analytics({
   quizData,
   setQuizData,
   setSelectedQuestionId,
+  setShowCreateQuestions,
 }) {
-
+  const navigate = useNavigate();
   const [isDeleted, setIsDeleted] = useState(false);
 
   const [quizIdToDelete, setQuizIdToDelete] = useState(null);
@@ -39,9 +41,13 @@ export default function Analytics({
     setIsDeleted(false);
   }
 
-  function questionwiseAnalysis(id) {
-    setSelectedQuestionId(id);
+  function questionwiseAnalysis(quizId) {
+    setSelectedQuestionId(quizId);
+  }
 
+  function editQuiz(quizId) {
+    navigate(`/create-edit-quiz?quizId=${quizId}`);
+    setShowCreateQuestions(true);
   }
   return (
     <>
@@ -90,6 +96,7 @@ export default function Analytics({
                           src={edit_quiz}
                           alt="edit_quiz"
                           style={{ cursor: "pointer" }}
+                          onClick={() => editQuiz(quiz._id)}
                         ></img>
                         <img
                           src={share_quiz}

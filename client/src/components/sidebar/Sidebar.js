@@ -15,7 +15,7 @@ export default function Sidebar({ setIsLoggedIn }) {
       name: "Analytics",
     },
     {
-      path: "/create-quiz",
+      path: "/create-edit-quiz",
       name: "Create Quiz",
     },
   ];

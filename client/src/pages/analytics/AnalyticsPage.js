@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import ShowQuestionAnalysis from "../../components/ShowQuestionAnalysis/ShowQuestionAnalysis";
 import { useNavigate } from "react-router-dom";
 
-export default function AnalyticsPage({ quizData, setQuizData, setIsLoggedIn }) {
+export default function AnalyticsPage({ quizData, setQuizData, setIsLoggedIn, setShowCreateQuestions }) {
   const [selectedQuestionId, setSelectedQuestionId] = useState(undefined);
 
   const navigate = useNavigate();
@@ -24,6 +24,7 @@ export default function AnalyticsPage({ quizData, setQuizData, setIsLoggedIn }) 
             quizData={quizData}
             setQuizData={setQuizData}
             setSelectedQuestionId={setSelectedQuestionId}
+            setShowCreateQuestions={setShowCreateQuestions}
           />
         )}
         {selectedQuestionId && (

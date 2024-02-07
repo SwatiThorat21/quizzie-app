@@ -6,41 +6,19 @@ import closeIcon from "../../images/closeIcon.png";
 import { useNavigate } from "react-router-dom";
 import { CreateQuizFormData } from "../../apis/quiz";
 import delete_icon from "../../images/delete_icon.png";
+import { editFormData } from "../../apis/quiz";
 
 export default function CreateQuestions({
   quizFormData,
   setShowQuizLinkShare,
   setQuizId,
+  setQuizQuestionsData,
+  quizQuestionsData,
 }) {
   const navigate = useNavigate();
   const [currentQuesIndex, setCurrentQuesIndex] = useState(0);
   const [questionNumbers, setQuestionNumbers] = useState([1]);
   const [timer, setTimer] = useState(undefined);
-  const [quizQuestionsData, setQuizQuestionsData] = useState([
-    {
-      questionTitle: "",
-      optionType: "Text",
-      options: [
-        {
-          text: "",
-          imageUrl: "",
-        },
-        {
-          text: "",
-          imageUrl: "",
-        },
-        {
-          text: "",
-          imageUrl: "",
-        },
-        {
-          text: "",
-          imageUrl: "",
-        },
-      ],
-      correct_answer_index: -1,
-    },
-  ]);
 
   const currentDate = new Date();
 
@@ -181,17 +159,28 @@ export default function CreateQuestions({
       return;
     }
 
-    CreateQuizFormData(
-      userId,
-      quizTitle,
-      quizType,
-      timer_for_eachQuestion,
-      createdAt_date,
-      questions,
-      setQuizId
-    );
+    if (quizFormData._id) {
+      editFormData(quizFormData._id, questions)
+        .then(() => {
+          setQuizId(quizFormData._id);
+          setShowQuizLinkShare(true);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      CreateQuizFormData(
+        userId,
+        quizTitle,
+        quizType,
+        timer_for_eachQuestion,
+        createdAt_date,
+        questions,
+        setQuizId
+      );
 
-    setShowQuizLinkShare(true);
+      setShowQuizLinkShare(true);
+    }
   }
 
   function deleteOption(index) {
@@ -207,9 +196,7 @@ export default function CreateQuestions({
       return updatedQuestions;
     });
   }
-
-  console.log(timer);
-
+  console.log(quizFormData);
   return (
     <>
       <div className={styles.cancelCreate_btns_container}>
@@ -304,212 +291,214 @@ export default function CreateQuestions({
             </div>
           </div>
           <div style={{ marginTop: "0.5rem" }}>
-            {quizQuestionsData[currentQuesIndex] && (
-              <div className={styles.option_radioBtns_wrapper}>
-                {quizQuestionsData[currentQuesIndex].optionType === "Text" && (
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "0.5rem",
-                    }}
-                  >
-                    {quizQuestionsData[currentQuesIndex].options.map(
-                      (option, index) => (
-                        <div className={styles.option_wrapper} key={index}>
-                          {quizFormData.quizType === "Q & A" && (
-                            <input
-                              type="radio"
-                              value={index}
-                              name="correct_answer_index"
-                              onChange={(e) => handleChange(e, index)}
-                              checked={
-                                // eslint-disable-next-line eqeqeq
-                                quizQuestionsData[currentQuesIndex]
-                                  .correct_answer_index == index
-                              }
-                            ></input>
-                          )}
-                          <input
-                            type="text"
-                            placeholder="Text"
-                            name="text"
-                            value={option.text}
-                            onChange={(e) => handleChange(e, index)}
-                            className={`${styles.option_input} ${
-                              // eslint-disable-next-line eqeqeq
-                              quizQuestionsData[currentQuesIndex]
-                                .correct_answer_index == index &&
-                              styles.optionSelected
-                            }`}
-                          ></input>
-                          {index > 1 && (
-                            <img
-                              src={delete_icon}
-                              alt="delete_icon"
-                              style={{ width: "20px", cursor: "pointer" }}
-                              onClick={() => deleteOption(index)}
-                            ></img>
-                          )}
-                        </div>
-                      )
-                    )}
-                  </div>
-                )}
-                {quizQuestionsData[currentQuesIndex].optionType ===
-                  "Image URL" && (
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "0.5rem",
-                    }}
-                  >
-                    {quizQuestionsData[currentQuesIndex].options.map(
-                      (option, index) => (
-                        <div className={styles.option_wrapper} key={index}>
-                          {quizFormData.quizType === "Q & A" && (
-                            <input
-                              type="radio"
-                              value={index}
-                              name="correct_answer_index"
-                              onChange={(e) => handleChange(e, index)}
-                              checked={
-                                // eslint-disable-next-line eqeqeq
-                                quizQuestionsData[currentQuesIndex]
-                                  .correct_answer_index == index
-                              }
-                            ></input>
-                          )}
-                          <input
-                            type="text"
-                            placeholder="Image URL"
-                            name="imageUrl"
-                            value={option.imageUrl}
-                            onChange={(e) => handleChange(e, index)}
-                            className={`${styles.option_input} ${
-                              // eslint-disable-next-line eqeqeq
-                              quizQuestionsData[currentQuesIndex]
-                                .correct_answer_index == index &&
-                              styles.optionSelected
-                            }`}
-                          ></input>
-                          {index > 1 && (
-                            <img
-                              src={delete_icon}
-                              alt="delete_icon"
-                              style={{ width: "20px", cursor: "pointer" }}
-                              onClick={() => deleteOption(index)}
-                            ></img>
-                          )}
-                        </div>
-                      )
-                    )}
-                  </div>
-                )}
-                {quizQuestionsData[currentQuesIndex].optionType ===
-                  "Text & Image URL" && (
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "0.5rem",
-                    }}
-                  >
-                    {quizQuestionsData[currentQuesIndex].options.map(
-                      (option, index) => (
-                        <div className={styles.option_wrapper} key={index}>
-                          {quizFormData.quizType === "Q & A" && (
-                            <input
-                              type="radio"
-                              value={index}
-                              name="correct_answer_index"
-                              onChange={(e) => handleChange(e, index)}
-                              checked={
-                                // eslint-disable-next-line eqeqeq
-                                quizQuestionsData[currentQuesIndex]
-                                  .correct_answer_index == index
-                              }
-                            ></input>
-                          )}
-                          <input
-                            type="text"
-                            placeholder="Text"
-                            name="text"
-                            value={option.text}
-                            onChange={(e) => handleChange(e, index)}
-                            className={`${styles.option_input} ${
-                              // eslint-disable-next-line eqeqeq
-                              quizQuestionsData[currentQuesIndex]
-                                .correct_answer_index == index &&
-                              styles.optionSelected
-                            }`}
-                          ></input>
-                          <input
-                            type="text"
-                            placeholder="Image URL"
-                            name="imageUrl"
-                            value={option.imageUrl}
-                            onChange={(e) => handleChange(e, index)}
-                            className={`${styles.option_input} ${
-                              // eslint-disable-next-line eqeqeq
-                              quizQuestionsData[currentQuesIndex]
-                                .correct_answer_index == index &&
-                              styles.optionSelected
-                            }`}
-                          ></input>
-                          {index > 1 && (
-                            <img
-                              src={delete_icon}
-                              alt="delete_icon"
-                              style={{ width: "20px", cursor: "pointer" }}
-                              onClick={() => deleteOption(index)}
-                            ></img>
-                          )}
-                        </div>
-                      )
-                    )}
-                  </div>
-                )}
-                {quizFormData.quizType === "Q & A" && (
-                  <div className={styles.timer_wrapper}>
-                    <p
+            {quizQuestionsData.length > 0 &&
+              quizQuestionsData[currentQuesIndex] && (
+                <div className={styles.option_radioBtns_wrapper}>
+                  {quizQuestionsData[currentQuesIndex].optionType ===
+                    "Text" && (
+                    <div
                       style={{
-                        fontSize: "1rem",
-                        color: "#9F9F9F",
-                        marginBottom: "0.5rem",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "0.5rem",
                       }}
                     >
-                      Timer
-                    </p>
-                    <div
-                      className={`${styles.timerBtn} ${
-                        timer === "OFF" && styles.selectedTimer
-                      }`}
-                      onClick={() => handleTimerClick("OFF")}
-                    >
-                      OFF
+                      {quizQuestionsData[currentQuesIndex].options.map(
+                        (option, index) => (
+                          <div className={styles.option_wrapper} key={index}>
+                            {quizFormData.quizType === "Q & A" && (
+                              <input
+                                type="radio"
+                                value={index}
+                                name="correct_answer_index"
+                                onChange={(e) => handleChange(e, index)}
+                                checked={
+                                  // eslint-disable-next-line eqeqeq
+                                  quizQuestionsData[currentQuesIndex]
+                                    .correct_answer_index == index
+                                }
+                              ></input>
+                            )}
+                            <input
+                              type="text"
+                              placeholder="Text"
+                              name="text"
+                              value={option.text}
+                              onChange={(e) => handleChange(e, index)}
+                              className={`${styles.option_input} ${
+                                // eslint-disable-next-line eqeqeq
+                                quizQuestionsData[currentQuesIndex]
+                                  .correct_answer_index == index &&
+                                styles.optionSelected
+                              }`}
+                            ></input>
+                            {index > 1 && (
+                              <img
+                                src={delete_icon}
+                                alt="delete_icon"
+                                style={{ width: "20px", cursor: "pointer" }}
+                                onClick={() => deleteOption(index)}
+                              ></img>
+                            )}
+                          </div>
+                        )
+                      )}
                     </div>
+                  )}
+                  {quizQuestionsData[currentQuesIndex].optionType ===
+                    "Image URL" && (
                     <div
-                      className={`${styles.timerBtn} ${
-                        timer === 5 && styles.selectedTimer
-                      }`}
-                      onClick={() => handleTimerClick(5)}
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "0.5rem",
+                      }}
                     >
-                      5 Sec
+                      {quizQuestionsData[currentQuesIndex].options.map(
+                        (option, index) => (
+                          <div className={styles.option_wrapper} key={index}>
+                            {quizFormData.quizType === "Q & A" && (
+                              <input
+                                type="radio"
+                                value={index}
+                                name="correct_answer_index"
+                                onChange={(e) => handleChange(e, index)}
+                                checked={
+                                  // eslint-disable-next-line eqeqeq
+                                  quizQuestionsData[currentQuesIndex]
+                                    .correct_answer_index == index
+                                }
+                              ></input>
+                            )}
+                            <input
+                              type="text"
+                              placeholder="Image URL"
+                              name="imageUrl"
+                              value={option.imageUrl}
+                              onChange={(e) => handleChange(e, index)}
+                              className={`${styles.option_input} ${
+                                // eslint-disable-next-line eqeqeq
+                                quizQuestionsData[currentQuesIndex]
+                                  .correct_answer_index == index &&
+                                styles.optionSelected
+                              }`}
+                            ></input>
+                            {index > 1 && (
+                              <img
+                                src={delete_icon}
+                                alt="delete_icon"
+                                style={{ width: "20px", cursor: "pointer" }}
+                                onClick={() => deleteOption(index)}
+                              ></img>
+                            )}
+                          </div>
+                        )
+                      )}
                     </div>
+                  )}
+                  {quizQuestionsData[currentQuesIndex].optionType ===
+                    "Text & Image URL" && (
                     <div
-                      className={`${styles.timerBtn} ${
-                        timer === 10 && styles.selectedTimer
-                      }`}
-                      onClick={() => handleTimerClick(10)}
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "0.5rem",
+                      }}
                     >
-                      10 Sec
+                      {quizQuestionsData[currentQuesIndex].options.map(
+                        (option, index) => (
+                          <div className={styles.option_wrapper} key={index}>
+                            {quizFormData.quizType === "Q & A" && (
+                              <input
+                                type="radio"
+                                value={index}
+                                name="correct_answer_index"
+                                onChange={(e) => handleChange(e, index)}
+                                checked={
+                                  // eslint-disable-next-line eqeqeq
+                                  quizQuestionsData[currentQuesIndex]
+                                    .correct_answer_index == index
+                                }
+                              ></input>
+                            )}
+                            <input
+                              type="text"
+                              placeholder="Text"
+                              name="text"
+                              value={option.text}
+                              onChange={(e) => handleChange(e, index)}
+                              className={`${styles.option_input} ${
+                                // eslint-disable-next-line eqeqeq
+                                quizQuestionsData[currentQuesIndex]
+                                  .correct_answer_index == index &&
+                                styles.optionSelected
+                              }`}
+                            ></input>
+                            <input
+                              type="text"
+                              placeholder="Image URL"
+                              name="imageUrl"
+                              value={option.imageUrl}
+                              onChange={(e) => handleChange(e, index)}
+                              className={`${styles.option_input} ${
+                                // eslint-disable-next-line eqeqeq
+                                quizQuestionsData[currentQuesIndex]
+                                  .correct_answer_index == index &&
+                                styles.optionSelected
+                              }`}
+                            ></input>
+                            {index > 1 && (
+                              <img
+                                src={delete_icon}
+                                alt="delete_icon"
+                                style={{ width: "20px", cursor: "pointer" }}
+                                onClick={() => deleteOption(index)}
+                              ></img>
+                            )}
+                          </div>
+                        )
+                      )}
                     </div>
-                  </div>
-                )}
-              </div>
-            )}
+                  )}
+                  {quizFormData.quizType === "Q & A" && (
+                    <div className={styles.timer_wrapper}>
+                      <p
+                        style={{
+                          fontSize: "1rem",
+                          color: "#9F9F9F",
+                          marginBottom: "0.5rem",
+                        }}
+                      >
+                        Timer
+                      </p>
+                      <div
+                        className={`${styles.timerBtn} ${
+                          timer === "OFF" && styles.selectedTimer
+                        }`}
+                        onClick={() => handleTimerClick("OFF")}
+                      >
+                        OFF
+                      </div>
+                      <div
+                        className={`${styles.timerBtn} ${
+                          timer === 5 && styles.selectedTimer
+                        }`}
+                        onClick={() => handleTimerClick(5)}
+                      >
+                        5 Sec
+                      </div>
+                      <div
+                        className={`${styles.timerBtn} ${
+                          timer === 10 && styles.selectedTimer
+                        }`}
+                        onClick={() => handleTimerClick(10)}
+                      >
+                        10 Sec
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
             <div className={styles.buttons_wrapper}>
               <button className={styles.cancelBtn} onClick={cancelQuiz}>
                 Cancel

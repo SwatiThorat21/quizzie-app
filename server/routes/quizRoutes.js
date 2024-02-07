@@ -51,7 +51,6 @@ router.get("/quiz-data/:userId", async (req, res) => {
   }
 });
 
-
 router.get("/get-quiz/:quizId", async (req, res) => {
   try {
     const { quizId } = req.params;
@@ -171,23 +170,21 @@ router.delete("/:quizId", async (req, res) => {
   }
 });
 
-router.patch("/update-question/:questionId", async (req, res) => {
+router.patch("/edit-quiz/:quizId", async (req, res) => {
   try {
-    const { questionId } = req.params;
-    const { updatedQuestionData } = req.body;
+    const { quizId } = req.params;
+    const { updatedQuestionsData } = req.body;
 
-    await QuizsData.updateOne(
-      { "questions._id": questionId },
-      { $set: { "questions.$": updatedQuestionData } }
+    const updatedQuiz = await QuizsData.findByIdAndUpdate(
+      quizId,
+      updatedQuestionsData,
+      { new: true }
     );
-    const updatedQuizData = await QuizsData.findOne({
-      "questions._id": questionId,
-    });
 
     res.status(200).json({
       status: "success",
       message: "updated sucessfully",
-      data: updatedQuizData,
+      data: updatedQuiz,
     });
   } catch (error) {
     res.status(500).json({

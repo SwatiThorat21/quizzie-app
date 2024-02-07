@@ -45,7 +45,6 @@ export async function GetAllQuizData(userId) {
     return await axios
       .get(reqUrl)
       .then((response) => {
-        console.log(response.data);
         return response.data;
       })
       .catch((error) => {
@@ -86,7 +85,7 @@ export async function logQuizImpression(quizId) {
 }
 
 export async function logAnswer(questionId, index_selected_by_user) {
-  if(!questionId || index_selected_by_user === undefined) return;
+  if (!questionId || index_selected_by_user === undefined) return;
   try {
     const reqUrl = `${backendBaseUrl}/quiz/log-answer`;
     const reqPayload = {
@@ -120,4 +119,16 @@ export async function DeleteQuizDataById(quizId) {
         console.log(error);
       });
   } catch (error) {}
+}
+
+export async function editFormData(quizId, updatedQuestionsData) {
+  try {
+    const reqUrl = `${backendBaseUrl}/quiz/edit-quiz/${quizId}`;
+    const response = await axios.patch(reqUrl, updatedQuestionsData);
+    console.log(response.data.data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 }
