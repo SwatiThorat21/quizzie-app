@@ -19,6 +19,8 @@ export default function Register({ setIsLoggedIn }) {
     confirmPasswordErr: false,
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
   function handleChange(e) {
     const { name, value } = e.target;
     setRegisterData((prevData) => {
@@ -50,12 +52,15 @@ export default function Register({ setIsLoggedIn }) {
     console.log(newErrors);
     try {
       if (Object.keys(newErrors).length === 0) {
+        setIsLoading(true);
         await register(name, email, password, confirmPassword);
         setIsLoggedIn(true);
         navigate("/dashboard");
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -92,7 +97,7 @@ export default function Register({ setIsLoggedIn }) {
               <input
                 type="email"
                 className={styles.input}
-                name="email"              
+                name="email"
                 onChange={handleChange}
                 value={registerData.email}
               ></input>
@@ -166,7 +171,7 @@ export default function Register({ setIsLoggedIn }) {
             )
           }
         >
-          Sign Up
+          {isLoading ? "Loading..." : "Sign Up"}
         </button>
       </div>
     </>

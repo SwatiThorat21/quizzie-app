@@ -15,6 +15,8 @@ export default function Login({ setIsLoggedIn }) {
     passwordErr: false,
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
   function handleChange(e) {
     const { name, value } = e.target;
     setLoginData((prevData) => {
@@ -37,25 +39,28 @@ export default function Login({ setIsLoggedIn }) {
     setErrors(newErrors);
     try {
       if (Object.keys(newErrors).length === 0) {
+        setIsLoading(true);
         await login(email, password);
         navigate("/dashboard");
         setIsLoggedIn(true);
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   }
   return (
     <>
       <div className={styles.login_container}>
         <div className={styles.input_wrapper}>
-        <div className={styles.form_input}>
+          <div className={styles.form_input}>
             <label>Email</label>
             {!errors.emailErr && (
               <input
                 type="email"
                 className={styles.input}
-                name="email"              
+                name="email"
                 onChange={handleChange}
                 value={loginData.email}
               ></input>
@@ -94,14 +99,12 @@ export default function Login({ setIsLoggedIn }) {
               ></input>
             )}
           </div>
-
-         
         </div>
         <button
           className={styles.login_btn}
           onClick={() => addLoginUser(loginData.email, loginData.password)}
         >
-          Log in
+          {isLoading ? "Loading..." : "Sign Up"}
         </button>
       </div>
     </>

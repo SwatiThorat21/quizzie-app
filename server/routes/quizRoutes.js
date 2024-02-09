@@ -1,10 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const QuizsData = require("../models/quizModel");
-const isLoggedIn = require("../middlewares/isLoggedIn");
-const errorHandler = require("../middlewares/verifyToken ");
+const verifyToken = require("../middlewares/verifyToken");
 
-router.post("/create-quiz", isLoggedIn, async (req, res) => {
+router.post("/create-quiz", verifyToken , async (req, res) => {
   try {
     const {
       userId,
@@ -37,7 +36,7 @@ router.post("/create-quiz", isLoggedIn, async (req, res) => {
   }
 });
 
-router.get("/quiz-data/:userId", isLoggedIn, async (req, res) => {
+router.get("/quiz-data/:userId", verifyToken, async (req, res) => {
   try {
     const { userId } = req.params;
 
@@ -147,7 +146,7 @@ router.patch("/log-answer", async (req, res) => {
   }
 });
 
-router.delete("/:quizId", isLoggedIn, async (req, res) => {
+router.delete("/:quizId", verifyToken, async (req, res) => {
   try {
     const { quizId } = req.params;
 
@@ -171,7 +170,7 @@ router.delete("/:quizId", isLoggedIn, async (req, res) => {
   }
 });
 
-router.patch("/edit-quiz/:quizId", isLoggedIn, async (req, res) => {
+router.patch("/edit-quiz/:quizId", verifyToken, async (req, res) => {
   try {
     const { quizId } = req.params;
     const updatedQuestionsData = req.body;
