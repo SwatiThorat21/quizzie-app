@@ -5,6 +5,7 @@ import delete_quiz from "../../images/delete_quiz.png";
 import { DeleteQuizDataById } from "../../apis/quiz";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import copy from "copy-to-clipboard";
 import { useNavigate } from "react-router-dom";
 import { GetAllQuizData } from "../../apis/quiz";
@@ -39,7 +40,15 @@ export default function Analytics({
     let copyText = `${window.location.origin}/quiz?quizId=${quizId}`;
     let isCopy = copy(copyText);
     if (isCopy) {
-      toast.success("Copied to Clipboard");
+      toast.success("Copied to Clipboard", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   };
 
@@ -49,7 +58,15 @@ export default function Analytics({
       setQuizData((prevQuizData) =>
         prevQuizData.filter((quiz) => quiz._id !== quizId)
       );
-      console.log("Quiz deleted successfully");
+      toast.success("Quiz deleted sucessfully!",{
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     } catch (error) {
       console.log(error);
       throw error;

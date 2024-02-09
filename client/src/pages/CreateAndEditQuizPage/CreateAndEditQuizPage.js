@@ -94,7 +94,7 @@ export default function CreateAndEditQuizPage({
           </div>
         </>
       )}
-      {showQuizLinkShare && <QuizLinkShare quizId={quizId} />}
+      {showQuizLinkShare && <QuizLinkShare quizId={quizId} setShowCreateQuestions={setShowCreateQuestions} />}
     </>
   );
 }

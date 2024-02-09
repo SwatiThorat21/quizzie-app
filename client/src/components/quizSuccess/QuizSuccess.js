@@ -14,7 +14,7 @@ export default function QuizSuccess({
     <>
       <div className={styles.successPage_container}>
         <div className={styles.successPage_content}>
-          <div style={{ fontWeight: "600" }}>Congrats Quiz is completed</div>
+          <div style={{ fontWeight: "600" }} className={styles.sucessMsg}>Congrats Quiz is completed</div>
           <img
             src={trophyImg}
             alt="trophyImg"
