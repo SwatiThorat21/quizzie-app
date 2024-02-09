@@ -11,6 +11,7 @@ export async function login(email, password) {
   return await axios
     .post(reqUrl, reqPayload)
     .then((response) => {
+      console.log(response.data)
       localStorage.setItem("jwToken", JSON.stringify(response.data.jwToken));
       localStorage.setItem("userId", response.data.userId);
 

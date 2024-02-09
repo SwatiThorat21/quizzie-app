@@ -8,6 +8,8 @@
 }
 .analytics_table_wrapper {
   text-align: center;
+  padding-bottom: 2rem;
+  height: fit-content;
 }
 .analytics_heading {
   color: #5076ff;

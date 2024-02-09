@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const QuizsData = require("../models/quizModel");
 const isLoggedIn = require("../middlewares/isLoggedIn");
+const errorHandler = require("../middlewares/verifyToken ");
 
 router.post("/create-quiz", isLoggedIn, async (req, res) => {
   try {
@@ -36,7 +37,7 @@ router.post("/create-quiz", isLoggedIn, async (req, res) => {
   }
 });
 
-router.get("/quiz-data/:userId", async (req, res) => {
+router.get("/quiz-data/:userId", isLoggedIn, async (req, res) => {
   try {
     const { userId } = req.params;
 
@@ -146,7 +147,7 @@ router.patch("/log-answer", async (req, res) => {
   }
 });
 
-router.delete("/:quizId", async (req, res) => {
+router.delete("/:quizId", isLoggedIn, async (req, res) => {
   try {
     const { quizId } = req.params;
 
@@ -170,7 +171,7 @@ router.delete("/:quizId", async (req, res) => {
   }
 });
 
-router.patch("/edit-quiz/:quizId", async (req, res) => {
+router.patch("/edit-quiz/:quizId", isLoggedIn, async (req, res) => {
   try {
     const { quizId } = req.params;
     const updatedQuestionsData = req.body;
@@ -194,4 +195,9 @@ router.patch("/edit-quiz/:quizId", async (req, res) => {
   }
 });
 
+router.use((err, req, res, next) => {
+  if (err instanceof jwt.JsonWebTokenError) {
+    return res.status(401).json({ error: err.message });
+  }
+});
 module.exports = router;

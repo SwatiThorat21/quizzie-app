@@ -34,6 +34,10 @@ export async function CreateQuizFormData(
       })
       .catch((error) => {
         console.log(error);
+        if (error.response.status === 401) {
+          localStorage.removeItem("jwToken");
+          window.location.href = "/";
+        }
       });
   } catch (error) {}
 }
@@ -41,16 +45,26 @@ export async function CreateQuizFormData(
 export async function GetAllQuizData(userId) {
   try {
     const reqUrl = `${backendBaseUrl}/quiz/quiz-data/${userId}`;
+    const jwToken = JSON.parse(localStorage.getItem("jwToken"));
+    const headers = {
+      jwtoken: `${jwToken}`,
+    };
 
     return await axios
-      .get(reqUrl)
+      .get(reqUrl, { headers })
       .then((response) => {
         return response.data;
       })
       .catch((error) => {
         console.log(error);
+        if (error.response.status === 401) {
+          localStorage.removeItem("jwToken");
+          window.location.href = "/";
+        }
       });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export async function GetQuizDataById(quizId) {
@@ -66,7 +80,9 @@ export async function GetQuizDataById(quizId) {
       .catch((error) => {
         console.log(error);
       });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export async function logQuizImpression(quizId) {
@@ -108,15 +124,23 @@ export async function logAnswer(questionId, index_selected_by_user) {
 export async function DeleteQuizDataById(quizId) {
   try {
     const reqUrl = `${backendBaseUrl}/quiz/${quizId}`;
+    const jwToken = JSON.parse(localStorage.getItem("jwToken"));
+    const headers = {
+      jwtoken: `${jwToken}`,
+    };
 
     return await axios
-      .delete(reqUrl)
+      .delete(reqUrl, { headers })
       .then((response) => {
         // console.log(response.data);
         return response.data;
       })
       .catch((error) => {
         console.log(error);
+        if (error.response.status === 401) {
+          localStorage.removeItem("jwToken");
+          window.location.href = "/";
+        }
       });
   } catch (error) {}
 }
@@ -124,11 +148,21 @@ export async function DeleteQuizDataById(quizId) {
 export async function editFormData(quizId, updatedQuestionsData) {
   try {
     const reqUrl = `${backendBaseUrl}/quiz/edit-quiz/${quizId}`;
-    const response = await axios.patch(reqUrl, updatedQuestionsData);
+    const jwToken = JSON.parse(localStorage.getItem("jwToken"));
+    const headers = {
+      jwtoken: `${jwToken}`,
+    };
+    const response = await axios.patch(reqUrl, updatedQuestionsData, {
+      headers,
+    });
     console.log(response.data.data);
     return response.data;
   } catch (error) {
     console.log(error);
+    if (error.response.status === 401) {
+      localStorage.removeItem("jwToken");
+      window.location.href = "/";
+    }
     throw error;
   }
 }

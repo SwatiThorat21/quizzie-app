@@ -3,10 +3,11 @@ import edit_quiz from "../../images/edit_quiz.png";
 import share_quiz from "../../images/share_quiz.png";
 import delete_quiz from "../../images/delete_quiz.png";
 import { DeleteQuizDataById } from "../../apis/quiz";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import copy from "copy-to-clipboard";
 import { useNavigate } from "react-router-dom";
+import { GetAllQuizData } from "../../apis/quiz";
 
 export default function Analytics({
   quizData,
@@ -18,6 +19,21 @@ export default function Analytics({
   const [isDeleted, setIsDeleted] = useState(false);
 
   const [quizIdToDelete, setQuizIdToDelete] = useState(null);
+  const userId = localStorage.getItem("userId");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const allQuizData = await GetAllQuizData(userId);
+        // console.log(allQuizData.quizData);
+        setQuizData(allQuizData.quizData);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [setQuizData, userId]);
 
   const copyToClipboard = (quizId) => {
     let copyText = `${window.location.origin}/quiz?quizId=${quizId}`;

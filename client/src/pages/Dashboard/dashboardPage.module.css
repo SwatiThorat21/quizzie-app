@@ -14,3 +14,26 @@
   height: -webkit-fill-available;
   padding: 3rem 2rem;
 }
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.spinnerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+}
+
+.loadingSpinner {
+  width: 65px;
+  height: 65px;
+  border: 10px solid #f3f3f3;
+  border-top: 10px solid #a9bcff;
+  border-radius: 50%;
+  animation: spinner 1s linear infinite;
+}

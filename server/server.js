@@ -5,7 +5,8 @@ const dotenv = require("dotenv");
 dotenv.config();
 const authRoutes = require("./routes/auth");
 const quizRoute = require("./routes/quizRoutes");
-const cors = require("cors")
+const verifyToken = require("./middlewares/verifyToken ");
+const cors = require("cors");
 
 const app = express();
 app.use(cors());
@@ -21,6 +22,7 @@ mongoose.connect(process.env.MONGODB_URL, {
 });
 
 app.use("/auth", authRoutes);
+app.use("/quiz", verifyToken);
 app.use("/quiz", quizRoute);
 
 app.get("/", (req, res) => {
