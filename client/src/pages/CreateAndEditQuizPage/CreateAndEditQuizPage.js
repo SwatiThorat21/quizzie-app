@@ -51,7 +51,6 @@ export default function CreateAndEditQuizPage({
       const quizIdParam = urlParams.get("quizId");
 
       if (quizIdParam) {
-        // Set the quizId state only if the parameter exists
         setQuizId(quizIdParam);
         try {
           const quizData = await GetQuizDataById(quizIdParam);
@@ -90,6 +89,7 @@ export default function CreateAndEditQuizPage({
               setQuizId={setQuizId}
               quizQuestionsData={quizQuestionsData}
               setQuizQuestionsData={setQuizQuestionsData}
+              setShowCreateQuestions={setShowCreateQuestions}
             />
           </div>
         </>

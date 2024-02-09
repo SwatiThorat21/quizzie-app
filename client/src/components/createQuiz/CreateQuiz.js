@@ -25,6 +25,7 @@ export default function CreateQuiz({ setShowCreateQuestions, setQuizFormData, qu
   }
   function cancelQuiz() {
     navigate("/dashboard");
+    setShowCreateQuestions(false);
   }
 
   return (

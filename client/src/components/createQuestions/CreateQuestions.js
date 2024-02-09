@@ -14,6 +14,7 @@ export default function CreateQuestions({
   setQuizId,
   setQuizQuestionsData,
   quizQuestionsData,
+  setShowCreateQuestions,
 }) {
   const navigate = useNavigate();
   const [currentQuesIndex, setCurrentQuesIndex] = useState(0);
@@ -112,6 +113,7 @@ export default function CreateQuestions({
 
   function cancelQuiz() {
     navigate("/dashboard");
+    setShowCreateQuestions(false);
   }
 
   function validateInputs() {
@@ -150,7 +152,7 @@ export default function CreateQuestions({
     timer_for_eachQuestion,
     createdAt_date,
     questions,
-    quizFormId,
+    quizFormId
   ) {
     if (!validateInputs()) {
       return;

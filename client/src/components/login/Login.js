@@ -104,7 +104,7 @@ export default function Login({ setIsLoggedIn }) {
           className={styles.login_btn}
           onClick={() => addLoginUser(loginData.email, loginData.password)}
         >
-          {isLoading ? "Loading..." : "Sign Up"}
+          {isLoading ? "Loading..." : "Log In"}
         </button>
       </div>
     </>
