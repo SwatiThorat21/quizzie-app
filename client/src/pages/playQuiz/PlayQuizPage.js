@@ -10,7 +10,6 @@ export default function PlayQuizPage() {
   const [currentQuesIndex, setCurrentQuesIndex] = useState(0);
   const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
   const [answerIndexSelected, setAnswerIndexSelected] = useState(undefined);
-  const [timeLeft, setTimeLeft] = useState(undefined);
   console.log(quizData);
   return (
     <>
@@ -25,8 +24,6 @@ export default function PlayQuizPage() {
           setCorrectAnswersCount={setCorrectAnswersCount}
           answerIndexSelected={answerIndexSelected}
           setAnswerIndexSelected={setAnswerIndexSelected}
-          timeLeft={timeLeft}
-          setTimeLeft={setTimeLeft}
         />
       )}
       {quizSuccess && (
@@ -34,7 +31,6 @@ export default function PlayQuizPage() {
           quizData={quizData}
           currentQuesIndex={currentQuesIndex}
           correctAnswersCount={correctAnswersCount}
-          timeLeft={timeLeft}
         />
       )}
 

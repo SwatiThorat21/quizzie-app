@@ -3,6 +3,7 @@ import styles from "./playQuiz.module.css";
 import { GetQuizDataById, logQuizImpression } from "../../apis/quiz";
 import { logAnswer } from "../../apis/quiz";
 import { logVotingCount } from "../../apis/quiz";
+import { useState } from "react";
 
 export default function PlayQuiz({
   setQuizData,
@@ -14,25 +15,34 @@ export default function PlayQuiz({
   setCorrectAnswersCount,
   answerIndexSelected,
   setAnswerIndexSelected,
-  timeLeft,
-  setTimeLeft,
 }) {
+  const [timeLeftArray, setTimeLeftArray] = useState([]);
+
+  useEffect(() => {
+    if (quizData?.data?.questions) {
+      setTimeLeftArray(
+        quizData.data.questions.map(
+          () => quizData?.data?.timer_for_eachQuestion
+        )
+      );
+    }
+  }, [quizData]);
+
   useEffect(() => {
     if (quizData?.data?.timer_for_eachQuestion) {
-      setTimeLeft(quizData.data.timer_for_eachQuestion);
+      const intervalId = setInterval(() => {
+        setTimeLeftArray((prevArray) => {
+          const newArray = [...prevArray];
+          if (newArray[currentQuesIndex] > 0){
+            newArray[currentQuesIndex] -= 1;
+          }
+          return newArray;
+        });
+      }, 1000);
+
+      return () => clearInterval(intervalId);
     }
-  }, [quizData, setTimeLeft]);
-
-  useEffect(() => {
-    if (!timeLeft) return;
-
-    const intervalId = setInterval(() => {
-      setTimeLeft(timeLeft - 1);
-    }, 1000);
-
-    return () => clearInterval(intervalId);
-  }, [timeLeft, setTimeLeft]);
-
+  }, [currentQuesIndex, quizData]);
   useEffect(() => {
     const fetchQuizData = async () => {
       const urlParams = new URLSearchParams(window.location.search);
@@ -110,13 +120,11 @@ export default function PlayQuiz({
           </div>
           {quizData?.data?.quizType === "Q & A" && (
             <div style={{ color: "#f84242", fontWeight: "600" }}>
-              {quizData?.data?.timer_for_eachQuestion !== "OFF" && (
-                <span>{timeLeft}</span>
+              {timeLeftArray[currentQuesIndex] !== "OFF" && (
+                <span>{timeLeftArray[currentQuesIndex]}</span>
               )}
               <span style={{ marginLeft: "5px" }}>
-                {quizData?.data?.timer_for_eachQuestion === "OFF"
-                  ? "OFF"
-                  : "Sec"}
+                {timeLeftArray[currentQuesIndex] === "OFF" ? "OFF" : "Sec"}
               </span>
             </div>
           )}

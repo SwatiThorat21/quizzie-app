@@ -1,11 +1,7 @@
 import styles from "./quizSuccess.module.css";
 import trophyImg from "../../images/trophy_img.png";
 
-export default function QuizSuccess({
-  quizData,
-  correctAnswersCount,
-  timeLeft
-}) {
+export default function QuizSuccess({ quizData, correctAnswersCount }) {
   const quizObject = quizData.data;
   const questionsArray = quizObject.questions;
   console.log(questionsArray);
@@ -14,7 +10,9 @@ export default function QuizSuccess({
     <>
       <div className={styles.successPage_container}>
         <div className={styles.successPage_content}>
-          <div style={{ fontWeight: "600" }} className={styles.sucessMsg}>Congrats Quiz is completed</div>
+          <div style={{ fontWeight: "600" }} className={styles.sucessMsg}>
+            Congrats Quiz is completed
+          </div>
           <img
             src={trophyImg}
             alt="trophyImg"
@@ -23,8 +21,7 @@ export default function QuizSuccess({
           <div className={styles.quiz_score_wrapper}>
             Your Score is
             <span className={styles.score}>
-              {timeLeft === 0 ?  0: correctAnswersCount}/
-              {questionsArray.length}
+              {correctAnswersCount / questionsArray.length}
             </span>
           </div>
         </div>
