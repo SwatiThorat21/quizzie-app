@@ -18,7 +18,6 @@ export default function CreateQuestions({
 }) {
   const navigate = useNavigate();
   const [currentQuesIndex, setCurrentQuesIndex] = useState(0);
-  const [questionNumbers, setQuestionNumbers] = useState([1]);
   const [timer, setTimer] = useState(undefined);
 
   const currentDate = new Date();
@@ -59,18 +58,9 @@ export default function CreateQuestions({
       },
     ]);
     setCurrentQuesIndex((prevNum) => prevNum + 1);
-    if (questionNumbers.length < 5) {
-      setQuestionNumbers((prevNumbers) => [
-        ...prevNumbers,
-        prevNumbers.length + 1,
-      ]);
-    }
   }
 
   function removeQuestions(indexToRemove) {
-    setQuestionNumbers((prevNumbers) =>
-      prevNumbers.filter((_, index) => index !== indexToRemove)
-    );
     setQuizQuestionsData((prevData) =>
       prevData.filter((_, index) => index !== indexToRemove)
     );
@@ -133,9 +123,10 @@ export default function CreateQuestions({
       }
 
       if (
-        quizFormData.quizType === "Q & A" &&
-        (!questionData.correct_answer_index ||
-          parseInt(questionData.correct_answer_index, 10) < 0)
+        (quizFormData.quizType === "Q & A" &&
+          questionData.correct_answer_index === "") ||
+        questionData.correct_answer_index === undefined ||
+        questionData.correct_answer_index === null
       ) {
         alert("Please select a correct answer");
         return false;
@@ -209,7 +200,7 @@ export default function CreateQuestions({
               style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
             >
               <div className={styles.question_numbers}>
-                {questionNumbers.map((number, index) => (
+                {quizQuestionsData.map((_, index) => (
                   <div
                     style={{ position: "relative", display: "flex" }}
                     key={index}
@@ -220,9 +211,9 @@ export default function CreateQuestions({
                       }`}
                       onClick={() => handleShowQuestiondata(index)}
                     >
-                      {number}
+                      {index + 1}
                     </div>
-                    {number !== 1 && (
+                    {index !== 0 && (
                       <img
                         src={closeIcon}
                         alt="closeIcon"
@@ -242,6 +233,7 @@ export default function CreateQuestions({
             </div>
             <p className={styles.maxQuestions}>Max 5 questions</p>
           </div>
+
           <div>
             <input
               type="text"
