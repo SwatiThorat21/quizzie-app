@@ -91,7 +91,7 @@ export async function logQuizImpression(quizId) {
 
     return await axios
       .patch(reqUrl)
-      .then((res) => console.log(res.data.data))
+      .then((res) => res.data.data)
       .catch((error) => {
         console.log(error);
       });
@@ -119,6 +119,20 @@ export async function logAnswer(questionId, index_selected_by_user) {
         console.log(error);
       });
   } catch (error) {}
+}
+
+export async function logVotingCount(quizId, questionIndex, optionIndex) {
+  console.log(quizId, questionIndex, optionIndex);
+  try {
+    const response = await axios.patch(
+      `${backendBaseUrl}/quiz/log-voting-count/${quizId}/${questionIndex}/${optionIndex}`
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response.data.message || "Failed to log voting count"
+    );
+  }
 }
 
 export async function DeleteQuizDataById(quizId) {

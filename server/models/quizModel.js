@@ -7,6 +7,9 @@ const optionsSchema = new mongoose.Schema({
   imageUrl: {
     type: String,
   },
+  voting_count: {
+    type: Number,
+  },
 });
 
 const questionsSchema = new mongoose.Schema({

@@ -11,7 +11,7 @@ export default function PlayQuizPage() {
   const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
   const [answerIndexSelected, setAnswerIndexSelected] = useState(undefined);
   const [timeLeft, setTimeLeft] = useState(undefined);
-  console.log(pollSuccess);
+  console.log(quizData);
   return (
     <>
       {!quizSuccess && !pollSuccess &&(

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import styles from "./playQuiz.module.css";
 import { GetQuizDataById, logQuizImpression } from "../../apis/quiz";
 import { logAnswer } from "../../apis/quiz";
+import { logVotingCount } from "../../apis/quiz";
 
 export default function PlayQuiz({
   setQuizData,
@@ -64,7 +65,7 @@ export default function PlayQuiz({
     }
   }
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (answerIndexSelected === undefined) {
       alert("Please select an option");
       return;
@@ -73,17 +74,22 @@ export default function PlayQuiz({
     const quizObject = quizData.data;
     const questionsArray = quizObject.questions;
     const questionId = questionsArray?.[currentQuesIndex]._id;
-    logAnswer(questionId, answerIndexSelected);
 
-    if (questionsArray.length === currentQuesIndex + 1) {
-      if (quizObject.quizType === "Q & A") {
-        setQuizSuccess(true);
-      } else if (quizObject.quizType === "Poll Type") {
-        setPollSuccess(true);
-      }
+    if (quizObject.quizType === "Poll Type") {
+      await logVotingCount(
+        quizData?.data?._id,
+        currentQuesIndex,
+        answerIndexSelected
+      );
+      setPollSuccess(true);
     } else {
-      setCurrentQuesIndex((prevIndex) => prevIndex + 1);
-      setAnswerIndexSelected(undefined);
+      await logAnswer(questionId, answerIndexSelected);
+      if (questionsArray.length === currentQuesIndex + 1) {
+        setQuizSuccess(true);
+      } else {
+        setCurrentQuesIndex((prevIndex) => prevIndex + 1);
+        setAnswerIndexSelected(undefined);
+      }
     }
   };
 
@@ -123,9 +129,7 @@ export default function PlayQuiz({
                 {question.optionType === "Text" && option.text !== "" && (
                   <div
                     className={`${styles.option} ${
-                      answerIndexSelected === optionIndex
-                        ? styles.selected
-                        : ""
+                      answerIndexSelected === optionIndex ? styles.selected : ""
                     }`}
                     onClick={() => handleAnswerSelection(optionIndex)}
                   >
@@ -133,33 +137,26 @@ export default function PlayQuiz({
                   </div>
                 )}
 
-                {question.optionType === "Image URL" &&
-                  option.imageUrl !== "" && (
-                    <div
-                      className={`${styles.option} ${
-                        styles.ImageOption
-                      } ${
-                        answerIndexSelected === optionIndex
-                          ? styles.selected
-                          : ""
-                      }`}
-                      onClick={() => handleAnswerSelection(optionIndex)}
-                    >
-                      <img
-                        src={option.imageUrl}
-                        className={styles.playQuizImg}
-                        alt="imageUrl"
-                      ></img>
-                    </div>
-                  )}
+                {question.optionType === "Image URL" && option.imageUrl !== "" && (
+                  <div
+                    className={`${styles.option} ${styles.ImageOption} ${
+                      answerIndexSelected === optionIndex ? styles.selected : ""
+                    }`}
+                    onClick={() => handleAnswerSelection(optionIndex)}
+                  >
+                    <img
+                      src={option.imageUrl}
+                      className={styles.playQuizImg}
+                      alt="imageUrl"
+                    ></img>
+                  </div>
+                )}
 
                 {question.optionType === "Text & Image URL" &&
                   option.text !== "" &&
                   option.imageUrl !== "" && (
                     <div
-                      className={`${styles.option} ${
-                        styles.ImageOption
-                      } ${
+                      className={`${styles.option} ${styles.ImageOption} ${
                         answerIndexSelected === optionIndex
                           ? styles.selected
                           : ""
@@ -180,11 +177,10 @@ export default function PlayQuiz({
             ))}
           </div>
         </div>
-        <button
-          className={`${styles.submit_quiz_btn}`}
-          onClick={handleNext}
-        >
-          {currentQuesIndex === quizObject.questions.length - 1 ? "Submit" : "Next"}
+        <button className={`${styles.submit_quiz_btn}`} onClick={handleNext}>
+          {currentQuesIndex === quizObject.questions.length - 1
+            ? "Submit"
+            : "Next"}
         </button>
       </div>
     </div>

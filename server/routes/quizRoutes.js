@@ -98,6 +98,37 @@ router.patch("/log-impression/:quizId", async (req, res) => {
   }
 });
 
+router.patch("/log-voting-count/:quizId/:questionIndex/:optionIndex", async (req, res) => {
+  try {
+    const { quizId, questionIndex, optionIndex } = req.params;
+
+    const updatedQuizData = await QuizsData.findByIdAndUpdate(
+      quizId,
+      { $inc: { [`questions.${questionIndex}.options.${optionIndex}.voting_count`]: 1 } },
+      { new: true }
+    );
+
+    if (!updatedQuizData) {
+      return res.status(404).json({
+        status: "FAILED",
+        message: "Quiz not found",
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      message: "Voting count updated successfully",
+      data: updatedQuizData,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "FAILED",
+      message: error.message,
+    });
+  }
+});
+
+
 router.patch("/log-answer", async (req, res) => {
   try {
     const { questionId, index_selected_by_user } = req.body;

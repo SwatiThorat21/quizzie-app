@@ -24,18 +24,22 @@ export default function CreateAndEditQuizPage({
         {
           text: "",
           imageUrl: "",
+          voting_count: 0,
         },
         {
           text: "",
           imageUrl: "",
+          voting_count: 0,
         },
         {
           text: "",
           imageUrl: "",
+          voting_count: 0,
         },
         {
           text: "",
           imageUrl: "",
+          voting_count: 0,
         },
       ],
       correct_answer_index: -1,
@@ -94,7 +98,12 @@ export default function CreateAndEditQuizPage({
           </div>
         </>
       )}
-      {showQuizLinkShare && <QuizLinkShare quizId={quizId} setShowCreateQuestions={setShowCreateQuestions} />}
+      {showQuizLinkShare && (
+        <QuizLinkShare
+          quizId={quizId}
+          setShowCreateQuestions={setShowCreateQuestions}
+        />
+      )}
     </>
   );
 }

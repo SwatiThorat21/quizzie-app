@@ -1,6 +1,7 @@
 import styles from "./showQuestionAnalysis.module.css";
 
 export default function ShowQuestionAnalysis({ quizData, selectedQuestionId }) {
+  console.log(quizData);
   return (
     <>
       {quizData.map((quiz) => {
@@ -70,8 +71,7 @@ export default function ShowQuestionAnalysis({ quizData, selectedQuestionId }) {
                                 fontWeight: "600",
                               }}
                             >
-                              {question.questions_attempted_correctly +
-                                question.questions_attempted_incorrectly || 0}
+                              {option.voting_count || 0}
                             </span>
                             option {index + 1}
                           </p>

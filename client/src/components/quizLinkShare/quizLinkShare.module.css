@@ -54,8 +54,8 @@
   0% {
     text-shadow: 0 10px 0 #ccc;
   }
-  100% {
+  /* 100% {
     transform: translateY(-45px);
     text-shadow: 0 50px 0 #ccc;
-  }
+  } */
 }
